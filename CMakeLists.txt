@@ -22,6 +22,8 @@ endif()
 add_executable(${PROJECT_NAME}
   src/main.cpp
   src/game.cpp
+  src/randomizer.cpp
+  src/tetromino.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
