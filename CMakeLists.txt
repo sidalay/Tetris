@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}
   src/game.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE raylib)
-target_link_libraries(${PROJECT_NAME} PRIVATE include ${raylib_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+target_include_directories(${PROJECT_NAME} PRIVATE include ${raylib_INCLUDE_DIRS})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpedantic)
