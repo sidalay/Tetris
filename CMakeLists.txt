@@ -39,4 +39,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE include ${raylib_INCLUDE_DIRS
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpedantic)
 
-file(COPY audio sprites DESTINATION ${CMAKE_BINARY_DIR})
+# file(COPY audio sprites DESTINATION ${CMAKE_BINARY_DIR})
