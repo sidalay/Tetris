@@ -20,6 +20,7 @@ if (NOT raylib_FOUND)
 endif()
 
 add_executable(${PROJECT_NAME}
+  src/audio.cpp
   src/bag.cpp
   src/game.cpp
   src/garbage.cpp
@@ -29,9 +30,13 @@ add_executable(${PROJECT_NAME}
   src/randomizer.cpp
   src/score.cpp
   src/tetromino.cpp
+  src/texture.cpp
+  src/window.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 target_include_directories(${PROJECT_NAME} PRIVATE include ${raylib_INCLUDE_DIRS})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpedantic)
+
+file(COPY audio sprites DESTINATION ${CMAKE_BINARY_DIR})
