@@ -22,6 +22,7 @@ endif()
 add_executable(${PROJECT_NAME}
   src/audio.cpp
   src/bag.cpp
+  src/controller.cpp
   src/game.cpp
   src/garbage.cpp
   src/main.cpp
