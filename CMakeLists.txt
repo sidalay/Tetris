@@ -20,9 +20,14 @@ if (NOT raylib_FOUND)
 endif()
 
 add_executable(${PROJECT_NAME}
-  src/main.cpp
+  src/bag.cpp
   src/game.cpp
+  src/garbage.cpp
+  src/main.cpp
+  src/matrix.cpp
+  src/player.cpp
   src/randomizer.cpp
+  src/score.cpp
   src/tetromino.cpp
 )
 
