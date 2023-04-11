@@ -27,10 +27,14 @@ void Game::Tick(Properties& game)
 
   if (game.deltatime >= game.updatetime) {
     game.window.Tick();
+    game.matrix.Tick();
     game.deltatime = 0.f;
   }
 
   BeginDrawing();
   ClearBackground(BLACK);
+
+  game.matrix.Draw();
+  
   EndDrawing();
 }
