@@ -3,6 +3,12 @@
 
 namespace Game
 {
+  struct Properties
+  {
+    float deltatime{};
+    float lockdown{};
+  };
+
   void Run();
   void Tick();
   void Initialize();
