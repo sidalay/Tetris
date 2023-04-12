@@ -19,6 +19,7 @@ void Game::Initialize(Properties& game)
   SetTraceLogLevel(LOG_WARNING);
   SetTargetFPS(game.fps);
   InitWindow(game.window.width, game.window.height, game.window.title.c_str());
+  SetWindowState(FLAG_WINDOW_RESIZABLE);
 }
 
 void Game::Tick(Properties& game)

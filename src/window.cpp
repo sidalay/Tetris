@@ -6,6 +6,11 @@ void Window::Tick()
     ToggleFullscreen();
   }
 
+  if (IsWindowResized()) {
+    width = GetScreenWidth();
+    height = GetScreenHeight();
+  }
+
   if (width != GetScreenWidth()) {
     SetWindowSize(width, height);
   }
