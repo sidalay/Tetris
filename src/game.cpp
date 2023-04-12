@@ -18,7 +18,7 @@ void Game::Initialize(Properties& game)
 {
   SetTraceLogLevel(LOG_WARNING);
   SetTargetFPS(game.fps);
-  InitWindow(game.window.width, game.window.height, game.window.title.c_str());
+  InitWindow(Window::width, Window::height, Window::title.c_str());
   SetWindowState(FLAG_WINDOW_RESIZABLE);
 }
 
@@ -27,7 +27,7 @@ void Game::Tick(Properties& game)
   game.deltatime += GetFrameTime();
 
   if (game.deltatime >= game.updatetime) {
-    game.window.Tick();
+    Window::Tick();
     game.matrix.Tick();
     game.deltatime = 0.f;
   }

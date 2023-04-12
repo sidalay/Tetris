@@ -1,5 +1,12 @@
 #include "window.hpp"
 
+namespace Window
+{
+  int width{1280};
+  int height{720};
+  std::string title{"tetris"};
+}
+
 void Window::Tick()
 {
   if (IsKeyDown(KEY_LEFT_ALT) && IsKeyPressed(KEY_ENTER)) {
@@ -7,11 +14,11 @@ void Window::Tick()
   }
 
   if (IsWindowResized()) {
-    width = GetScreenWidth();
-    height = GetScreenHeight();
+    Window::width = GetScreenWidth();
+    Window::height = GetScreenHeight();
   }
 
-  if (width != GetScreenWidth()) {
-    SetWindowSize(width, height);
+  if (Window::width != GetScreenWidth()) {
+    SetWindowSize(Window::width, Window::height);
   }
 }

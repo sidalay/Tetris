@@ -5,11 +5,11 @@
 
 #include <string>
 
-struct Window
+namespace Window
 {
-  int width{1280};
-  int height{720};
-  std::string title{"tetris"};
+  extern int width;
+  extern int height;
+  extern std::string title;
 
   void Tick();
 };
