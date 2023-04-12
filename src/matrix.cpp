@@ -48,21 +48,21 @@ void Playfield::InitializeMatrix()
 {
   int count{};
   matrix.reserve(240);
-  for (float y{}; y < border.area.height; y += border.area.height / grid.y - 4) {
-    for (float x{}; x < border.area.width; x += border.area.width / grid.x) {
+  for (float y{}; y < border.area.height; y += Window::height * .045f) {
+    for (float x{}; x < border.area.width; x += Window::height * .045f) {
       if (static_cast<int>(y) % 2 == 0) {
         matrix.emplace_back(
           Rectangle{border.area.x + x, 
                     border.area.y + y, 
-                    border.area.width / grid.x, 
-                    border.area.height / grid.y}, 
+                    Window::height * .045f, 
+                    Window::height * .045f}, 
                     count++ % 2 == 0 ? Color{ 15, 14, 14, 255 } : Color{ 20, 19, 19, 255 });
       } else {
         matrix.emplace_back(
           Rectangle{border.area.x + x, 
                     border.area.y + y, 
-                    border.area.width / grid.x, 
-                    border.area.height / grid.y}, 
+                    Window::height * .045f, 
+                    Window::height * .045f}, 
                     count++ % 2 != 0 ? Color{ 15, 14, 14, 255 } : Color{ 20, 19, 19, 255 });
       }
     }
