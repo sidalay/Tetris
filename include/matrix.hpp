@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "tetromino.hpp"
+#include "window.hpp"
 
 #include <vector>
 
@@ -15,16 +16,15 @@ struct Cell
 
 struct Frame
 {
-  int x{};
-  int y{};
+  Rectangle area{};
+  // Todo: Texture member
 };
 
 struct Playfield
 {
-  Frame              border{300, 600};
+  Frame              border{};
   Frame              hold{120, 120};
-  Frame              next{120, 120};
-  Frame              preview{120, 360};
+  Frame              preview{120, 240};
   int                spacing{30};
   Vector2            grid{10, 24};
   std::vector<Cell>  matrix{};
@@ -35,9 +35,10 @@ struct Playfield
   void DrawBorder();
   void DrawMatrix();
   void DrawHold();
-  void DrawNext();
   void DrawPreview();
   void InitializeMatrix();
+  void UpdateFrames();
+  void UpdateMatrix();
 };
 
 // assume for 1280x720 screen 1 Tetromino Square is 30px x 30px 
