@@ -20,6 +20,7 @@ void Game::Initialize(Properties& game)
   SetTargetFPS(game.fps);
   InitWindow(Window::width, Window::height, Window::title.c_str());
   SetWindowState(FLAG_WINDOW_RESIZABLE);
+  SetWindowMinSize(800, 600);
 }
 
 void Game::Tick(Properties& game)
