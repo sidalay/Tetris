@@ -1,24 +1,23 @@
 #include "matrix.hpp"
 
-const float cell_size{.045f}; // 4.5% of height 
-const float well_width{10.f * cell_size}; // 10 cells wide
-const float w_margin{(1.f - well_width) * .5f}; // 22.5% margin
-const float h_margin{.05f}; // 5% from top/bottom of screen
-const float well_height{1 - (h_margin * 2.f)}; // 90% of height
+const float cell_size{.045f};                     // 4.5% of height 
+const float well_width{10.f * cell_size};         // 10 cells wide, 45% of height
+const float h_margin{.05f};                       // 5% from top/bottom of screen
+const float well_height{1.f - (h_margin * 2.f)};  // 90% of height
 const float frame_spacing{cell_size};  
 
 Playfield::Playfield()
-  : border{
-      Window::width * ((1.f - ((Window::height * well_width)/Window::width)) * .5f),
-      Window::height * h_margin,
-      Window::height * well_width,
-      Window::height * well_height
+  : border{ 
+      (Window::width - (well_width * Window::height)) * .5f, 
+      Window::height * h_margin, 
+      Window::height * well_width, 
+      Window::height * well_height 
     }
 {
   InitializeMatrix();
 }
 
-void Playfield::Tick()
+void Playfield::Tick() 
 {
   UpdateFrames();
   UpdateMatrix();
@@ -68,7 +67,7 @@ void Playfield::DrawPreview()
 void Playfield::InitializeMatrix()
 {
   for (int y{}; y < matrix.size() - 4; ++y) {
-    for (int x{0}; x < matrix[y].size(); ++x) {
+    for (int x{}; x < matrix[y].size(); ++x) {
       if (y % 2 == 0) {
         matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
         matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
@@ -100,7 +99,7 @@ void Playfield::UpdateMatrix()
 {
   if (IsWindowResized()) {
     for (int y{}; y < matrix.size() - 4; ++y) {
-      for (int x{0}; x < matrix[y].size(); ++x) {
+      for (int x{}; x < matrix[y].size(); ++x) {
         if (y % 2 == 0) {
           matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
           matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
