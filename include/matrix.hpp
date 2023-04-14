@@ -24,19 +24,17 @@ struct Frame
 
 struct Playfield
 { 
-  std::vector<Frame> frames{}; // border, hold, next, preview
-  // std::array<std::array<Cell,10>,24> matrix{};
+  std::vector<Frame> frames{};
 
   Playfield();
   void Tick();
   void Draw();
   void DrawFrames();
-  void DrawMatrix();
-  void DrawSideMatrix(Frame&, int, int);
-  void InitializeFrames();
-  void InitializeMatrix();
+  void DrawMatrices();
   void UpdateFrames();
-  void UpdateMatrix();
+  void UpdateMatrices();
+  void InitializeFrames();
+  void InitializeMatrices();
 };
 
 #endif // MATRIX_HPP
