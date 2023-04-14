@@ -1,5 +1,7 @@
 #include "window.hpp"
 
+#include "raylib.h"
+
 namespace Window
 {
   int width{1280};
