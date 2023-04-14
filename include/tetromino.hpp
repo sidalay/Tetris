@@ -3,9 +3,14 @@
 
 class Tetromino
 {
-public:
+enum class Type {
+  I, J, L, O, S, T, Z
+};
 
+public:
+  Tetromino(Tetromino::Type);
 private:
+
 };
 
 #endif // TETROMINO_HPP
