@@ -22,16 +22,16 @@ struct Frame
 
 struct Playfield
 {
-  Frame border{};
+  std::array<Frame,4>                frames{}; // border, hold, next, preview
   std::array<std::array<Cell,10>,24> matrix{};
 
   Playfield();
   void Tick();
   void Draw();
-  void DrawBorder();
+  void DrawFrames();
   void DrawMatrix();
-  void DrawSideFrames();
-  void DrawPreview();
+  void DrawSideMatrix();
+  void InitializeFrames();
   void InitializeMatrix();
   void UpdateFrames();
   void UpdateMatrix();
