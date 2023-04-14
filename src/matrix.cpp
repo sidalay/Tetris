@@ -19,7 +19,7 @@ Playfield::Playfield()
 void Playfield::Tick() 
 {
   UpdateFrames();
-  UpdateMatrix();
+  // UpdateMatrix();
 }
 
 void Playfield::Draw()
@@ -37,58 +37,102 @@ void Playfield::DrawFrames()
 
 void Playfield::DrawMatrix()
 {
-  for (auto& row : matrix) {
-    for (auto& col : row) {
-      DrawRectangle(
-        col.area.x, 
-        col.area.y, 
-        col.area.width, 
-        col.area.height, 
-        col.color);
-      DrawRectangleLinesEx(col.area, 2.f, cell_color_lines);
+  for (auto& frame : frames) {
+    for (auto& row : frame.matrix) {
+      for (auto& cell : row) {
+        DrawRectangle(
+          cell.area.x, 
+          cell.area.y, 
+          cell.area.width, 
+          cell.area.height, 
+          cell.color);
+        DrawRectangleLinesEx(cell.area, 2.f, cell_color_lines);
+      }
     }
   }
 }
 
-void Playfield::DrawSideMatrix()
+void Playfield::DrawSideMatrix(Frame& frame, int col, int row)
 {
 
 }
 
 void Playfield::InitializeFrames()
 {
-  frames.at(0).area.x = (Window::width - (well_width * Window::height)) * .5f,
-  frames.at(0).area.y = Window::height * h_margin;
-  frames.at(0).area.width = Window::height * well_width;
-  frames.at(0).area.height = Window::height * well_height;
+  frames.emplace_back(
+    Frame{
+      Rectangle{(Window::width - (well_width * Window::height)) * .5f,
+        Window::height * h_margin,
+        Window::height * well_width,
+        Window::height * well_height},
+      Vector2{10,20}
+  });
 
-  frames.at(1).area.x = frames.at(0).area.x - (Window::height * cell_size) * 6.f;
-  frames.at(1).area.y = frames.at(0).area.y;
-  frames.at(1).area.width = Window::height * cell_size * 5.f;
-  frames.at(1).area.height = Window::height * cell_size * 5.f;
+  frames.emplace_back(
+    Frame{
+      Rectangle{frames.at(0).area.x - (Window::height * cell_size) * 6.f,
+        frames.at(0).area.y,
+        Window::height * cell_size * 5.f,
+        Window::height * cell_size * 5.f},
+      Vector2{5,5}
+  });
 
-  frames.at(2).area.x = frames.at(0).area.x + (Window::height * cell_size) * 11.f;
-  frames.at(2).area.y = frames.at(0).area.y;
-  frames.at(2).area.width = Window::height * cell_size * 5.f;
-  frames.at(2).area.height = Window::height * cell_size * 5.f;
+  frames.emplace_back(
+    Frame{
+      Rectangle{frames.at(0).area.x + (Window::height * cell_size) * 11.f,
+        frames.at(0).area.y,
+        Window::height * cell_size * 5.f,
+        Window::height * cell_size * 5.f},
+      Vector2{5,5}
+  });
+
+  for (auto& row : frames) {
+    row.matrix.reserve(row.grid.y);
+    for (auto& col : row.matrix) {
+      row.matrix.reserve(row.grid.y);
+    }
+  }
 }
+
+// void Playfield::InitializeMatrix()
+// {
+//   for (int y{}; y < matrix.size() - 4; ++y) { // draw 20 cells instead of 24
+//     for (int x{}; x < matrix[y].size(); ++x) {
+//       if (y % 2 == 0) {
+//         matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+//         matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
+//         matrix[y][x].area.width = Window::height * cell_size;
+//         matrix[y][x].area.height = Window::height * cell_size;
+//         matrix[y][x].color = x % 2 == 0 ? cell_color_one : cell_color_two;
+//       } else {
+//         matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+//         matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
+//         matrix[y][x].area.width = Window::height * cell_size;
+//         matrix[y][x].area.height = Window::height * cell_size;
+//         matrix[y][x].color = x % 2 != 0 ? cell_color_one : cell_color_two;
+//       }
+//     }
+//   }
+// }
 
 void Playfield::InitializeMatrix()
 {
-  for (int y{}; y < matrix.size() - 4; ++y) { // draw 20 cells instead of 24
-    for (int x{}; x < matrix[y].size(); ++x) {
-      if (y % 2 == 0) {
-        matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
-        matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
-        matrix[y][x].area.width = Window::height * cell_size;
-        matrix[y][x].area.height = Window::height * cell_size;
-        matrix[y][x].color = x % 2 == 0 ? cell_color_one : cell_color_two;
-      } else {
-        matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
-        matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
-        matrix[y][x].area.width = Window::height * cell_size;
-        matrix[y][x].area.height = Window::height * cell_size;
-        matrix[y][x].color = x % 2 != 0 ? cell_color_one : cell_color_two;
+  for (auto& frame : frames) {
+    for (int y{}; y < frame.grid.y; ++y) {
+      for (int x{}; x < frame.grid.x; ++x) {
+        if (y % 2 == 0) {
+          frame.matrix[y][x].area.x = frame.area.x + ((Window::height * cell_size) * x);
+          frame.matrix[y][x].area.y = frame.area.y + ((Window::height * cell_size) * y);
+          frame.matrix[y][x].area.width = Window::height * cell_size;
+          frame.matrix[y][x].area.height = Window::height * cell_size;
+          frame.matrix[y][x].color = x % 2 == 0 ? cell_color_one : cell_color_two;
+        } else {
+          frame.matrix[y][x].area.x = frame.area.x + ((Window::height * cell_size) * x);
+          frame.matrix[y][x].area.y = frame.area.y + ((Window::height * cell_size) * y);
+          frame.matrix[y][x].area.width = Window::height * cell_size;
+          frame.matrix[y][x].area.height = Window::height * cell_size;
+          frame.matrix[y][x].color = x % 2 != 0 ? cell_color_one : cell_color_two;
+        }
       }
     }
   }
@@ -114,23 +158,23 @@ void Playfield::UpdateFrames()
   }
 }
 
-void Playfield::UpdateMatrix()
-{
-  if (IsWindowResized()) {
-    for (int y{}; y < matrix.size() - 4; ++y) {
-      for (int x{}; x < matrix[y].size(); ++x) {
-        if (y % 2 == 0) {
-          matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
-          matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
-          matrix[y][x].area.width = Window::height * cell_size;
-          matrix[y][x].area.height = Window::height * cell_size;
-        } else {
-          matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
-          matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
-          matrix[y][x].area.width = Window::height * cell_size;
-          matrix[y][x].area.height = Window::height * cell_size;
-        }
-      }
-    }
-  }
-}
+// void Playfield::UpdateMatrix()
+// {
+//   if (IsWindowResized()) {
+//     for (int y{}; y < matrix.size() - 4; ++y) {
+//       for (int x{}; x < matrix[y].size(); ++x) {
+//         if (y % 2 == 0) {
+//           matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+//           matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
+//           matrix[y][x].area.width = Window::height * cell_size;
+//           matrix[y][x].area.height = Window::height * cell_size;
+//         } else {
+//           matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+//           matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
+//           matrix[y][x].area.width = Window::height * cell_size;
+//           matrix[y][x].area.height = Window::height * cell_size;
+//         }
+//       }
+//     }
+//   }
+// }

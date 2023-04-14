@@ -5,7 +5,7 @@
 #include "tetromino.hpp"
 #include "window.hpp"
 
-#include <array>
+#include <vector>
 
 struct Cell
 {
@@ -17,20 +17,22 @@ struct Cell
 struct Frame
 {
   Rectangle area{};
+  Vector2   grid{};
+  std::vector<std::vector<Cell>> matrix{};
   // Todo: Texture member
 };
 
 struct Playfield
-{
-  std::array<Frame,4>                frames{}; // border, hold, next, preview
-  std::array<std::array<Cell,10>,24> matrix{};
+{ 
+  std::vector<Frame> frames{}; // border, hold, next, preview
+  // std::array<std::array<Cell,10>,24> matrix{};
 
   Playfield();
   void Tick();
   void Draw();
   void DrawFrames();
   void DrawMatrix();
-  void DrawSideMatrix();
+  void DrawSideMatrix(Frame&, int, int);
   void InitializeFrames();
   void InitializeMatrix();
   void UpdateFrames();
