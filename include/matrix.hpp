@@ -1,7 +1,6 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include "raylib.h"
 #include "tetromino.hpp"
 #include "window.hpp"
 
@@ -24,9 +23,10 @@ struct Frame
 
 struct Playfield
 { 
+  Playfield();
+
   std::vector<Frame> frames{};
 
-  Playfield();
   void Tick();
   void Draw();
   void DrawFrames();
