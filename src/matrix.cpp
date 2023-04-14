@@ -4,16 +4,15 @@ const float cell_size{1.f/22.f};            // 100% / 22 cells
 const float well_width{10.f * cell_size};   // 10 cells wide
 const float well_height{20.f * cell_size};  // 20 cells high
 const float h_margin{cell_size};            // height margin = 1 cell
-const float frame_spacing{cell_size};  
+const float frame_spacing{cell_size};
+const Color frame_color{78, 78, 78, 100};
+const Color cell_color_one{15, 14, 14, 255};
+const Color cell_color_two{20, 19, 19, 255};
+const Color cell_color_lines{48, 48, 48, 100};
 
 Playfield::Playfield()
-  : border{ 
-      (Window::width - (well_width * Window::height)) * .5f, 
-      Window::height * h_margin, 
-      Window::height * well_width, 
-      Window::height * well_height 
-    }
 {
+  InitializeFrames();
   InitializeMatrix();
 }
 
@@ -26,13 +25,14 @@ void Playfield::Tick()
 void Playfield::Draw()
 {
   DrawMatrix();
-  DrawBorder();
-  DrawSideFrames();
+  DrawFrames();
 }
 
-void Playfield::DrawBorder()
+void Playfield::DrawFrames()
 {
-  DrawRectangleLinesEx(border.area, 1.f, Color{ 78, 78, 78, 100 });
+  DrawRectangleLinesEx(frames.at(0).area, 1.f, frame_color);
+  DrawRectangleLinesEx(frames.at(1).area, 1.f, frame_color);
+  DrawRectangleLinesEx(frames.at(2).area, 1.f, frame_color);
 }
 
 void Playfield::DrawMatrix()
@@ -45,50 +45,50 @@ void Playfield::DrawMatrix()
         col.area.width, 
         col.area.height, 
         col.color);
-      DrawRectangleLinesEx(col.area, 2.f, Color{ 48, 48, 48, 100 });
+      DrawRectangleLinesEx(col.area, 2.f, cell_color_lines);
     }
   }
 }
 
-void Playfield::DrawSideFrames()
+void Playfield::DrawSideMatrix()
 {
-  DrawRectangleLines(
-    border.area.x - (Window::height * cell_size) * 6.f,
-    border.area.y,
-    Window::height * cell_size * 5.f,
-    Window::height * cell_size * 5.f,
-    Color{ 78, 78, 78, 100 }
-  );
-  DrawRectangleLines(
-    border.area.x + (Window::height * cell_size) * 11.f,
-    border.area.y,
-    Window::height * cell_size * 5.f,
-    Window::height * cell_size * 5.f,
-    Color{ 78, 78, 78, 100 }
-  );
+
 }
 
-void Playfield::DrawPreview()
+void Playfield::InitializeFrames()
 {
-  
+  frames.at(0).area.x = (Window::width - (well_width * Window::height)) * .5f,
+  frames.at(0).area.y = Window::height * h_margin;
+  frames.at(0).area.width = Window::height * well_width;
+  frames.at(0).area.height = Window::height * well_height;
+
+  frames.at(1).area.x = frames.at(0).area.x - (Window::height * cell_size) * 6.f;
+  frames.at(1).area.y = frames.at(0).area.y;
+  frames.at(1).area.width = Window::height * cell_size * 5.f;
+  frames.at(1).area.height = Window::height * cell_size * 5.f;
+
+  frames.at(2).area.x = frames.at(0).area.x + (Window::height * cell_size) * 11.f;
+  frames.at(2).area.y = frames.at(0).area.y;
+  frames.at(2).area.width = Window::height * cell_size * 5.f;
+  frames.at(2).area.height = Window::height * cell_size * 5.f;
 }
 
 void Playfield::InitializeMatrix()
 {
-  for (int y{}; y < matrix.size() - 4; ++y) {
+  for (int y{}; y < matrix.size() - 4; ++y) { // draw 20 cells instead of 24
     for (int x{}; x < matrix[y].size(); ++x) {
       if (y % 2 == 0) {
-        matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
-        matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
+        matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+        matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
         matrix[y][x].area.width = Window::height * cell_size;
         matrix[y][x].area.height = Window::height * cell_size;
-        matrix[y][x].color = x % 2 == 0 ? Color{ 15, 14, 14, 255 } : Color{ 20, 19, 19, 255 };
+        matrix[y][x].color = x % 2 == 0 ? cell_color_one : cell_color_two;
       } else {
-        matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
-        matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
+        matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+        matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
         matrix[y][x].area.width = Window::height * cell_size;
         matrix[y][x].area.height = Window::height * cell_size;
-        matrix[y][x].color = x % 2 != 0 ? Color{ 15, 14, 14, 255 } : Color{ 20, 19, 19, 255 };
+        matrix[y][x].color = x % 2 != 0 ? cell_color_one : cell_color_two;
       }
     }
   }
@@ -97,10 +97,20 @@ void Playfield::InitializeMatrix()
 void Playfield::UpdateFrames()
 {
   if (IsWindowResized()) {
-    border.area.x = Window::width * ((1.f - ((Window::height * well_width)/Window::width)) * .5f);
-    border.area.y = Window::height * h_margin;
-    border.area.width = Window::height * well_width;
-    border.area.height = Window::height * well_height;
+    frames.at(0).area.x = Window::width * ((1.f - ((Window::height * well_width)/Window::width)) * .5f);
+    frames.at(0).area.y = Window::height * h_margin;
+    frames.at(0).area.width = Window::height * well_width;
+    frames.at(0).area.height = Window::height * well_height;
+
+    frames.at(1).area.x = frames.at(0).area.x - (Window::height * cell_size) * 6.f;
+    frames.at(1).area.y = frames.at(0).area.y;
+    frames.at(1).area.width = Window::height * cell_size * 5.f;
+    frames.at(1).area.height = Window::height * cell_size * 5.f;
+
+    frames.at(2).area.x = frames.at(0).area.x + (Window::height * cell_size) * 11.f;
+    frames.at(2).area.y = frames.at(0).area.y;
+    frames.at(2).area.width = Window::height * cell_size * 5.f;
+    frames.at(2).area.height = Window::height * cell_size * 5.f;
   }
 }
 
@@ -110,13 +120,13 @@ void Playfield::UpdateMatrix()
     for (int y{}; y < matrix.size() - 4; ++y) {
       for (int x{}; x < matrix[y].size(); ++x) {
         if (y % 2 == 0) {
-          matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
-          matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
+          matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+          matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
           matrix[y][x].area.width = Window::height * cell_size;
           matrix[y][x].area.height = Window::height * cell_size;
         } else {
-          matrix[y][x].area.x = border.area.x + ((Window::height * cell_size) * x);
-          matrix[y][x].area.y = border.area.y + ((Window::height * cell_size) * y);
+          matrix[y][x].area.x = frames.at(0).area.x + ((Window::height * cell_size) * x);
+          matrix[y][x].area.y = frames.at(0).area.y + ((Window::height * cell_size) * y);
           matrix[y][x].area.width = Window::height * cell_size;
           matrix[y][x].area.height = Window::height * cell_size;
         }
