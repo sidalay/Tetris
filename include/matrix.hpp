@@ -23,7 +23,6 @@ struct Frame
 struct Playfield
 {
   Frame border{};
-  Frame hold{};
   std::array<std::array<Cell,10>,24> matrix{};
 
   Playfield();
@@ -31,8 +30,7 @@ struct Playfield
   void Draw();
   void DrawBorder();
   void DrawMatrix();
-  void DrawHold();
-  void DrawNext();
+  void DrawSideFrames();
   void DrawPreview();
   void InitializeMatrix();
   void UpdateFrames();

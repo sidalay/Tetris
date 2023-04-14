@@ -1,9 +1,9 @@
 #include "matrix.hpp"
 
-const float cell_size{.045f};                     // 4.5% of height 
-const float well_width{10.f * cell_size};         // 10 cells wide, 45% of height
-const float h_margin{.05f};                       // 5% from top/bottom of screen
-const float well_height{1.f - (h_margin * 2.f)};  // 90% of height
+const float cell_size{1.f/22.f};            // 100% / 22 cells 
+const float well_width{10.f * cell_size};   // 10 cells wide
+const float well_height{20.f * cell_size};  // 20 cells high
+const float h_margin{cell_size};            // height margin = 1 cell
 const float frame_spacing{cell_size};  
 
 Playfield::Playfield()
@@ -27,6 +27,7 @@ void Playfield::Draw()
 {
   DrawMatrix();
   DrawBorder();
+  DrawSideFrames();
 }
 
 void Playfield::DrawBorder()
@@ -49,14 +50,22 @@ void Playfield::DrawMatrix()
   }
 }
 
-void Playfield::DrawHold()
+void Playfield::DrawSideFrames()
 {
-  DrawRectangleLinesEx(hold.area, 1.f, Color{ 78, 78, 78, 100 });
-}
-
-void Playfield::DrawNext()
-{
-
+  DrawRectangleLines(
+    border.area.x - (Window::height * cell_size) * 6.f,
+    border.area.y,
+    Window::height * cell_size * 5.f,
+    Window::height * cell_size * 5.f,
+    Color{ 78, 78, 78, 100 }
+  );
+  DrawRectangleLines(
+    border.area.x + (Window::height * cell_size) * 11.f,
+    border.area.y,
+    Window::height * cell_size * 5.f,
+    Window::height * cell_size * 5.f,
+    Color{ 78, 78, 78, 100 }
+  );
 }
 
 void Playfield::DrawPreview()
