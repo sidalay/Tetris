@@ -7,7 +7,9 @@
 
 namespace Tetro 
 {
-enum class Shape {
+  
+enum class Shape 
+{
   I, J, L, O, S, T, Z
 };
 
@@ -19,14 +21,23 @@ struct Block
   
 }
 
-
 struct Tetromino
 {
   Tetromino(Tetro::Shape);
 
   std::array<Tetro::Block,4> Shape{};
 
-  void Rotate(float);
+  void Rotate();
 };
 
 #endif // TETROMINO_HPP
+
+/*
+Cyan I
+Blue J
+Orange L
+Yellow O
+Green S
+Purple T
+Red Z
+*/

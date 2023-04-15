@@ -1,5 +1,13 @@
 #include "tetromino.hpp"
 
+const Color Cyan{0, 255, 255, 255};   // I
+const Color Blue{0, 0, 255, 255};     // J
+const Color Orange{255, 165, 0, 255}; // L
+const Color Yellow{255, 255, 0, 255}; // O
+const Color Green{0, 255, 0, 255};    // S
+const Color Purple{128, 0, 128, 255}; // T
+const Color Red{255, 0, 0, 255};      // Z
+
 Tetromino::Tetromino(Tetro::Shape shape)
 {
   switch (shape)
@@ -21,7 +29,7 @@ Tetromino::Tetromino(Tetro::Shape shape)
   }
 }
 
-void Tetromino::Rotate(float)
+void Tetromino::Rotate()
 {
 
 }
