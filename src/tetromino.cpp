@@ -118,11 +118,6 @@ void Tetromino::SetFollowers()
   }
 }
 
-void Tetromino::UpdateFollowers()
-{
-
-}
-
 void Tetromino::SetColor()
 {
   switch (type)

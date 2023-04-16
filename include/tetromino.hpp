@@ -50,7 +50,6 @@ private:
   void SetOrigin();
   void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<y,x>
   void SetFollowers();
-  void UpdateFollowers();
   void UpdateBlockPos();
 };
 
