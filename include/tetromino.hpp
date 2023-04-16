@@ -5,6 +5,7 @@
 #include "window.hpp"
 
 #include <array>
+#include <utility>
 
 namespace Tetro 
 {
@@ -45,8 +46,11 @@ private:
   void Drop();
   void InitBlocks();
   void SetSize();
-  void SetSpawn();
   void SetColor();
+  void SetOrigin();
+  void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<y,x>
+  void SetFollowers();
+  void UpdateFollowers();
   void UpdateBlockPos();
 };
 
