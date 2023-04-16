@@ -3,6 +3,8 @@
 
 #include "matrix.hpp"
 
+#include "tetromino.hpp"
+
 namespace Game
 {
   enum class State
@@ -17,6 +19,11 @@ namespace Game
     float     lockdown{};
     int       fps{144};
     Playfield matrix{};
+
+    // test
+    float tetro_deltatime{};
+    float tetro_updatetime{1.f};
+    Tetromino test{Tetro::Shape::S};
   };
 
   void Run();

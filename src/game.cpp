@@ -1,7 +1,5 @@
 #include "game.hpp"
 
-#include "tetromino.hpp"
-
 void Game::Run()
 {
   Properties game{};
@@ -27,8 +25,8 @@ void Game::Initialize(Properties& game)
 
 void Game::Tick(Properties& game)
 {
-  Tetromino test{Tetro::Shape::L};
   game.deltatime += GetFrameTime();
+
 
   if (game.deltatime >= game.updatetime) {
     Window::Tick();
@@ -36,11 +34,20 @@ void Game::Tick(Properties& game)
     game.deltatime = 0.f;
   }
 
+  // test
+  game.tetro_deltatime += GetFrameTime();
+  if (game.tetro_deltatime >= game.tetro_updatetime)
+  {
+    game.test.Tick();
+    game.tetro_deltatime = 0.f;
+  }
+
   BeginDrawing();
   ClearBackground(BLACK);
 
   game.matrix.Draw();
-  test.Draw();
+  // test
+  game.test.Draw();
   
   EndDrawing();
 }
