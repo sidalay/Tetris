@@ -4,7 +4,6 @@ const float cell_size{1.f/26.f};            // 100% / 22 cells
 const float well_width{10.f * cell_size};   // 10 cells wide
 const float well_height{20.f * cell_size};  // 20 cells high
 const float h_margin{cell_size * 3.f};      // height margin = 4 cells
-const float frame_spacing{cell_size};
 const Color frame_color{78, 78, 78, 100};
 const Color cell_color_one{15, 14, 14, 255};
 const Color cell_color_two{20, 19, 19, 255};
