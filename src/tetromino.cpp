@@ -18,13 +18,14 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
-  UpdateBlockPos();
+  Drop();
 }
 
 void Tetromino::Draw()
 {
   for (auto& block : blocks) {
     DrawRectangleRec(block.area, color);
+    DrawRectangleLinesEx(block.area, 2.f, BLACK);
   }
 }
 
@@ -35,7 +36,9 @@ void Tetromino::Rotate()
 
 void Tetromino::Drop()
 {
-
+  for (auto& block : blocks) {
+    block.area.y += block.area.height;
+  }
 }
 
 void Tetromino::InitBlocks()
