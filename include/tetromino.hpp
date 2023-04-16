@@ -2,6 +2,7 @@
 #define TETROMINO_HPP
 
 #include "raylib.h"
+#include "window.hpp"
 
 #include <array>
 
@@ -13,21 +14,39 @@ enum class Shape
   I, J, L, O, S, T, Z
 };
 
+enum class Orientation
+{
+  UP, DOWN, LEFT, RIGHT
+};
+
 struct Block
 {
-  Rectangle area{};
-  Color color{};
+  Rectangle   area{};
 };
   
 }
 
 struct Tetromino
 {
+public:
   Tetromino(Tetro::Shape);
 
-  std::array<Tetro::Block,4> Shape{};
+  std::array<Tetro::Block,4> blocks{};
+  Tetro::Shape               type{};
+  Tetro::Orientation         facing{};
+  Color                      color{};
 
+  void Tick();
+  void Draw();
   void Rotate();
+
+private:
+  void Drop();
+  void InitBlocks();
+  void SetSize();
+  void SetSpawn();
+  void SetColor();
+  void UpdateBlockPos();
 };
 
 #endif // TETROMINO_HPP

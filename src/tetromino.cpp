@@ -8,28 +8,100 @@ const Color Green{0, 255, 0, 255};    // S
 const Color Purple{128, 0, 128, 255}; // T
 const Color Red{255, 0, 0, 255};      // Z
 
+const float cell_size{1.f/22.f};      // 100% / 22 cells 
+
 Tetromino::Tetromino(Tetro::Shape shape)
+  : type{shape}
 {
-  switch (shape)
-  {
-    case Tetro::Shape::I:
-      break;
-    case Tetro::Shape::J:
-      break;
-    case Tetro::Shape::L:
-      break;
-    case Tetro::Shape::O:
-      break;
-    case Tetro::Shape::S:
-      break;
-    case Tetro::Shape::T:
-      break;
-    case Tetro::Shape::Z:
-      break;
+  InitBlocks();
+}
+
+void Tetromino::Tick()
+{
+  UpdateBlockPos();
+}
+
+void Tetromino::Draw()
+{
+  for (auto& block : blocks) {
+    DrawRectangleRec(block.area, color);
   }
 }
 
 void Tetromino::Rotate()
 {
 
+}
+
+void Tetromino::Drop()
+{
+
+}
+
+void Tetromino::InitBlocks()
+{
+  SetSize();
+  SetSpawn();
+  SetColor();
+}
+
+void Tetromino::SetSize()
+{
+  for (auto& block : blocks) {
+    block.area.width = Window::height * cell_size;
+    block.area.height = Window::height * cell_size;
+  }
+}
+
+void Tetromino::SetSpawn()
+{
+  if (type == Tetro::Shape::O) {
+    blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 1.f); 
+  } else {
+    blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 2.f); 
+  }
+  blocks[0].area.y = Window::height * cell_size;
+}
+
+void Tetromino::SetColor()
+{
+  switch (type)
+  {
+    case Tetro::Shape::I:
+      color = Cyan;
+      break;
+    case Tetro::Shape::J:
+      color = Blue;
+      break;
+    case Tetro::Shape::L:
+      color = Orange;
+      break;
+    case Tetro::Shape::O:
+      color = Yellow;
+      break;
+    case Tetro::Shape::S:
+      color = Green;
+      break;
+    case Tetro::Shape::T:
+      color = Purple;
+      break;
+    case Tetro::Shape::Z:
+      color = Red;
+      break;
+  }
+}
+
+void Tetromino::UpdateBlockPos()
+{
+  switch (facing)
+  {
+    case Tetro::Orientation::UP:
+      break;
+    case Tetro::Orientation::DOWN:
+      break;
+    case Tetro::Orientation::LEFT:
+      break;
+    case Tetro::Orientation::RIGHT:
+      break;
+  }
 }
