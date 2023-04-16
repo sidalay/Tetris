@@ -18,7 +18,11 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
-  // Fall();
+  deltatime += GetFrameTime();
+  if (deltatime >= updatetime) {
+    Fall();
+    deltatime = 0.f;
+  }
   UpdateBlockPos();
 }
 

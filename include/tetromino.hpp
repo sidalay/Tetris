@@ -36,11 +36,13 @@ public:
   void Draw();
   void Rotate();
 
-public:
+private:
   std::array<Tetro::Block,4> blocks{};
   Tetro::Shape               type{};
   Tetro::Orientation         facing{Tetro::Orientation::UP};
   Color                      color{};
+  float                      deltatime{};
+  float                      updatetime{1.f};
 
 private:
   void Fall();
