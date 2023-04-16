@@ -31,15 +31,13 @@ void Game::Tick(Properties& game)
   if (game.deltatime >= game.updatetime) {
     Window::Tick();
     game.matrix.Tick();
+    game.test.Tick();
     game.deltatime = 0.f;
   }
 
   // test
-  game.tetro_deltatime += GetFrameTime();
-  if (game.tetro_deltatime >= game.tetro_updatetime)
-  {
-    game.test.Tick();
-    game.tetro_deltatime = 0.f;
+  if (IsKeyPressed(KEY_SPACE)) {
+    game.test.Rotate();
   }
 
   BeginDrawing();
