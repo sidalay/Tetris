@@ -201,7 +201,7 @@ void Tetromino::UpdateBlockPos()
         case Tetro::Shape::O:
           break;
         case Tetro::Shape::S:
-          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          SetShape(std::make_pair(0,-1), std::make_pair(1,0), std::make_pair(1,1));
           break;
         case Tetro::Shape::T:
           SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
@@ -227,7 +227,7 @@ void Tetromino::UpdateBlockPos()
         case Tetro::Shape::O:
           break;
         case Tetro::Shape::S:
-          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(-1,1));
           break;
         case Tetro::Shape::T:
           SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
@@ -253,7 +253,7 @@ void Tetromino::UpdateBlockPos()
         case Tetro::Shape::O:
           break;
         case Tetro::Shape::S:
-          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          SetShape(std::make_pair(0,1), std::make_pair(-1,0), std::make_pair(-1,-1));
           break;
         case Tetro::Shape::T:
           SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
