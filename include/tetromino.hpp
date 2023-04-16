@@ -35,7 +35,8 @@ public:
   void Tick();
   void Draw();
   void Move(Tetro::Orientation);
-  void Rotate();
+  void RotateCW();
+  void RotateCCW();
 
 private:
   std::array<Tetro::Block,4> blocks{};
@@ -51,9 +52,10 @@ private:
   void SetSize();
   void SetColor();
   void SetOrigin();
-  void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<y,x>
+  void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
   void SetFollowers();
-  void UpdateOrigin();
+  void UpdateOriginCW();
+  void UpdateOriginCCW();
   void UpdateBlockPos();
 };
 

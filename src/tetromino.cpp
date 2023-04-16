@@ -52,7 +52,7 @@ void Tetromino::Move(Tetro::Orientation direction)
   }
 }
 
-void Tetromino::Rotate()
+void Tetromino::RotateCW()
 {
   switch (facing)
   {
@@ -70,7 +70,28 @@ void Tetromino::Rotate()
       break;
   }
 
-  UpdateOrigin();
+  UpdateOriginCW();
+}
+
+void Tetromino::RotateCCW()
+{
+  switch (facing)
+  {
+    case Tetro::Orientation::UP:
+      facing = Tetro::Orientation::LEFT;
+      break;
+    case Tetro::Orientation::DOWN:
+      facing = Tetro::Orientation::RIGHT;
+      break;
+    case Tetro::Orientation::LEFT:
+      facing = Tetro::Orientation::DOWN;
+      break;
+    case Tetro::Orientation::RIGHT:
+      facing = Tetro::Orientation::UP;
+      break;
+  }
+
+  UpdateOriginCCW();
 }
 
 void Tetromino::Fall()
@@ -177,7 +198,7 @@ void Tetromino::SetColor()
   }
 }
 
-void Tetromino::UpdateOrigin()
+void Tetromino::UpdateOriginCW()
 {
   if (type != Tetro::Shape::I) {
     return;
@@ -196,6 +217,29 @@ void Tetromino::UpdateOrigin()
       break;
     case Tetro::Orientation::LEFT:
       blocks[0].area.x -= Window::height * cell_size;
+      break;
+  }
+}
+
+void Tetromino::UpdateOriginCCW()
+{
+  if (type != Tetro::Shape::I) {
+    return;
+  }
+
+  switch (facing)
+  {
+    case Tetro::Orientation::UP:
+      blocks[0].area.x -= Window::height * cell_size;
+      break;
+    case Tetro::Orientation::RIGHT:
+      blocks[0].area.y -= Window::height * cell_size;
+      break;
+    case Tetro::Orientation::DOWN:
+      blocks[0].area.x += Window::height * cell_size;
+      break;
+    case Tetro::Orientation::LEFT:
+      blocks[0].area.y += Window::height * cell_size;
       break;
   }
 }
@@ -221,6 +265,7 @@ void Tetromino::UpdateBlockPos()
           SetShape(std::make_pair(0,-1), std::make_pair(0,1), std::make_pair(1,1));
           break;
         case Tetro::Shape::O:
+          SetShape(std::make_pair(0,-1), std::make_pair(1,-1), std::make_pair(1,0));
           break;
         case Tetro::Shape::S:
           SetShape(std::make_pair(0,-1), std::make_pair(1,0), std::make_pair(1,1));
@@ -247,6 +292,7 @@ void Tetromino::UpdateBlockPos()
           SetShape(std::make_pair(1,0), std::make_pair(-1,0), std::make_pair(-1,1));
           break;
         case Tetro::Shape::O:
+          SetShape(std::make_pair(0,-1), std::make_pair(1,-1), std::make_pair(1,0));
           break;
         case Tetro::Shape::S:
           SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(-1,1));
@@ -273,6 +319,7 @@ void Tetromino::UpdateBlockPos()
           SetShape(std::make_pair(0,1), std::make_pair(0,-1), std::make_pair(-1,-1));
           break;
         case Tetro::Shape::O:
+          SetShape(std::make_pair(0,-1), std::make_pair(1,-1), std::make_pair(1,0));
           break;
         case Tetro::Shape::S:
           SetShape(std::make_pair(0,1), std::make_pair(-1,0), std::make_pair(-1,-1));
