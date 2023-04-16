@@ -22,13 +22,17 @@ struct Frame
 };
 
 struct Playfield
-{ 
+{
+public: 
   Playfield();
-
-  std::vector<Frame> frames{};
 
   void Tick();
   void Draw();
+
+public:
+  std::vector<Frame> frames{};
+
+private:
   void DrawFrames();
   void DrawMatrices();
   void UpdateFrames();
