@@ -48,6 +48,7 @@ private:
 
 private:
   void Fall();
+  void Gravity();
   void InitBlocks();
   void SetSize();
   void SetColor();
