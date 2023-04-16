@@ -8,7 +8,7 @@ const Color Green{0, 255, 0, 255};    // S
 const Color Purple{128, 0, 128, 255}; // T
 const Color Red{255, 0, 0, 255};      // Z
 
-const float cell_size{1.f/22.f};      // 100% / 22 cells 
+const float cell_size{1.f/26.f};      // 100% / 22 cells 
 
 Tetromino::Tetromino(Tetro::Shape shape)
   : type{shape}
@@ -60,7 +60,7 @@ void Tetromino::SetSpawn()
   } else {
     blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 2.f); 
   }
-  blocks[0].area.y = Window::height * cell_size;
+  blocks[0].area.y = blocks[0].area.height * 2.f;
 }
 
 void Tetromino::SetColor()
