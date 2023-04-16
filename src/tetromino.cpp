@@ -18,7 +18,8 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
-  Drop();
+  // Drop();
+  UpdateBlockPos();
 }
 
 void Tetromino::Draw()
@@ -31,7 +32,21 @@ void Tetromino::Draw()
 
 void Tetromino::Rotate()
 {
-
+  switch (facing)
+  {
+    case Tetro::Orientation::UP:
+      facing = Tetro::Orientation::RIGHT;
+      break;
+    case Tetro::Orientation::DOWN:
+      facing = Tetro::Orientation::LEFT;
+      break;
+    case Tetro::Orientation::LEFT:
+      facing = Tetro::Orientation::UP;
+      break;
+    case Tetro::Orientation::RIGHT:
+      facing = Tetro::Orientation::DOWN;
+      break;
+  }
 }
 
 void Tetromino::Drop()
@@ -59,16 +74,8 @@ void Tetromino::SetSize()
 
 void Tetromino::SetOrigin()
 {
-  if (type == Tetro::Shape::O) {
-    blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 1.f); 
-  } else {
-    blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 2.f); 
-  }
-  blocks[0].area.y = blocks[0].area.height * 2.f;
-
-  if (type == Tetro::Shape::Z) {
-    blocks[0].area.y = blocks[0].area.height * 1.f;
-  }
+  blocks[0].area.x = Window::width/2 - (blocks[0].area.width * 1.f); 
+  blocks[0].area.y = blocks[0].area.height * 1.f;
 }
 
 void Tetromino::SetShape(
@@ -95,25 +102,25 @@ void Tetromino::SetFollowers()
   switch (type)
   {
     case Tetro::Shape::I:
-      SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(0,3));
+      SetShape(std::make_pair(0,-1), std::make_pair(0,1), std::make_pair(0,2));
       break;
     case Tetro::Shape::J:
-      SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(0,2));
+      SetShape(std::make_pair(0,-1), std::make_pair(1,-1), std::make_pair(0,1));
       break;
     case Tetro::Shape::L:
-      SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(1,2));
+      SetShape(std::make_pair(0,-1), std::make_pair(0,1), std::make_pair(1,1));
       break;
     case Tetro::Shape::O:
       SetShape(std::make_pair(1,0), std::make_pair(1,1), std::make_pair(0,1));
       break;
     case Tetro::Shape::S:
-      SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+      SetShape(std::make_pair(0,-1), std::make_pair(1,0), std::make_pair(1,1));
       break;
     case Tetro::Shape::T:
-      SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
+      SetShape(std::make_pair(0,-1), std::make_pair(1,0), std::make_pair(0,1));
       break;
     case Tetro::Shape::Z:
-      SetShape(std::make_pair(0,1), std::make_pair(-1,1), std::make_pair(-1,2));
+      SetShape(std::make_pair(0,1), std::make_pair(1,0), std::make_pair(1,-1));
       break;
   }
 }
@@ -151,12 +158,105 @@ void Tetromino::UpdateBlockPos()
   switch (facing)
   {
     case Tetro::Orientation::UP:
+      SetFollowers();
       break;
     case Tetro::Orientation::DOWN:
+      switch (type)
+      {
+        case Tetro::Shape::I:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(0,3));
+          break;
+        case Tetro::Shape::J:
+          SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::L:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::O:
+          break;
+        case Tetro::Shape::S:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::T:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::Z:
+          SetShape(std::make_pair(-1,1), std::make_pair(-1,0), std::make_pair(0,-1));
+          break;
+      }
       break;
     case Tetro::Orientation::LEFT:
+      switch (type)
+      {
+        case Tetro::Shape::I:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(0,3));
+          break;
+        case Tetro::Shape::J:
+          SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::L:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::O:
+          break;
+        case Tetro::Shape::S:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::T:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::Z:
+          SetShape(std::make_pair(-1,-1), std::make_pair(0,-1), std::make_pair(1,0));
+          break;
+      }
       break;
     case Tetro::Orientation::RIGHT:
+      switch (type)
+      {
+        case Tetro::Shape::I:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(0,3));
+          break;
+        case Tetro::Shape::J:
+          SetShape(std::make_pair(1,0), std::make_pair(0,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::L:
+          SetShape(std::make_pair(0,1), std::make_pair(0,2), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::O:
+          break;
+        case Tetro::Shape::S:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(1,2));
+          break;
+        case Tetro::Shape::T:
+          SetShape(std::make_pair(0,1), std::make_pair(1,1), std::make_pair(0,2));
+          break;
+        case Tetro::Shape::Z:
+          SetShape(std::make_pair(-1,0), std::make_pair(0,1), std::make_pair(1,1));
+          break;
+      }
       break;
   }
 }
+
+/*
+/   [1][0][2][3]
+/
+/   [2]
+/   [1][0][3]
+/
+/         [3]
+/   [1][0][2]
+/
+/   [1][2]
+/   [0][3]
+/
+/      [2][3]
+/   [1][0]
+/
+/      [2]
+/   [1][0][3]
+/
+/   [3][2]
+/      [0][1]
+/
+*/

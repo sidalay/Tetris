@@ -39,7 +39,7 @@ public:
 public:
   std::array<Tetro::Block,4> blocks{};
   Tetro::Shape               type{};
-  Tetro::Orientation         facing{};
+  Tetro::Orientation         facing{Tetro::Orientation::UP};
   Color                      color{};
 
 private:
