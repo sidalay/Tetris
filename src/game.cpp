@@ -36,8 +36,15 @@ void Game::Tick(Properties& game)
   }
 
   // test
-  if (IsKeyPressed(KEY_SPACE)) {
+  if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_UP)) {
     game.test.Rotate();
+  }
+  if (IsKeyPressed(KEY_LEFT)) {
+    game.test.Move(Tetro::Orientation::LEFT);
+  } else if (IsKeyPressed(KEY_RIGHT)) {
+    game.test.Move(Tetro::Orientation::RIGHT);
+  } else if (IsKeyPressed(KEY_DOWN)) {
+    game.test.Move(Tetro::Orientation::DOWN);
   }
 
   BeginDrawing();
