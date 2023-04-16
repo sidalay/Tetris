@@ -21,7 +21,7 @@ enum class Orientation
 
 struct Block
 {
-  Rectangle   area{};
+  Rectangle area{};
 };
   
 }
@@ -31,14 +31,15 @@ struct Tetromino
 public:
   Tetromino(Tetro::Shape);
 
+  void Tick();
+  void Draw();
+  void Rotate();
+
+public:
   std::array<Tetro::Block,4> blocks{};
   Tetro::Shape               type{};
   Tetro::Orientation         facing{};
   Color                      color{};
-
-  void Tick();
-  void Draw();
-  void Rotate();
 
 private:
   void Drop();
