@@ -43,7 +43,7 @@ public:
   Color                      color{};
 
 private:
-  void Drop();
+  void Fall();
   void InitBlocks();
   void SetSize();
   void SetColor();
