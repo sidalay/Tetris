@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "tetromino.hpp"
+
 void Game::Run()
 {
   Properties game{};
@@ -25,6 +27,7 @@ void Game::Initialize(Properties& game)
 
 void Game::Tick(Properties& game)
 {
+  Tetromino test{Tetro::Shape::L};
   game.deltatime += GetFrameTime();
 
   if (game.deltatime >= game.updatetime) {
@@ -37,6 +40,7 @@ void Game::Tick(Properties& game)
   ClearBackground(BLACK);
 
   game.matrix.Draw();
+  test.Draw();
   
   EndDrawing();
 }
