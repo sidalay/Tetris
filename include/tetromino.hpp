@@ -34,6 +34,7 @@ public:
 
   void Tick();
   void Draw();
+  void Move(Tetro::Orientation);
   void Rotate();
 
 private:

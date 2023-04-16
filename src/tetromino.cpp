@@ -34,6 +34,24 @@ void Tetromino::Draw()
   }
 }
 
+void Tetromino::Move(Tetro::Orientation direction)
+{
+  switch (direction)
+  {
+    case Tetro::Orientation::DOWN:
+      blocks[0].area.y += blocks[0].area.height;
+      break;
+    case Tetro::Orientation::LEFT:
+      blocks[0].area.x -= blocks[0].area.width;
+      break;
+    case Tetro::Orientation::RIGHT:
+      blocks[0].area.x += blocks[0].area.width;
+      break;
+    default:
+      break;
+  }
+}
+
 void Tetromino::Rotate()
 {
   switch (facing)
