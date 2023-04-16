@@ -50,11 +50,11 @@ private:
   void Fall();
   void Gravity();
   void InitBlocks();
-  void SetSize();
-  void SetColor();
-  void SetOrigin();
-  void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
+  void InitSize();
+  void InitColor();
+  void InitOrigin();
   void SetFollowers();
+  void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
   void UpdateOriginCW();
   void UpdateOriginCCW();
   void UpdateBlockPos();

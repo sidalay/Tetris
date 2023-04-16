@@ -108,13 +108,13 @@ void Tetromino::Gravity()
 
 void Tetromino::InitBlocks()
 {
-  SetSize();
-  SetColor();
-  SetOrigin();
+  InitSize();
+  InitColor();
+  InitOrigin();
   SetFollowers();
 }
 
-void Tetromino::SetSize()
+void Tetromino::InitSize()
 {
   for (auto& block : blocks) {
     block.area.width = Window::height * cell_size;
@@ -122,7 +122,7 @@ void Tetromino::SetSize()
   }
 }
 
-void Tetromino::SetOrigin()
+void Tetromino::InitOrigin()
 {
   blocks[0].area.x = Window::width/2 - blocks[0].area.width; 
   blocks[0].area.y = blocks[0].area.height;
@@ -175,7 +175,7 @@ void Tetromino::SetFollowers()
   }
 }
 
-void Tetromino::SetColor()
+void Tetromino::InitColor()
 {
   switch (type)
   {
