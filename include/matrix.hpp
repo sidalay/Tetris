@@ -4,6 +4,7 @@
 #include "tetromino.hpp"
 
 #include <vector>
+#include <map>
 
 struct Cell
 {
@@ -27,10 +28,12 @@ public:
 
   void Tick();
   void Draw();
-  Rectangle GetBorder() const {return frames.at(0).area;}
+  [[nodiscard]] const Rectangle& GetBorder() const {return frames.at(0).area;}
+  [[nodiscard]] const std::map<std::pair<int,int>,bool>& GetMatrixMap() const {return matrix_map;}
 
-public:
+private:
   std::vector<Frame> frames{};
+  std::map<std::pair<int,int>,bool> matrix_map{};
 
 private:
   void DrawFrames();
@@ -40,6 +43,8 @@ private:
   void InitializeFrames();
   void InitializeMatrices();
   void InitCells(Frame&, int, int);
+  void InitMap();
+  void UpdateMap();
 };
 
 #endif // MATRIX_HPP
