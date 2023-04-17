@@ -42,7 +42,7 @@ void Game::Tick(Properties& game)
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
     game.tetro_test.Fall();
-    game.tetro_deltatime == 0.f;
+    game.tetro_deltatime = 0.f;
   }
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
@@ -67,6 +67,8 @@ void Game::Tick(Properties& game)
   ClearBackground(BLACK);
 
   game.matrix.Draw();
+
+  
   // test
   game.tetro_test.Draw();
   
