@@ -2,14 +2,25 @@
 
 #include "window.hpp"
 
-bool Enforcer::CheckOccupancy()
+bool Enforcer::IsBelowClear(const Tetromino& t, const Playfield& p)
 {
-  return false;
+  float cell_size{Window::height * Window::cell_size_percentage};
+  auto blocks{t.GetBlocks()};
+  auto map{p.GetMatrixMap()};
+
+  for (auto& block : blocks) {
+    std::pair key{block.area.x, block.area.y + cell_size};
+    bool occupied{map.at(key)};
+    if (occupied) {
+      return false;
+    }
+  }
+  return true;
 }
 
-bool Enforcer::CheckOutOfBounds(const Tetromino& t, const Playfield& p, const Tetro::Orientation direction)
+bool Enforcer::IsOutOfBounds(const Tetromino& t, const Playfield& p, const Tetro::Orientation direction)
 {
-  float cell_size{Window::height * Window::cell_size};
+  float cell_size{Window::height * Window::cell_size_percentage};
   auto blocks{t.GetBlocks()};
   auto border{p.GetBorder()};
 
