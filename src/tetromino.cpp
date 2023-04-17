@@ -19,6 +19,10 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
+  if (IsWindowResized()) {
+    UpdateBlockSize();
+    UpdateBlockOrigin();
+  }
   UpdateBlockPos();
 }
 
@@ -99,21 +103,22 @@ void Tetromino::Fall()
 
 void Tetromino::InitBlocks()
 {
-  InitSize();
-  InitColor();
-  InitOrigin();
+  InitBlockSize();
+  InitBlockColor();
+  InitBlockOrigin();
   SetFollowers();
 }
 
-void Tetromino::InitSize()
+void Tetromino::InitBlockSize()
 {
+  float cell_size{Window::height * Window::cell_size_percentage};
   for (auto& block : blocks) {
-    block.area.width = Window::height * Window::cell_size_percentage;
-    block.area.height = Window::height * Window::cell_size_percentage;
+    block.area.width = cell_size;
+    block.area.height = cell_size;
   }
 }
 
-void Tetromino::InitOrigin()
+void Tetromino::InitBlockOrigin()
 {
   blocks[0].area.x = Window::width/2 - blocks[0].area.width; 
   blocks[0].area.y = blocks[0].area.height;
@@ -166,7 +171,7 @@ void Tetromino::SetFollowers()
   }
 }
 
-void Tetromino::InitColor()
+void Tetromino::InitBlockColor()
 {
   switch (type)
   {
@@ -204,19 +209,20 @@ void Tetromino::UpdateOriginCW()
     return;
   }
 
+  float cell_size{Window::height * Window::cell_size_percentage};
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.y -= Window::height * Window::cell_size_percentage;
+      blocks[0].area.y -= cell_size;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.x += Window::height * Window::cell_size_percentage;
+      blocks[0].area.x += cell_size;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.y += Window::height * Window::cell_size_percentage;
+      blocks[0].area.y += cell_size;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.x -= Window::height * Window::cell_size_percentage;
+      blocks[0].area.x -= cell_size;
       break;
   }
 }
@@ -227,21 +233,32 @@ void Tetromino::UpdateOriginCCW()
     return;
   }
 
+  float cell_size{Window::height * Window::cell_size_percentage};
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.x -= Window::height * Window::cell_size_percentage;
+      blocks[0].area.x -= cell_size;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.y -= Window::height * Window::cell_size_percentage;
+      blocks[0].area.y -= cell_size;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.x += Window::height * Window::cell_size_percentage;
+      blocks[0].area.x += cell_size;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.y += Window::height * Window::cell_size_percentage;
+      blocks[0].area.y += cell_size;
       break;
   }
+}
+
+void Tetromino::UpdateBlockSize()
+{
+  InitBlockSize();
+}
+
+void Tetromino::UpdateBlockOrigin()
+{
+
 }
 
 void Tetromino::UpdateBlockPos()

@@ -50,14 +50,16 @@ private:
 
 private:
   void InitBlocks();
-  void InitSize();
-  void InitColor();
-  void InitOrigin();
+  void InitBlockSize();
+  void InitBlockColor();
+  void InitBlockOrigin();
   void SetFollowers();
   void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
   void UpdateOriginCW();
   void UpdateOriginCCW();
   void UpdateBlockPos();
+  void UpdateBlockSize();
+  void UpdateBlockOrigin();
 };
 
 #endif // TETROMINO_HPP
