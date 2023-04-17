@@ -108,8 +108,8 @@ void Tetromino::InitBlocks()
 void Tetromino::InitSize()
 {
   for (auto& block : blocks) {
-    block.area.width = Window::height * Window::cell_size;
-    block.area.height = Window::height * Window::cell_size;
+    block.area.width = Window::height * Window::cell_size_percentage;
+    block.area.height = Window::height * Window::cell_size_percentage;
   }
 }
 
@@ -207,16 +207,16 @@ void Tetromino::UpdateOriginCW()
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.y -= Window::height * Window::cell_size;
+      blocks[0].area.y -= Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.x += Window::height * Window::cell_size;
+      blocks[0].area.x += Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.y += Window::height * Window::cell_size;
+      blocks[0].area.y += Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.x -= Window::height * Window::cell_size;
+      blocks[0].area.x -= Window::height * Window::cell_size_percentage;
       break;
   }
 }
@@ -230,16 +230,16 @@ void Tetromino::UpdateOriginCCW()
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.x -= Window::height * Window::cell_size;
+      blocks[0].area.x -= Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.y -= Window::height * Window::cell_size;
+      blocks[0].area.y -= Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.x += Window::height * Window::cell_size;
+      blocks[0].area.x += Window::height * Window::cell_size_percentage;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.y += Window::height * Window::cell_size;
+      blocks[0].area.y += Window::height * Window::cell_size_percentage;
       break;
   }
 }
