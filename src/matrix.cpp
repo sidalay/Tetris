@@ -96,29 +96,32 @@ void Playfield::InitializeFrames()
 {
   frames.emplace_back(
     Frame{
-      Rectangle{(Window::width - (Window::well_width * Window::height)) * .5f,
+      Rectangle{
+        (Window::width - (Window::well_width * Window::height)) * .5f,
         Window::height * Window::h_margin,
         Window::height * Window::well_width,
         Window::height * Window::well_height},
-      Vector2{10,20}
+        Vector2{10,20}
   });
 
   frames.emplace_back(
     Frame{
-      Rectangle{frames.at(0).area.x - (Window::height * Window::cell_size) * 6.f,
+      Rectangle{
+        frames.at(0).area.x - (Window::height * Window::cell_size) * 6.f,
         frames.at(0).area.y,
         Window::height * Window::cell_size * 5.f,
         Window::height * Window::cell_size * 5.f},
-      Vector2{5,5}
+        Vector2{5,5}
   });
 
   frames.emplace_back(
     Frame{
-      Rectangle{frames.at(0).area.x + (Window::height * Window::cell_size) * 11.f,
+      Rectangle{
+        frames.at(0).area.x + (Window::height * Window::cell_size) * 11.f,
         frames.at(0).area.y,
         Window::height * Window::cell_size * 5.f,
         Window::height * Window::cell_size * 5.f},
-      Vector2{5,5}
+        Vector2{5,5}
   });
 
   for (auto& row : frames) {
