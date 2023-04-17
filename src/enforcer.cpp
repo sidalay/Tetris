@@ -4,7 +4,7 @@
 
 bool Enforcer::CheckOutOfBounds(const Tetromino& t, const Playfield& p, const Tetro::Orientation direction)
 {
-  auto cell_size{Window::height * Window::cell_size};
+  float cell_size{Window::height * Window::cell_size};
   auto blocks{t.GetBlocks()};
   auto border{p.GetBorder()};
 
