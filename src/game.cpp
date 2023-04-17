@@ -39,6 +39,12 @@ void Game::Tick(Properties& game)
   }
 
   // test
+  game.tetro_deltatime += GetFrameTime();
+  if (game.tetro_deltatime >= game.tetro_updatetime) {
+    game.tetro_test.Fall();
+    game.tetro_deltatime == 0.f;
+  }
+
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
     game.tetro_test.RotateCW();
   } else if (IsKeyPressed(KEY_A)) {
