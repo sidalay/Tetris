@@ -41,9 +41,9 @@ void Game::Tick(Properties& game)
   // test
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
-    if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+    // if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
       game.tetro_test.Fall();
-    }
+    // }
     game.tetro_deltatime = 0.f;
   }
 
@@ -62,9 +62,9 @@ void Game::Tick(Properties& game)
       game.tetro_test.Move(Tetro::Orientation::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+    // if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
       game.tetro_test.Move(Tetro::Orientation::DOWN);
-    }
+    // }
   }
 
   BeginDrawing();
