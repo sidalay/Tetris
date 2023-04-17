@@ -34,27 +34,27 @@ void Game::Tick(Properties& game)
   if (game.deltatime >= game.updatetime) {
     Window::Tick();
     game.matrix.Tick();
-    game.test.Tick();
+    game.tetro_test.Tick();
     game.deltatime = 0.f;
   }
 
   // test
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
-    game.test.RotateCW();
+    game.tetro_test.RotateCW();
   } else if (IsKeyPressed(KEY_A)) {
-    game.test.RotateCCW();
+    game.tetro_test.RotateCCW();
   }
 
   if (IsKeyPressed(KEY_LEFT)) {
-    if (!Enforcer::CheckOutOfBounds(game.test, game.matrix, Tetro::Orientation::LEFT)) {
-      game.test.Move(Tetro::Orientation::LEFT);
+    if (!Enforcer::CheckOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
+      game.tetro_test.Move(Tetro::Orientation::LEFT);
     }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (!Enforcer::CheckOutOfBounds(game.test, game.matrix, Tetro::Orientation::RIGHT)) {
-      game.test.Move(Tetro::Orientation::RIGHT);
+    if (!Enforcer::CheckOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
+      game.tetro_test.Move(Tetro::Orientation::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    game.test.Move(Tetro::Orientation::DOWN);
+    game.tetro_test.Move(Tetro::Orientation::DOWN);
   }
 
   BeginDrawing();
@@ -62,7 +62,7 @@ void Game::Tick(Properties& game)
 
   game.matrix.Draw();
   // test
-  game.test.Draw();
+  game.tetro_test.Draw();
   
   EndDrawing();
 }

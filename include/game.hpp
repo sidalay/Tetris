@@ -22,7 +22,7 @@ namespace Game
     // test
     float tetro_deltatime{};
     float tetro_updatetime{1.f};
-    Tetromino test{Tetro::Shape::I};
+    Tetromino tetro_test{Tetro::Shape::I};
   };
 
   void Run();
