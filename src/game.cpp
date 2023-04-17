@@ -1,6 +1,7 @@
 #include "game.hpp"
 
 #include "window.hpp"
+#include "enforcer.hpp"
 
 void Game::Run()
 {
@@ -43,10 +44,15 @@ void Game::Tick(Properties& game)
   } else if (IsKeyPressed(KEY_A)) {
     game.test.RotateCCW();
   }
+
   if (IsKeyPressed(KEY_LEFT)) {
-    game.test.Move(Tetro::Orientation::LEFT);
+    if (!Enforcer::CheckOutOfBounds(game.test, game.matrix, Tetro::Orientation::LEFT)) {
+      game.test.Move(Tetro::Orientation::LEFT);
+    }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    game.test.Move(Tetro::Orientation::RIGHT);
+    if (!Enforcer::CheckOutOfBounds(game.test, game.matrix, Tetro::Orientation::RIGHT)) {
+      game.test.Move(Tetro::Orientation::RIGHT);
+    }
   } else if (IsKeyPressed(KEY_DOWN)) {
     game.test.Move(Tetro::Orientation::DOWN);
   }

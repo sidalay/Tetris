@@ -2,7 +2,6 @@
 #define GAME_HPP
 
 #include "matrix.hpp"
-
 #include "tetromino.hpp"
 
 namespace Game
