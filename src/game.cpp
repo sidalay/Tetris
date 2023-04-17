@@ -41,7 +41,9 @@ void Game::Tick(Properties& game)
   // test
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
-    game.tetro_test.Fall();
+    if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+      game.tetro_test.Fall();
+    }
     game.tetro_deltatime = 0.f;
   }
 
@@ -52,15 +54,17 @@ void Game::Tick(Properties& game)
   }
 
   if (IsKeyPressed(KEY_LEFT)) {
-    if (!Enforcer::CheckOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
+    if (!Enforcer::IsOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
       game.tetro_test.Move(Tetro::Orientation::LEFT);
     }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (!Enforcer::CheckOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
+    if (!Enforcer::IsOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
       game.tetro_test.Move(Tetro::Orientation::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    game.tetro_test.Move(Tetro::Orientation::DOWN);
+    if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+      game.tetro_test.Move(Tetro::Orientation::DOWN);
+    }
   }
 
   BeginDrawing();
@@ -68,7 +72,7 @@ void Game::Tick(Properties& game)
 
   game.matrix.Draw();
 
-  
+
   // test
   game.tetro_test.Draw();
   
