@@ -39,6 +39,7 @@ private:
   void UpdateMatrices();
   void InitializeFrames();
   void InitializeMatrices();
+  void InitCells(Frame&, int, int);
 };
 
 #endif // MATRIX_HPP
