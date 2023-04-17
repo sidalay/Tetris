@@ -1,5 +1,7 @@
 #include "tetromino.hpp"
 
+#include "window.hpp"
+
 const Color Cyan{0, 255, 255, 255};   // I
 const Color Blue{0, 0, 255, 255};     // J
 const Color Orange{255, 165, 0, 255}; // L
@@ -7,8 +9,6 @@ const Color Yellow{255, 255, 0, 255}; // O
 const Color Green{0, 255, 0, 255};    // S
 const Color Purple{128, 0, 128, 255}; // T
 const Color Red{255, 0, 0, 255};      // Z
-
-const float cell_size{1.f/26.f};      // 100% / 22 cells 
 
 Tetromino::Tetromino(Tetro::Shape shape)
   : type{shape}
@@ -117,8 +117,8 @@ void Tetromino::InitBlocks()
 void Tetromino::InitSize()
 {
   for (auto& block : blocks) {
-    block.area.width = Window::height * cell_size;
-    block.area.height = Window::height * cell_size;
+    block.area.width = Window::height * Window::cell_size;
+    block.area.height = Window::height * Window::cell_size;
   }
 }
 
@@ -212,16 +212,16 @@ void Tetromino::UpdateOriginCW()
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.y -= Window::height * cell_size;
+      blocks[0].area.y -= Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.x += Window::height * cell_size;
+      blocks[0].area.x += Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.y += Window::height * cell_size;
+      blocks[0].area.y += Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.x -= Window::height * cell_size;
+      blocks[0].area.x -= Window::height * Window::cell_size;
       break;
   }
 }
@@ -235,16 +235,16 @@ void Tetromino::UpdateOriginCCW()
   switch (facing)
   {
     case Tetro::Orientation::UP:
-      blocks[0].area.x -= Window::height * cell_size;
+      blocks[0].area.x -= Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::RIGHT:
-      blocks[0].area.y -= Window::height * cell_size;
+      blocks[0].area.y -= Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::DOWN:
-      blocks[0].area.x += Window::height * cell_size;
+      blocks[0].area.x += Window::height * Window::cell_size;
       break;
     case Tetro::Orientation::LEFT:
-      blocks[0].area.y += Window::height * cell_size;
+      blocks[0].area.y += Window::height * Window::cell_size;
       break;
   }
 }

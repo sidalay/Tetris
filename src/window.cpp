@@ -7,6 +7,10 @@ namespace Window
   int width{1280};
   int height{720};
   std::string title{"tetris"};
+  const float cell_size{1.f/26.f};            // 100% / 26 cells 
+  const float well_width{10.f * cell_size};   // 10 cells wide
+  const float well_height{20.f * cell_size};  // 20 cells high
+  const float h_margin{cell_size * 3.f};      // height margin = 4 cells
 }
 
 void Window::Tick()

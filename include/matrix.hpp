@@ -2,7 +2,6 @@
 #define MATRIX_HPP
 
 #include "tetromino.hpp"
-#include "window.hpp"
 
 #include <vector>
 
@@ -28,6 +27,7 @@ public:
 
   void Tick();
   void Draw();
+  Rectangle GetMatrixSize() {return frames[0].area;}
 
 public:
   std::vector<Frame> frames{};

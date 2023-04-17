@@ -8,6 +8,10 @@ namespace Window
   extern int width;
   extern int height;
   extern std::string title;
+  extern const float cell_size;
+  extern const float well_width;
+  extern const float well_height;
+  extern const float h_margin;
 
   void Tick();
 };

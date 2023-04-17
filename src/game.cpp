@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "window.hpp"
+
 void Game::Run()
 {
   Properties game{};

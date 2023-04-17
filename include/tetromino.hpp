@@ -2,7 +2,6 @@
 #define TETROMINO_HPP
 
 #include "raylib.h"
-#include "window.hpp"
 
 #include <array>
 #include <utility>
