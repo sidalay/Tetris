@@ -22,6 +22,7 @@ enum class Orientation
 struct Block
 {
   Rectangle area{};
+  Color     color{};
 };
   
 }

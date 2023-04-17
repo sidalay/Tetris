@@ -9,6 +9,7 @@ const Color Yellow{255, 255, 0, 255}; // O
 const Color Green{0, 255, 0, 255};    // S
 const Color Purple{128, 0, 128, 255}; // T
 const Color Red{255, 0, 0, 255};      // Z
+const Color Cleared{0, 0, 0, 0};      // Line Cleared
 
 Tetromino::Tetromino(Tetro::Shape shape)
   : type{shape}
@@ -25,7 +26,7 @@ void Tetromino::Tick()
 void Tetromino::Draw()
 {
   for (auto& block : blocks) {
-    DrawRectangleRec(block.area, color);
+    DrawRectangleRec(block.area, block.color);
     DrawRectangleLinesEx(block.area, 2.f, BLACK);
   }
 }
@@ -200,6 +201,10 @@ void Tetromino::InitColor()
     case Tetro::Shape::Z:
       color = Red;
       break;
+  }
+
+  for (auto& block : blocks) {
+    block.color = this->color;
   }
 }
 
