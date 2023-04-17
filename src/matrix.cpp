@@ -71,10 +71,10 @@ void Playfield::UpdateFrames()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
   if (IsWindowResized()) {
-    frames.at(0).area.x = Window::width * ((1.f - ((cell_size)/Window::width)) * .5f);
+    frames.at(0).area.x = Window::width * ((1.f - ((Window::height * Window::well_width)/Window::width)) * .5f);
     frames.at(0).area.y = Window::height * Window::h_margin;
-    frames.at(0).area.width = cell_size;
-    frames.at(0).area.height = cell_size;
+    frames.at(0).area.width = Window::height * Window::well_width;
+    frames.at(0).area.height = Window::height * Window::well_width;
 
     frames.at(1).area.x = frames.at(0).area.x - cell_size * 6.f;
     frames.at(1).area.y = frames.at(0).area.y;
@@ -88,24 +88,14 @@ void Playfield::UpdateFrames()
   }
 }
 
-void Playfield::UpdateMatrices()
+void Playfield::UpdateMatrices() // THIS IS WHERE THE BUG IS HAPPENING
 {
   float cell_size{Window::height * Window::cell_size_percentage};
   if (IsWindowResized()) {
     for (auto& frame : frames) {
       for (int y{}; y < frame.grid.y; ++y) {
         for (int x{}; x < frame.grid.x; ++x) {
-          if (y % 2 == 0) {
-            frame.matrix[y][x].area.x = frame.area.x + (cell_size * x);
-            frame.matrix[y][x].area.y = frame.area.y + (cell_size * y);
-            frame.matrix[y][x].area.width = cell_size;
-            frame.matrix[y][x].area.height = cell_size;
-          } else {
-            frame.matrix[y][x].area.x = frame.area.x + (cell_size * x);
-            frame.matrix[y][x].area.y = frame.area.y + (cell_size * y);
-            frame.matrix[y][x].area.width = cell_size;
-            frame.matrix[y][x].area.height = cell_size;
-          }
+          UpdateCells(frame, y, x);
         }
       }
     }
@@ -130,8 +120,8 @@ void Playfield::InitializeFrames()
       Rectangle{
         frames.at(0).area.x - cell_size * 6.f,
         frames.at(0).area.y,
-        Window::height * Window::cell_size_percentage * 5.f,
-        Window::height * Window::cell_size_percentage * 5.f},
+        cell_size * 5.f,
+        cell_size * 5.f},
         Vector2{5,8} // top three rows are invisible
   });
 
@@ -140,8 +130,8 @@ void Playfield::InitializeFrames()
       Rectangle{
         frames.at(0).area.x + cell_size * 11.f,
         frames.at(0).area.y,
-        Window::height * Window::cell_size_percentage * 5.f,
-        Window::height * Window::cell_size_percentage * 5.f},
+        cell_size * 5.f,
+        cell_size * 5.f},
         Vector2{5,8} // top three rows are invisible
   });
 
@@ -190,6 +180,11 @@ void Playfield::InitMap()
       matrix_map.emplace(std::make_pair(static_cast<int>(cell.area.x), static_cast<int>(cell.area.y)), cell.occupied);
     }
   }
+}
+
+void Playfield::UpdateCells(Frame& frame, int row, int col)
+{
+  InitCells(frame, row, col);
 }
 
 void Playfield::UpdateMap()

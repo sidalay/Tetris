@@ -44,6 +44,7 @@ private:
   void InitializeMatrices();
   void InitCells(Frame&, int, int);
   void InitMap();
+  void UpdateCells(Frame&, int, int);
   void UpdateMap();
 };
 
