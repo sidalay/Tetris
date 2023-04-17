@@ -34,6 +34,7 @@ public:
 
   void Tick();
   void Draw();
+  void Fall();
   void Move(Tetro::Orientation);
   void RotateCW();
   void RotateCCW();
@@ -48,8 +49,6 @@ private:
   float                      updatetime{1.f};
 
 private:
-  void Fall();
-  void Gravity();
   void InitBlocks();
   void InitSize();
   void InitColor();
@@ -71,4 +70,28 @@ Yellow O
 Green S
 Purple T
 Red Z
+*/
+
+/* Gravity multiplier per level
+/
+/     [ 1 ]	       1.00000
+/     [ 2 ]	       0.79300
+/     [ 3 ]	       0.61780
+/     [ 4 ]	       0.47273
+/     [ 5 ]	       0.35520
+/     [ 6 ]	       0.26200
+/     [ 7 ]	       0.18968
+/     [ 8 ]	       0.13473
+/     [ 9 ]	       0.09388
+/     [ 10 ]       0.06415
+/     [ 11 ]       0.04298
+/     [ 12 ]       0.02822
+/     [ 13 ]       0.01815
+/     [ 14 ]       0.01144
+/     [ 15 ]       0.00706
+/     [ 16 ]       0.00426
+/     [ 17 ]       0.00252
+/     [ 18 ]       0.00146
+/     [ 19 ]       0.00082
+/     [ 20 ]       0.00046
 */

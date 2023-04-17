@@ -19,7 +19,6 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
-  Gravity();
   UpdateBlockPos();
 }
 
@@ -95,15 +94,6 @@ void Tetromino::Fall()
 {
   for (auto& block : blocks) {
     block.area.y += block.area.height;
-  }
-}
-
-void Tetromino::Gravity()
-{
-  deltatime += GetFrameTime();
-  if (deltatime >= updatetime) {
-    Fall();
-    deltatime = 0.f;
   }
 }
 
