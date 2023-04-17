@@ -27,7 +27,7 @@ public:
 
   void Tick();
   void Draw();
-  Rectangle GetMatrixSize() {return frames[0].area;}
+  Rectangle GetBorder() const {return frames.at(0).area;}
 
 public:
   std::vector<Frame> frames{};

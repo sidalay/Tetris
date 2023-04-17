@@ -37,6 +37,7 @@ public:
   void Move(Tetro::Orientation);
   void RotateCW();
   void RotateCCW();
+  std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
 
 private:
   std::array<Tetro::Block,4> blocks{};
