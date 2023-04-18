@@ -6,8 +6,8 @@
 
 namespace Enforcer
 {
-  bool IsBelowClear(const Tetromino&, const Playfield&);
-  bool IsOutOfBounds(const Tetromino&, const Playfield&, const Tetro::Orientation);
+  bool IsBelowSafe(const Tetromino, const Playfield&);
+  bool IsSideSafe(const Tetromino, const Playfield&, const Tetro::Orientation);
 };
 
 #endif // ENFORCER_HPP
