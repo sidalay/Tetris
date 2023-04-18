@@ -9,7 +9,7 @@ bool Enforcer::IsBelowSafe(const Tetromino t, const Playfield& p)
   auto map{p.GetMatrixMap()};
 
   for (auto& block : blocks) {
-    std::pair key{static_cast<int>(block.area.x), static_cast<int>(block.area.y + cell_size)};
+    std::pair key{block.screen_row + 1, block.screen_col + 1};
     bool occupied{map.at(key)};
     if (occupied) {
       return false;
@@ -26,7 +26,7 @@ bool Enforcer::IsSideSafe(const Tetromino t, const Playfield& p, const Tetro::Or
 
   if (direction == Tetro::Orientation::LEFT) {
     for (auto& block : blocks) {
-      std::pair key{static_cast<int>(block.area.x - cell_size), static_cast<int>(block.area.y)};
+      std::pair key{block.screen_row, block.screen_col};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
@@ -34,7 +34,7 @@ bool Enforcer::IsSideSafe(const Tetromino t, const Playfield& p, const Tetro::Or
     }
   } else if (direction == Tetro::Orientation::RIGHT) {
     for (auto& block : blocks) {
-      std::pair key{static_cast<int>(block.area.x + cell_size), static_cast<int>(block.area.y)};
+      std::pair key{block.screen_row, block.screen_col + 2};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
