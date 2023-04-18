@@ -30,9 +30,11 @@ Playfield::Playfield()
 
 void Playfield::Tick() 
 {
-  UpdateFrames();
-  UpdateMatrices();
-  UpdateMap();
+  if (IsWindowResized()) {
+    UpdateFrames();
+    UpdateMatrices();
+    UpdateMap();
+  }
 }
 
 void Playfield::Draw()
@@ -70,33 +72,31 @@ void Playfield::DrawMatrices()
 void Playfield::UpdateFrames()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
-  if (IsWindowResized()) {
-    frames.at(0).area.x = Window::width * ((1.f - ((Window::height * Window::well_width)/Window::width)) * .5f);
-    frames.at(0).area.y = Window::height * Window::h_margin;
-    frames.at(0).area.width = Window::height * Window::well_width;
-    frames.at(0).area.height = Window::height * Window::well_width;
 
-    frames.at(1).area.x = frames.at(0).area.x - cell_size * 6.f;
-    frames.at(1).area.y = frames.at(0).area.y;
-    frames.at(1).area.width = cell_size * 5.f;
-    frames.at(1).area.height = cell_size * 5.f;
+  frames.at(0).area.x = Window::width * ((1.f - ((Window::height * Window::well_width)/Window::width)) * .5f);
+  frames.at(0).area.y = Window::height * Window::h_margin;
+  frames.at(0).area.width = Window::height * Window::well_width;
+  frames.at(0).area.height = Window::height * Window::well_height;
 
-    frames.at(2).area.x = frames.at(0).area.x + cell_size * 11.f;
-    frames.at(2).area.y = frames.at(0).area.y;
-    frames.at(2).area.width = cell_size * 5.f;
-    frames.at(2).area.height = cell_size * 5.f;
-  }
+  frames.at(1).area.x = frames.at(0).area.x - cell_size * 6.f;
+  frames.at(1).area.y = frames.at(0).area.y;
+  frames.at(1).area.width = cell_size * 5.f;
+  frames.at(1).area.height = cell_size * 5.f;
+
+  frames.at(2).area.x = frames.at(0).area.x + cell_size * 11.f;
+  frames.at(2).area.y = frames.at(0).area.y;
+  frames.at(2).area.width = cell_size * 5.f;
+  frames.at(2).area.height = cell_size * 5.f;
 }
 
-void Playfield::UpdateMatrices() // THIS IS WHERE THE BUG IS HAPPENING
+void Playfield::UpdateMatrices()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
-  if (IsWindowResized()) {
-    for (auto& frame : frames) {
-      for (int y{}; y < frame.grid.y; ++y) {
-        for (int x{}; x < frame.grid.x; ++x) {
-          UpdateCells(frame, y, x);
-        }
+
+  for (auto& frame : frames) {
+    for (int y{}; y < frame.grid.y; ++y) {
+      for (int x{}; x < frame.grid.x; ++x) {
+        UpdateCells(frame, y, x);
       }
     }
   }
@@ -112,7 +112,7 @@ void Playfield::InitializeFrames()
         Window::height * Window::h_margin,
         Window::height * Window::well_width,
         Window::height * Window::well_height},
-        Vector2{10,24}
+        Vector2{12,24}
   });
 
   frames.emplace_back(
@@ -122,7 +122,7 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 5.f},
-        Vector2{5,8} // top three rows are invisible
+        Vector2{7,8} // (first,last) column and top three rows are invisible
   });
 
   frames.emplace_back(
@@ -132,7 +132,7 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 5.f},
-        Vector2{5,8} // top three rows are invisible
+        Vector2{7,8} // (first,last) column and top three rows are invisible
   });
 
   for (auto& row : frames) {
@@ -148,8 +148,11 @@ void Playfield::InitializeMatrices()
   for (int i{}; i < frames.size(); ++i) {
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
-        if (y >= 0 && y <= 2) { // first row & second row
+        if (y >= 0 && y <= 2) { // rows 1-3
           frames[i].matrix[y][x].color = cell_color_clear;
+        } else if (x == 0 || x == frames[i].matrix[y].size() - 1) {
+          frames[i].matrix[y][x].color = cell_color_clear;
+          frames[i].matrix[y][x].occupied = true;
         } else if (i == 0 && y == frames[i].matrix.size() - 1) { // last row
           frames[i].matrix[y][x].color = cell_color_clear;
           frames[i].matrix[y][x].occupied = true;
@@ -167,8 +170,8 @@ void Playfield::InitializeMatrices()
 void Playfield::InitCells(Frame& frame, int row, int col)
 {
   float cell_size{Window::height * Window::cell_size_percentage};
-  frame.matrix[row][col].area.x = frame.area.x + (cell_size * col);
-  frame.matrix[row][col].area.y = (frame.area.y - (cell_size * 3.f)) + (cell_size * row);
+  frame.matrix[row][col].area.x = (frame.area.x - cell_size * 1.f) + (cell_size * col);
+  frame.matrix[row][col].area.y = (frame.area.y - cell_size * 3.f) + (cell_size * row);
   frame.matrix[row][col].area.width = cell_size;
   frame.matrix[row][col].area.height = cell_size;
 }
