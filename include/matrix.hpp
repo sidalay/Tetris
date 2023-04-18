@@ -28,14 +28,13 @@ public:
 
   void Tick();
   void Draw();
-  [[nodiscard]] const Rectangle& GetBorder() const {return frames.at(0).area;}
-  [[nodiscard]] const std::map<std::pair<int,int>,bool>& GetMatrixMap() const {return matrix_map;}
+  [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
+  [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
 
 private:
   std::vector<Frame> frames{};
   std::map<std::pair<int,int>,bool> matrix_map{};
 
-private:
   void DrawFrames();
   void DrawMatrices();
   void UpdateFrames();
@@ -45,7 +44,6 @@ private:
   void InitCells(Frame&, int, int);
   void InitMap();
   void UpdateCells(Frame&, int, int);
-  void UpdateMap();
 };
 
 #endif // MATRIX_HPP

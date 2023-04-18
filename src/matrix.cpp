@@ -33,7 +33,6 @@ void Playfield::Tick()
   if (IsWindowResized()) {
     UpdateFrames();
     UpdateMatrices();
-    UpdateMap();
   }
 }
 
@@ -192,10 +191,4 @@ void Playfield::InitMap()
 void Playfield::UpdateCells(Frame& frame, int row, int col)
 {
   InitCells(frame, row, col);
-}
-
-void Playfield::UpdateMap()
-{
-  matrix_map.clear();
-  InitMap();
 }
