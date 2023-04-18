@@ -133,7 +133,7 @@ void Tetromino::InitBlockOrigin()
   float cell_size{Window::height * Window::cell_size_percentage};
 
   origin.area.x = Window::width/2 - cell_size; 
-  origin.area.y = cell_size * 1.f;
+  origin.area.y = cell_size * 2.f;
   UpdateOriginRowCol();
 }
 
@@ -288,14 +288,6 @@ void Tetromino::UpdateOriginRowCol()
     block.screen_row = block.area.y / static_cast<int>(cell_size);
     block.screen_col = (block.area.x - borderX) / static_cast<int>(cell_size);
   }
-}
-
-void Tetromino::PrintScreenDim()
-{
-  float borderX{(Window::width - (Window::well_width * Window::height)) * .5f};
-  float cell_size{Window::height * Window::cell_size_percentage};
-  Tetro::Block& origin{blocks.at(0)};
-  std::cout << "row: " << origin.screen_row << " col: " << origin.screen_col << "\n";
 }
 
 void Tetromino::UpdateBlockPos()

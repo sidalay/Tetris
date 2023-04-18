@@ -63,9 +63,6 @@ private:
   void UpdateBlockSize();
   void UpdateOriginScale();
   void UpdateOriginRowCol();
-
-
-  void PrintScreenDim();
 };
 
 #endif // TETROMINO_HPP
