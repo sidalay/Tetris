@@ -23,6 +23,8 @@ struct Block
 {
   Rectangle area{};
   Color     color{};
+  int       screen_row{};
+  int       screen_col{};
 };
   
 }
@@ -38,6 +40,8 @@ public:
   void Move(Tetro::Orientation);
   void RotateCW();
   void RotateCCW();
+  void WallKickCW();
+  void WallKickCCW();
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
 
 private:
@@ -45,8 +49,6 @@ private:
   Tetro::Shape               type{};
   Tetro::Orientation         facing{Tetro::Orientation::UP};
   Color                      color{};
-  float                      deltatime{};
-  float                      updatetime{1.f};
 
 private:
   void InitBlocks();
@@ -59,7 +61,11 @@ private:
   void UpdateOriginCCW();
   void UpdateBlockPos();
   void UpdateBlockSize();
-  void UpdateBlockOrigin();
+  void UpdateOriginScale();
+  void UpdateOriginRowCol();
+
+
+  void PrintScreenDim();
 };
 
 #endif // TETROMINO_HPP
