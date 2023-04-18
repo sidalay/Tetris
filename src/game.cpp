@@ -41,30 +41,38 @@ void Game::Tick(Properties& game)
   // test
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
-    // if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+    if (Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.Fall();
-    // }
+    }
     game.tetro_deltatime = 0.f;
   }
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
-    game.tetro_test.RotateCW();
+    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT) && 
+        Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT) &&
+        Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
+      game.tetro_test.RotateCW();
+    }
   } else if (IsKeyPressed(KEY_A)) {
-    game.tetro_test.RotateCCW();
+    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT) &&
+        Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT) &&
+        Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
+      game.tetro_test.RotateCCW();
+    }
   }
 
   if (IsKeyPressed(KEY_LEFT)) {
-    if (!Enforcer::IsOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
+    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
       game.tetro_test.Move(Tetro::Orientation::LEFT);
     }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (!Enforcer::IsOutOfBounds(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
+    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
       game.tetro_test.Move(Tetro::Orientation::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    // if (Enforcer::IsBelowClear(game.tetro_test, game.matrix)) {
+    if (Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.Move(Tetro::Orientation::DOWN);
-    // }
+    }
   }
 
   BeginDrawing();
