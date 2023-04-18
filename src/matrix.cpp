@@ -149,6 +149,9 @@ void Playfield::InitializeMatrices()
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
         if (y >= 0 && y <= 2) { // rows 1-3
+          if (x == 0 || x == frames[i].matrix[y].size() - 1) {
+            frames[i].matrix[y][x].occupied = true;
+          }
           frames[i].matrix[y][x].color = cell_color_clear;
         } else if (x == 0 || x == frames[i].matrix[y].size() - 1) {
           frames[i].matrix[y][x].color = cell_color_clear;
@@ -178,9 +181,10 @@ void Playfield::InitCells(Frame& frame, int row, int col)
 
 void Playfield::InitMap()
 {
-  for (auto& row : frames.at(0).matrix) {
-    for (auto& cell : row) {
-      matrix_map.emplace(std::make_pair(static_cast<int>(cell.area.x), static_cast<int>(cell.area.y)), cell.occupied);
+  const std::vector<std::vector<Cell>>& border{frames.at(0).matrix};
+  for (int row{}; row < border.size(); ++row) {
+    for (int col{}; col < border.at(row).size(); ++col) {
+      matrix_map.emplace(std::make_pair(row,col), border[row][col].occupied);
     }
   }
 }
@@ -193,9 +197,5 @@ void Playfield::UpdateCells(Frame& frame, int row, int col)
 void Playfield::UpdateMap()
 {
   matrix_map.clear();
-  for (auto& row : frames.at(0).matrix) {
-    for (auto& cell : row) {
-      matrix_map.emplace(std::make_pair(static_cast<int>(cell.area.x), static_cast<int>(cell.area.y)), cell.occupied);
-    }
-  }
+  InitMap();
 }
