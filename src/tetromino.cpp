@@ -2,8 +2,6 @@
 
 #include "window.hpp"
 
-#include <iostream>
-
 const Color Cyan{0, 255, 255, 255};   // I
 const Color Blue{0, 0, 255, 255};     // J
 const Color Orange{255, 165, 0, 255}; // L
