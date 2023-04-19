@@ -48,6 +48,7 @@ public:
   void RotateCCW();
   void WallKickCW(const Tetro::Wallkick);
   void WallKickCCW(const Tetro::Wallkick);
+  Tetro::Shape GetType() const {return type;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
 
 private:
