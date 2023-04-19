@@ -49,14 +49,12 @@ bool Enforcer::IsSideSafe(
 }
 
 Tetro::Wallkick Enforcer::WallKickEval(
-  const Tetromino t, 
+  Tetromino t, 
   const Playfield& p, 
   const Tetro::Orientation current,
   const Tetro::Orientation rotation)
 {
   const float cell_size{Window::height * Window::cell_size_percentage};
-  const auto blocks{t.GetBlocks()};
-  const auto map{p.GetMatrixMap()};
 
   if (t.GetType() == Tetro::Shape::I) {
     switch (current)
@@ -95,32 +93,34 @@ Tetro::Wallkick Enforcer::WallKickEval(
     {
       case Tetro::Orientation::UP:
         if (rotation == Tetro::Orientation::RIGHT) {        // 0>>1
-
+          t.RotateCW();
+          return WallKickTest(t, p, {-1,0}, {-1,1}, {0,-2}, {-1,-2});
         } else if (rotation == Tetro::Orientation::LEFT) {  // 0>>3
-
+          t.RotateCCW();
+          return WallKickTest(t, p, {1,0}, {1,1}, {0,-2}, {1,-2});
         }
-        break;
       case Tetro::Orientation::RIGHT:
         if (rotation == Tetro::Orientation::RIGHT) {        // 1>>2
-
+          t.RotateCW();
         } else if (rotation == Tetro::Orientation::LEFT) {  // 1>>0
-          
+          t.RotateCCW();
         }
-        break;
+        return WallKickTest(t, p, {1,0}, {1,-1}, {0,2}, {1,2});
       case Tetro::Orientation::DOWN:
         if (rotation == Tetro::Orientation::RIGHT) {        // 2>>3
-
+          t.RotateCW();
+          return WallKickTest(t, p, {1,0}, {1,1}, {0,-2}, {1,-2});
         } else if (rotation == Tetro::Orientation::LEFT) {  // 2>>1
-          
+          t.RotateCCW();
+          return WallKickTest(t, p, {-1,0}, {-1,1}, {0,-2}, {-1,-2});
         }
-        break;
       case Tetro::Orientation::LEFT:
         if (rotation == Tetro::Orientation::RIGHT) {        // 3>>0
-
+          t.RotateCW();
         } else if (rotation == Tetro::Orientation::LEFT) {  // 3>>2
-          
+          t.RotateCCW();
         }
-        break;
+        return WallKickTest(t, p, {-1,0}, {-1,-1}, {0,2}, {-1,2});
     }
   }
 
@@ -128,10 +128,12 @@ Tetro::Wallkick Enforcer::WallKickEval(
 }
 
 Tetro::Wallkick Enforcer::WallKickTest(
-  const Tetro::Wallkick,
-  const Tetro::Wallkick,
-  const Tetro::Wallkick,
-  const Tetro::Wallkick)
+  Tetromino& t,
+  const Playfield& p,
+  const Tetro::Wallkick test1,
+  const Tetro::Wallkick test2,
+  const Tetro::Wallkick test3,
+  const Tetro::Wallkick test4)
 {
 
 }
