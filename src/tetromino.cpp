@@ -91,12 +91,12 @@ void Tetromino::RotateCCW()
   }
 }
 
-void Tetromino::WallKickCW()
+void Tetromino::WallKickCW(const Tetro::Wallkick)
 {
 
 }
 
-void Tetromino::WallKickCCW()
+void Tetromino::WallKickCCW(const Tetro::Wallkick)
 {
   
 }

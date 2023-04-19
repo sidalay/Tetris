@@ -26,6 +26,12 @@ struct Block
   int       screen_row{};
   int       screen_col{};
 };
+
+struct Wallkick
+{
+  int x{};
+  int y{};
+};
   
 }
 
@@ -40,8 +46,8 @@ public:
   void Move(Tetro::Orientation);
   void RotateCW();
   void RotateCCW();
-  void WallKickCW();
-  void WallKickCCW();
+  void WallKickCW(const Tetro::Wallkick);
+  void WallKickCCW(const Tetro::Wallkick);
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
 
 private:
