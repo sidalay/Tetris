@@ -19,6 +19,11 @@ enum class Orientation
   UP, DOWN, LEFT, RIGHT
 };
 
+enum class Movement
+{
+  UP, DOWN, LEFT, RIGHT
+};
+
 struct Block
 {
   Rectangle area{};
@@ -43,7 +48,7 @@ public:
   void Tick();
   void Draw();
   void Fall();
-  void Move(Tetro::Orientation);
+  void Move(Tetro::Movement);
   void RotateCW();
   void RotateCCW();
   void WallKickCW(const Tetro::Wallkick);
@@ -66,10 +71,10 @@ private:
   void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
   void UpdateOriginCW();
   void UpdateOriginCCW();
-  void UpdateBlockPos();
+  void UpdateFollowerPos();
   void UpdateBlockSize();
   void UpdateOriginScale();
-  void UpdateOriginRowCol();
+  void UpdateRowCol();
 };
 
 #endif // TETROMINO_HPP
