@@ -34,7 +34,9 @@ void Game::Tick(Properties& game)
   if (game.deltatime >= game.updatetime) {
     Window::Tick();
     game.matrix.Tick();
+    //  ------------------------------------- test
     game.tetro_test.Tick();
+    //  ------------------------------------- test
     game.deltatime = 0.f;
   }
 
@@ -50,10 +52,14 @@ void Game::Tick(Properties& game)
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
     if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.RotateCW();
+    } else {
+      // WallkickCW goes here
     }
   } else if (IsKeyPressed(KEY_A)) {
     if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.RotateCCW();
+    } else {
+      // WallkickCCW goes here
     }
   }
 
@@ -77,9 +83,9 @@ void Game::Tick(Properties& game)
 
   game.matrix.Draw();
 
-
-  // test
+  //  ------------------------------------- test
   game.tetro_test.Draw();
+  //  ------------------------------------- test
   
   EndDrawing();
 }
