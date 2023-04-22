@@ -23,8 +23,8 @@ void Tetromino::Tick()
     UpdateBlockSize();
     UpdateOriginScale();
   }
-  UpdateOriginRowCol();
-  UpdateBlockPos();
+  UpdateRowCol();
+  UpdateFollowerPos();
 }
 
 void Tetromino::Draw()
@@ -35,17 +35,17 @@ void Tetromino::Draw()
   }
 }
 
-void Tetromino::Move(Tetro::Orientation direction)
+void Tetromino::Move(Tetro::Movement direction)
 {
   switch (direction)
   {
-    case Tetro::Orientation::DOWN:
+    case Tetro::Movement::DOWN:
       blocks[0].area.y += blocks[0].area.height;
       break;
-    case Tetro::Orientation::LEFT:
+    case Tetro::Movement::LEFT:
       blocks[0].area.x -= blocks[0].area.width;
       break;
-    case Tetro::Orientation::RIGHT:
+    case Tetro::Movement::RIGHT:
       blocks[0].area.x += blocks[0].area.width;
       break;
     default:
@@ -132,7 +132,7 @@ void Tetromino::InitBlockOrigin()
 
   origin.area.x = Window::width/2 - cell_size; 
   origin.area.y = cell_size * 2.f;
-  UpdateOriginRowCol();
+  UpdateRowCol();
 }
 
 void Tetromino::SetShape(
@@ -277,18 +277,19 @@ void Tetromino::UpdateOriginScale()
   origin.area.x = borderX + (cell_size * origin.screen_col); 
 }
 
-void Tetromino::UpdateOriginRowCol()
+void Tetromino::UpdateRowCol()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
   float borderX{(Window::width - (Window::well_width * Window::height)) * .5f};
 
   for (auto& block : blocks) {
     block.screen_row = block.area.y / static_cast<int>(cell_size);
-    block.screen_col = (block.area.x - borderX) / static_cast<int>(cell_size);
+    block.screen_col = (static_cast<int>(block.area.x - borderX) / static_cast<int>(cell_size)) + 1;
   }
+
 }
 
-void Tetromino::UpdateBlockPos()
+void Tetromino::UpdateFollowerPos()
 {
   switch (facing)
   {
