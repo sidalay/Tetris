@@ -6,8 +6,17 @@
 
 namespace Enforcer
 {
-  bool IsBelowSafe(const Tetromino, const Playfield&);
-  bool IsSideSafe(const Tetromino, const Playfield&, const Tetro::Orientation);
+  bool IsSafe(
+    const Tetromino,
+    const Playfield&);
+  bool IsSafe(
+    const Tetromino, 
+    const Playfield&, 
+    const Tetro::Movement);
+  bool IsSafe(
+    const Tetromino, 
+    const Playfield&, 
+    const Tetro::Wallkick);
   Tetro::Wallkick WallKickEval(
     Tetromino, 
     const Playfield&, 

@@ -2,49 +2,82 @@
 
 #include "window.hpp"
 
-bool Enforcer::IsBelowSafe(const Tetromino t, const Playfield& p)
+bool Enforcer::IsSafe(
+  const Tetromino t,
+  const Playfield& p)
 {
   const float cell_size{Window::height * Window::cell_size_percentage};
   const auto blocks{t.GetBlocks()};
   const auto map{p.GetMatrixMap()};
 
   for (auto& block : blocks) {
-    std::pair key{block.screen_row + 1, block.screen_col + 1};
-    bool occupied{map.at(key)};
-    if (occupied) {
-      return false;
+    std::array<bool,3> occupied{
+      map.at(std::make_pair(block.screen_row, block.screen_col - 1)), // movement left
+      map.at(std::make_pair(block.screen_row, block.screen_col + 1)), // movement right
+      map.at(std::make_pair(block.screen_row + 1, block.screen_col))  // movement down
+    };
+    for (bool filled : occupied) {
+      if (filled) {
+        return false;
+      }
     }
   }
   return true;
 }
 
-bool Enforcer::IsSideSafe(
+bool Enforcer::IsSafe(
   const Tetromino t, 
   const Playfield& p, 
-  const Tetro::Orientation direction)
+  const Tetro::Movement direction)
 {
   const float cell_size{Window::height * Window::cell_size_percentage};
   const auto blocks{t.GetBlocks()};
   const auto map{p.GetMatrixMap()};
 
-  if (direction == Tetro::Orientation::LEFT) {
+  if (direction == Tetro::Movement::LEFT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col};
+      std::pair key{block.screen_row, block.screen_col - 1};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
       }
     }
-  } else if (direction == Tetro::Orientation::RIGHT) {
+  } else if (direction == Tetro::Movement::RIGHT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col + 2};
+      std::pair key{block.screen_row, block.screen_col + 1};
+      bool occupied{map.at(key)};
+      if (occupied) {
+        return false;
+      }
+    }
+  } else {
+    for (auto& block : blocks) {
+      std::pair key{block.screen_row + 1, block.screen_col};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
       }
     }
   }
+  return true;
+}
 
+bool Enforcer::IsSafe(
+    const Tetromino t, 
+    const Playfield& p, 
+    const Tetro::Wallkick kick)
+{
+  const float cell_size{Window::height * Window::cell_size_percentage};
+  const auto blocks{t.GetBlocks()};
+  const auto map{p.GetMatrixMap()};
+
+  for (auto& block : blocks) {
+    std::pair key{block.screen_row + kick.x, block.screen_col + kick.y};
+    bool occupied{map.at(key)};
+    if (occupied) {
+      return false;
+    }
+  }
   return true;
 }
 
