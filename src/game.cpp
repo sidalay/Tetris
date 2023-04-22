@@ -38,42 +38,39 @@ void Game::Tick(Properties& game)
     game.deltatime = 0.f;
   }
 
-  // test
+  //  ------------------------------------- test
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
-    if (Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
       game.tetro_test.Fall();
     }
     game.tetro_deltatime = 0.f;
   }
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
-    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT) && 
-        Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT) &&
-        Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.RotateCW();
     }
   } else if (IsKeyPressed(KEY_A)) {
-    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT) &&
-        Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT) &&
-        Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
       game.tetro_test.RotateCCW();
     }
   }
 
   if (IsKeyPressed(KEY_LEFT)) {
-    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::LEFT)) {
-      game.tetro_test.Move(Tetro::Orientation::LEFT);
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::LEFT)) {
+      game.tetro_test.Move(Tetro::Movement::LEFT);
     }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (Enforcer::IsSideSafe(game.tetro_test, game.matrix, Tetro::Orientation::RIGHT)) {
-      game.tetro_test.Move(Tetro::Orientation::RIGHT);
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::RIGHT)) {
+      game.tetro_test.Move(Tetro::Movement::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    if (Enforcer::IsBelowSafe(game.tetro_test, game.matrix)) {
-      game.tetro_test.Move(Tetro::Orientation::DOWN);
+    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
+      game.tetro_test.Move(Tetro::Movement::DOWN);
     }
   }
+  //  ------------------------------------- test
 
   BeginDrawing();
   ClearBackground(BLACK);
