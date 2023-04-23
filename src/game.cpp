@@ -43,36 +43,38 @@ void Game::Tick(Properties& game)
   //  ------------------------------------- test
   game.tetro_deltatime += GetFrameTime();
   if (game.tetro_deltatime >= game.tetro_updatetime) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
+    if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
       game.tetro_test.Fall();
     }
     game.tetro_deltatime = 0.f;
   }
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
+    if (Enforcer::RotationIsSafe(game.tetro_test, game.matrix, Tetro::Rotation::CW)) {
       game.tetro_test.RotateCW();
     } else {
       // WallkickCW goes here
+      game.tetro_test.WallKickCW(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CW));
     }
   } else if (IsKeyPressed(KEY_A)) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix)) {
+    if (Enforcer::RotationIsSafe(game.tetro_test, game.matrix, Tetro::Rotation::CCW)) {
       game.tetro_test.RotateCCW();
     } else {
       // WallkickCCW goes here
+      game.tetro_test.WallKickCCW(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CCW));
     }
   }
 
   if (IsKeyPressed(KEY_LEFT)) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::LEFT)) {
+    if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::LEFT)) {
       game.tetro_test.Move(Tetro::Movement::LEFT);
     }
   } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::RIGHT)) {
+    if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::RIGHT)) {
       game.tetro_test.Move(Tetro::Movement::RIGHT);
     }
   } else if (IsKeyPressed(KEY_DOWN)) {
-    if (Enforcer::IsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
+    if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
       game.tetro_test.Move(Tetro::Movement::DOWN);
     }
   }
