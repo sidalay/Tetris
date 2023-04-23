@@ -7,6 +7,7 @@ struct Randomizer
 {
 public:
   Randomizer() = default;
+  int operator()(std::uniform_int_distribution<int>& Range);
   int Randomize(std::uniform_int_distribution<int>& Range);
 private:
   std::random_device  Seed;
