@@ -1,8 +1,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include "bag.hpp"
 #include "matrix.hpp"
-#include "tetromino.hpp"
 
 namespace Game
 {
@@ -22,7 +22,8 @@ namespace Game
     // test
     float tetro_deltatime{};
     float tetro_updatetime{1.f};
-    Tetromino tetro_test{Tetro::Shape::I};
+    Tetromino tetro_test{Tetro::Shape::Z};
+    Bag bag{};
   };
 
   void Run();

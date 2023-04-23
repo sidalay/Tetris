@@ -38,6 +38,7 @@ void Game::Tick(Properties& game)
     game.tetro_test.Tick();
     //  ------------------------------------- test
     game.deltatime = 0.f;
+    game.bag.Fill();
   }
 
   //  ------------------------------------- test
