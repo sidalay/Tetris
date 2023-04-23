@@ -54,72 +54,62 @@ void Tetromino::Move(Tetro::Movement direction)
   }
 }
 
-void Tetromino::Move(Tetro::Wallkick kick) 
+void Tetromino::WallKickMove(Tetro::Wallkick kick) 
 {
   float cell_size{Window::height * Window::cell_size_percentage};
   blocks[0].area.x += cell_size * kick.col;
   blocks[0].area.y -= cell_size * kick.row;
 }
 
-void Tetromino::RotateCW()
+void Tetromino::Rotate(const Tetro::Rotation rotation)
 {
-  switch (facing)
-  {
-    case Tetro::Orientation::UP:
-      facing = Tetro::Orientation::RIGHT;
-      break;
-    case Tetro::Orientation::DOWN:
-      facing = Tetro::Orientation::LEFT;
-      break;
-    case Tetro::Orientation::LEFT:
-      facing = Tetro::Orientation::UP;
-      break;
-    case Tetro::Orientation::RIGHT:
-      facing = Tetro::Orientation::DOWN;
-      break;
+  if (rotation == Tetro::Rotation::CW) {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        facing = Tetro::Orientation::RIGHT;
+        break;
+      case Tetro::Orientation::DOWN:
+        facing = Tetro::Orientation::LEFT;
+        break;
+      case Tetro::Orientation::LEFT:
+        facing = Tetro::Orientation::UP;
+        break;
+      case Tetro::Orientation::RIGHT:
+        facing = Tetro::Orientation::DOWN;
+        break;
+    }
+  } else {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        facing = Tetro::Orientation::LEFT;
+        break;
+      case Tetro::Orientation::DOWN:
+        facing = Tetro::Orientation::RIGHT;
+        break;
+      case Tetro::Orientation::LEFT:
+        facing = Tetro::Orientation::DOWN;
+        break;
+      case Tetro::Orientation::RIGHT:
+        facing = Tetro::Orientation::UP;
+        break;
+    }
   }
 }
 
-void Tetromino::RotateCCW()
-{
-  switch (facing)
-  {
-    case Tetro::Orientation::UP:
-      facing = Tetro::Orientation::LEFT;
-      break;
-    case Tetro::Orientation::DOWN:
-      facing = Tetro::Orientation::RIGHT;
-      break;
-    case Tetro::Orientation::LEFT:
-      facing = Tetro::Orientation::DOWN;
-      break;
-    case Tetro::Orientation::RIGHT:
-      facing = Tetro::Orientation::UP;
-      break;
-  }
-}
-
-void Tetromino::WallKickCW(const Tetro::Wallkick kick)
+void Tetromino::WallKick(const Tetro::Wallkick kick, const Tetro::Rotation rotation)
 {
   if (kick.col == 0 && kick.row == 0) {
     return;
   }
-  RotateCW();
-  Move(kick);
+  Rotate(rotation);
+  WallKickMove(kick);
 }
 
-void Tetromino::WallKickCCW(const Tetro::Wallkick kick)
+void Tetromino::RotateWallKick(const Tetro::Rotation rotation)
 {
-  if (kick.col == 0 && kick.row == 0) {
-    return;
-  }
-  RotateCCW();
-  Move(kick);
-}
-
-void Tetromino::RotateWallKick(const Tetro::Rotation r)
-{
-  if (r == Tetro::Rotation::CW) {
+  if (rotation == Tetro::Rotation::CW) {
     switch (facing)
     {
       case Tetro::Orientation::UP:
@@ -180,6 +170,38 @@ void Tetromino::InitBlockSize()
   }
 }
 
+void Tetromino::InitBlockColor()
+{
+  switch (type)
+  {
+    case Tetro::Shape::I:
+      color = Cyan;
+      break;
+    case Tetro::Shape::J:
+      color = Blue;
+      break;
+    case Tetro::Shape::L:
+      color = Orange;
+      break;
+    case Tetro::Shape::O:
+      color = Yellow;
+      break;
+    case Tetro::Shape::S:
+      color = Green;
+      break;
+    case Tetro::Shape::T:
+      color = Purple;
+      break;
+    case Tetro::Shape::Z:
+      color = Red;
+      break;
+  }
+
+  for (auto& block : blocks) {
+    block.color = this->color;
+  }
+}
+
 void Tetromino::InitBlockOrigin()
 {
   Tetro::Block& origin{blocks.at(0)};
@@ -234,38 +256,6 @@ void Tetromino::SetFollowers()
     case Tetro::Shape::Z:
       SetShape(std::make_pair(1,0), std::make_pair(0,-1), std::make_pair(-1,-1));
       break;
-  }
-}
-
-void Tetromino::InitBlockColor()
-{
-  switch (type)
-  {
-    case Tetro::Shape::I:
-      color = Cyan;
-      break;
-    case Tetro::Shape::J:
-      color = Blue;
-      break;
-    case Tetro::Shape::L:
-      color = Orange;
-      break;
-    case Tetro::Shape::O:
-      color = Yellow;
-      break;
-    case Tetro::Shape::S:
-      color = Green;
-      break;
-    case Tetro::Shape::T:
-      color = Purple;
-      break;
-    case Tetro::Shape::Z:
-      color = Red;
-      break;
-  }
-
-  for (auto& block : blocks) {
-    block.color = this->color;
   }
 }
 

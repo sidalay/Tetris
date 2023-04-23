@@ -54,10 +54,8 @@ public:
   void Draw();
   void Fall();
   void Move(Tetro::Movement);
-  void RotateCW();
-  void RotateCCW();
-  void WallKickCW(const Tetro::Wallkick);
-  void WallKickCCW(const Tetro::Wallkick);
+  void Rotate(const Tetro::Rotation);
+  void WallKick(const Tetro::Wallkick, const Tetro::Rotation);
   void RotateWallKick(const Tetro::Rotation);
   Tetro::Shape GetType() const {return type;}
   Tetro::Orientation GetOrientation() const {return facing;}
@@ -82,7 +80,7 @@ private:
   void UpdateBlockSize();
   void UpdateOriginScale();
   void UpdateRowCol();
-  void Move(Tetro::Wallkick);
+  void WallKickMove(Tetro::Wallkick);
 };
 
 #endif // TETROMINO_HPP
