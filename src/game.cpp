@@ -51,17 +51,17 @@ void Game::Tick(Properties& game)
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
     if (Enforcer::RotationIsSafe(game.tetro_test, game.matrix, Tetro::Rotation::CW)) {
-      game.tetro_test.RotateCW();
+      game.tetro_test.Rotate(Tetro::Rotation::CW);
     } else {
       // WallkickCW goes here
-      game.tetro_test.WallKickCW(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CW));
+      game.tetro_test.WallKick(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CW), Tetro::Rotation::CW);
     }
   } else if (IsKeyPressed(KEY_A)) {
     if (Enforcer::RotationIsSafe(game.tetro_test, game.matrix, Tetro::Rotation::CCW)) {
-      game.tetro_test.RotateCCW();
+      game.tetro_test.Rotate(Tetro::Rotation::CCW);
     } else {
       // WallkickCCW goes here
-      game.tetro_test.WallKickCCW(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CCW));
+      game.tetro_test.WallKick(Enforcer::WallKickEval(game.tetro_test, game.matrix, Tetro::Rotation::CCW), Tetro::Rotation::CCW);
     }
   }
 
