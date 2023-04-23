@@ -74,8 +74,7 @@ private:
   void InitBlockOrigin();
   void SetFollowers();
   void SetShape(std::pair<int,int>, std::pair<int,int>, std::pair<int,int>); // std::pair<x,y>
-  void UpdateOriginCW();
-  void UpdateOriginCCW();
+  void UpdateOriginPos(const Tetro::Rotation);
   void UpdateFollowerPos();
   void UpdateBlockSize();
   void UpdateOriginScale();

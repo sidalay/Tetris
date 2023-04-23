@@ -96,6 +96,7 @@ void Tetromino::Rotate(const Tetro::Rotation rotation)
         break;
     }
   }
+  UpdateOriginPos(rotation);
 }
 
 void Tetromino::WallKick(const Tetro::Wallkick kick, const Tetro::Rotation rotation)
@@ -200,6 +201,7 @@ void Tetromino::InitBlockColor()
   for (auto& block : blocks) {
     block.color = this->color;
   }
+  blocks[0].color = RED;
 }
 
 void Tetromino::InitBlockOrigin()
@@ -259,51 +261,46 @@ void Tetromino::SetFollowers()
   }
 }
 
-void Tetromino::UpdateOriginCW()
+void Tetromino::UpdateOriginPos(const Tetro::Rotation rotation)
 {
   if (type != Tetro::Shape::I) {
     return;
   }
 
   float cell_size{Window::height * Window::cell_size_percentage};
-  switch (facing)
-  {
-    case Tetro::Orientation::UP:
-      blocks[0].area.y -= cell_size;
-      break;
-    case Tetro::Orientation::RIGHT:
-      blocks[0].area.x += cell_size;
-      break;
-    case Tetro::Orientation::DOWN:
-      blocks[0].area.y += cell_size;
-      break;
-    case Tetro::Orientation::LEFT:
-      blocks[0].area.x -= cell_size;
-      break;
-  }
-}
 
-void Tetromino::UpdateOriginCCW()
-{
-  if (type != Tetro::Shape::I) {
-    return;
-  }
-
-  float cell_size{Window::height * Window::cell_size_percentage};
-  switch (facing)
-  {
-    case Tetro::Orientation::UP:
-      blocks[0].area.x -= cell_size;
-      break;
-    case Tetro::Orientation::RIGHT:
-      blocks[0].area.y -= cell_size;
-      break;
-    case Tetro::Orientation::DOWN:
-      blocks[0].area.x += cell_size;
-      break;
-    case Tetro::Orientation::LEFT:
-      blocks[0].area.y += cell_size;
-      break;
+  if (rotation == Tetro::Rotation::CW) {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        blocks[0].area.y -= cell_size;
+        break;
+      case Tetro::Orientation::RIGHT:
+        blocks[0].area.x += cell_size;
+        break;
+      case Tetro::Orientation::DOWN:
+        blocks[0].area.y += cell_size;
+        break;
+      case Tetro::Orientation::LEFT:
+        blocks[0].area.x -= cell_size;
+        break;
+    } 
+  } else {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        blocks[0].area.x -= cell_size;
+        break;
+      case Tetro::Orientation::RIGHT:
+        blocks[0].area.y -= cell_size;
+        break;
+      case Tetro::Orientation::DOWN:
+        blocks[0].area.x += cell_size;
+        break;
+      case Tetro::Orientation::LEFT:
+        blocks[0].area.y += cell_size;
+        break;
+    }
   }
 }
 
