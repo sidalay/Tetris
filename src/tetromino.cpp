@@ -37,20 +37,28 @@ void Tetromino::Draw()
 
 void Tetromino::Move(Tetro::Movement direction)
 {
+  float cell_size{Window::height * Window::cell_size_percentage};
   switch (direction)
   {
     case Tetro::Movement::DOWN:
-      blocks[0].area.y += blocks[0].area.height;
+      blocks[0].area.y += cell_size;
       break;
     case Tetro::Movement::LEFT:
-      blocks[0].area.x -= blocks[0].area.width;
+      blocks[0].area.x -= cell_size;
       break;
     case Tetro::Movement::RIGHT:
-      blocks[0].area.x += blocks[0].area.width;
+      blocks[0].area.x += cell_size;
       break;
     default:
       break;
   }
+}
+
+void Tetromino::Move(Tetro::Wallkick kick) 
+{
+  float cell_size{Window::height * Window::cell_size_percentage};
+  blocks[0].area.x += cell_size * kick.col;
+  blocks[0].area.y -= cell_size * kick.row;
 }
 
 void Tetromino::RotateCW()
@@ -91,14 +99,61 @@ void Tetromino::RotateCCW()
   }
 }
 
-void Tetromino::WallKickCW(const Tetro::Wallkick)
+void Tetromino::WallKickCW(const Tetro::Wallkick kick)
 {
-
+  if (kick.col == 0 && kick.row == 0) {
+    return;
+  }
+  RotateCW();
+  Move(kick);
 }
 
-void Tetromino::WallKickCCW(const Tetro::Wallkick)
+void Tetromino::WallKickCCW(const Tetro::Wallkick kick)
 {
-  
+  if (kick.col == 0 && kick.row == 0) {
+    return;
+  }
+  RotateCCW();
+  Move(kick);
+}
+
+void Tetromino::RotateWallKick(const Tetro::Rotation r)
+{
+  if (r == Tetro::Rotation::CW) {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        facing = Tetro::Orientation::RIGHT;
+        break;
+      case Tetro::Orientation::DOWN:
+        facing = Tetro::Orientation::LEFT;
+        break;
+      case Tetro::Orientation::LEFT:
+        facing = Tetro::Orientation::UP;
+        break;
+      case Tetro::Orientation::RIGHT:
+        facing = Tetro::Orientation::DOWN;
+        break;
+    }
+  } else {
+    switch (facing)
+    {
+      case Tetro::Orientation::UP:
+        facing = Tetro::Orientation::LEFT;
+        break;
+      case Tetro::Orientation::DOWN:
+        facing = Tetro::Orientation::RIGHT;
+        break;
+      case Tetro::Orientation::LEFT:
+        facing = Tetro::Orientation::DOWN;
+        break;
+      case Tetro::Orientation::RIGHT:
+        facing = Tetro::Orientation::UP;
+        break;
+    }
+  }
+  UpdateFollowerPos();
+  UpdateRowCol();
 }
 
 void Tetromino::Fall()

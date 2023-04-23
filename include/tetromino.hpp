@@ -21,7 +21,12 @@ enum class Orientation
 
 enum class Movement
 {
-  UP, DOWN, LEFT, RIGHT
+  DOWN, LEFT, RIGHT
+};
+
+enum class Rotation
+{
+  CW, CCW
 };
 
 struct Block
@@ -34,8 +39,8 @@ struct Block
 
 struct Wallkick
 {
-  int x{};
-  int y{};
+  int col{};
+  int row{};
 };
   
 }
@@ -53,7 +58,9 @@ public:
   void RotateCCW();
   void WallKickCW(const Tetro::Wallkick);
   void WallKickCCW(const Tetro::Wallkick);
+  void RotateWallKick(const Tetro::Rotation);
   Tetro::Shape GetType() const {return type;}
+  Tetro::Orientation GetOrientation() const {return facing;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
 
 private:
@@ -75,6 +82,7 @@ private:
   void UpdateBlockSize();
   void UpdateOriginScale();
   void UpdateRowCol();
+  void Move(Tetro::Wallkick);
 };
 
 #endif // TETROMINO_HPP
