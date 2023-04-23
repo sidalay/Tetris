@@ -69,6 +69,11 @@ bool Enforcer::WallkickIsSafe(
 
   for (auto& block : blocks) {
     std::pair key{block.screen_row - kick.row, block.screen_col + kick.col};
+    if (key.first < 0) {
+      key.first = 0;
+    } else if (key.first > 10) {
+      key.first = 10;
+    }
     bool occupied{map.at(key)};
     if (occupied) {
       return false;
@@ -89,32 +94,28 @@ Tetro::Wallkick Enforcer::WallKickEval(
     {
       case Tetro::Orientation::UP:
         if (rotation == Tetro::Rotation::CW) {        // 0>>1
-
+          return WallKickTest(t, p, {-2,0, 1,0, -2,-1, 1,2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
-
+          return WallKickTest(t, p, {-1,0, 2,0, -1,2, 2,-1});
         }
-        break;
       case Tetro::Orientation::RIGHT:
-        if (rotation == Tetro::Rotation::CW) {        // 0>>1
-
-        } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
-
+        if (rotation == Tetro::Rotation::CW) {        // 1>>2
+          return WallKickTest(t, p, {-1,0, 2,0, -1,2, 2,-1});
+        } else if (rotation == Tetro::Rotation::CCW) {  // 1>>0
+          return WallKickTest(t, p, {2,0, -1,0, 2,1, -1,-2});
         }
-        break;
       case Tetro::Orientation::DOWN:
-        if (rotation == Tetro::Rotation::CW) {        // 0>>1
-
-        } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
-
+        if (rotation == Tetro::Rotation::CW) {        // 2>>3
+          return WallKickTest(t, p, {2,0, -1,0, 2,1, -1,-2});
+        } else if (rotation == Tetro::Rotation::CCW) {  // 2>>1
+          return WallKickTest(t, p, {1,0, -2,0, 1,-2, -2,1});
         }
-        break;
       case Tetro::Orientation::LEFT:
-        if (rotation == Tetro::Rotation::CW) {        // 0>>1
-
-        } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
-
+        if (rotation == Tetro::Rotation::CW) {        // 3>>0
+          return WallKickTest(t, p, {1,0, -2,0, 1,-2, -2,1});
+        } else if (rotation == Tetro::Rotation::CCW) {  // 3>>2
+          return WallKickTest(t, p, {-2,0, 1,0, -2,-1, 1,2});
         }
-        break;
     }
   } else {
     switch (t.GetOrientation()) 
