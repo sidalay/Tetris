@@ -69,9 +69,9 @@ bool Enforcer::WallkickIsSafe(
 
   for (auto& block : blocks) {
     std::pair key{block.screen_row - kick.row, block.screen_col + kick.col};
-    if (key.first < 0) {
+    if (key.second < 0) {
       key.first = 0;
-    } else if (key.first > 10) {
+    } else if (key.second > 10) {
       key.first = 10;
     }
     bool occupied{map.at(key)};
@@ -93,24 +93,28 @@ Tetro::Wallkick Enforcer::WallKickEval(
     switch (t.GetOrientation())
     {
       case Tetro::Orientation::UP:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 0>>1
           return WallKickTest(t, p, {-2,0, 1,0, -2,-1, 1,2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
           return WallKickTest(t, p, {-1,0, 2,0, -1,2, 2,-1});
         }
       case Tetro::Orientation::RIGHT:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 1>>2
           return WallKickTest(t, p, {-1,0, 2,0, -1,2, 2,-1});
         } else if (rotation == Tetro::Rotation::CCW) {  // 1>>0
           return WallKickTest(t, p, {2,0, -1,0, 2,1, -1,-2});
         }
       case Tetro::Orientation::DOWN:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 2>>3
           return WallKickTest(t, p, {2,0, -1,0, 2,1, -1,-2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 2>>1
           return WallKickTest(t, p, {1,0, -2,0, 1,-2, -2,1});
         }
       case Tetro::Orientation::LEFT:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 3>>0
           return WallKickTest(t, p, {1,0, -2,0, 1,-2, -2,1});
         } else if (rotation == Tetro::Rotation::CCW) {  // 3>>2
@@ -121,38 +125,35 @@ Tetro::Wallkick Enforcer::WallKickEval(
     switch (t.GetOrientation()) 
     {
       case Tetro::Orientation::UP:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 0>>1
-          t.RotateWallKick(rotation);
           return WallKickTest(t, p, {-1,0, -1,1, 0,-2, -1,-2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 0>>3
-          t.RotateWallKick(rotation);
           return WallKickTest(t, p, {1,0, 1,1, 0,-2, 1,-2});
         }
       case Tetro::Orientation::RIGHT:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 1>>2
-          t.RotateWallKick(rotation);
+          return WallKickTest(t, p, {1,0, 1,-1, 0,2, 1,2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 1>>0
-          t.RotateWallKick(rotation);
+          return WallKickTest(t, p, {1,0, 1,-1, 0,2, 1,2});
         }
-        return WallKickTest(t, p, {1,0, 1,-1, 0,2, 1,2});
       case Tetro::Orientation::DOWN:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 2>>3
-          t.RotateWallKick(rotation);
           return WallKickTest(t, p, {1,0, 1,1, 0,-2, 1,-2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 2>>1
-          t.RotateWallKick(rotation);
           return WallKickTest(t, p, {-1,0, -1,1, 0,-2, -1,-2});
         }
       case Tetro::Orientation::LEFT:
+        t.RotateWallKick(rotation);
         if (rotation == Tetro::Rotation::CW) {        // 3>>0
-          t.RotateWallKick(rotation);
+          return WallKickTest(t, p, {-1,0, -1,-1, 0,2, -1,2});
         } else if (rotation == Tetro::Rotation::CCW) {  // 3>>2
-          t.RotateWallKick(rotation);
+          return WallKickTest(t, p, {-1,0, -1,-1, 0,2, -1,2});
         }
-        return WallKickTest(t, p, {-1,0, -1,-1, 0,2, -1,2});
     }
   }
-
   return Tetro::Wallkick{0,0};
 }
 
