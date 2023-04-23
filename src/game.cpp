@@ -41,13 +41,13 @@ void Game::Tick(Properties& game)
   }
 
   //  ------------------------------------- test
-  game.tetro_deltatime += GetFrameTime();
-  if (game.tetro_deltatime >= game.tetro_updatetime) {
-    if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
-      game.tetro_test.Fall();
-    }
-    game.tetro_deltatime = 0.f;
-  }
+  // game.tetro_deltatime += GetFrameTime();
+  // if (game.tetro_deltatime >= game.tetro_updatetime) {
+  //   if (Enforcer::MovementIsSafe(game.tetro_test, game.matrix, Tetro::Movement::DOWN)) {
+  //     game.tetro_test.Fall();
+  //   }
+  //   game.tetro_deltatime = 0.f;
+  // }
 
   if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
     if (Enforcer::RotationIsSafe(game.tetro_test, game.matrix, Tetro::Rotation::CW)) {
