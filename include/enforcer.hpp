@@ -6,29 +6,26 @@
 
 namespace Enforcer
 {
-  bool IsSafe(
-    const Tetromino,
-    const Playfield&);
-  bool IsSafe(
+  bool MovementIsSafe(
     const Tetromino, 
     const Playfield&, 
     const Tetro::Movement);
-  bool IsSafe(
+  bool RotationIsSafe(
+    Tetromino, 
+    const Playfield&, 
+    const Tetro::Rotation);
+  bool WallkickIsSafe(
     const Tetromino, 
     const Playfield&, 
     const Tetro::Wallkick);
   Tetro::Wallkick WallKickEval(
     Tetromino, 
     const Playfield&, 
-    const Tetro::Orientation, 
-    const Tetro::Orientation);
+    const Tetro::Rotation);
   Tetro::Wallkick WallKickTest(
-    Tetromino&,
+    Tetromino,
     const Playfield&,
-    const Tetro::Wallkick,
-    const Tetro::Wallkick,
-    const Tetro::Wallkick,
-    const Tetro::Wallkick);
+    const std::array<Tetro::Wallkick,4>&&);
 };
 
 #endif // ENFORCER_HPP
