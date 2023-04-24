@@ -2,9 +2,7 @@
 
 Bag::Bag() 
 {
-  for (int i{}; i < 2; ++i) {
-    Fill();
-  }
+  Fill();
 }
 
 void Bag::Tick()
