@@ -14,9 +14,9 @@ namespace Game
   struct Properties
   {
     float     deltatime{};
-    float     updatetime{1.f/144.f};
+    float     updatetime{1.f/60.f};
     float     lockdown{};
-    int       fps{144};
+    int       fps{60};
     Playfield matrix{};
 
     // test
