@@ -1,17 +1,19 @@
 #include "randomizer.hpp"
 
+#include <array>
+
 std::vector<int> Randomizer::operator()()
 {
   std::vector<int> rolled{};
-  std::vector<double> ws{1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0};
-  for (double i{7.0}; i > 0.0; --i) {
-    for (auto& w : ws) {
-      w = 1.0/i;
+  std::array<double, 7> probabilities{};
+  for (double total{7.0}; total > 0.0; --total) {
+    for (auto& chance : probabilities) {
+      chance = 1.0/total;
     }
     for (auto& roll : rolled) {
-      ws.at(roll) = 0.0;
+      probabilities.at(roll) = 0.0;
     }
-    std::discrete_distribution<int> dist(std::begin(ws), std::end(ws));
+    std::discrete_distribution<int> dist(std::begin(probabilities), std::end(probabilities));
     rolled.push_back(dist(RandomEngine));
   }
   return rolled;
