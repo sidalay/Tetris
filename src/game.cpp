@@ -35,54 +35,25 @@ void Game::Tick(Properties& game)
     Window::Tick();
     game.matrix.Tick();
     //  ------------------------------------- test
-    game.tetro_current.Tick();
-    game.bag.Tick();
+    // game.tetro_current.Tick();
+    // game.bag.Tick();
+    game.controller.Tick();
     //  ------------------------------------- test
     game.deltatime = 0.f;
   }
 
   //  ------------------------------------- test
-  game.tetro_deltatime += GetFrameTime();
-  if (game.tetro_deltatime >= game.tetro_updatetime) {
-    if (Enforcer::MovementIsSafe(game.tetro_current, game.matrix, Tetro::Movement::DOWN)) {
-      game.tetro_current.Fall();
-    }
-    game.tetro_deltatime = 0.f;
-  }
+  // game.tetro_deltatime += GetFrameTime();
+  // if (game.tetro_deltatime >= game.tetro_updatetime) {
+  //   if (Enforcer::MovementIsSafe(game.tetro_current, game.matrix, Tetro::Movement::DOWN)) {
+  //     game.tetro_current.Fall();
+  //   }
+  //   game.tetro_deltatime = 0.f;
+  // }
 
-  if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_UP)) {
-    if (Enforcer::RotationIsSafe(game.tetro_current, game.matrix, Tetro::Rotation::CW)) {
-      game.tetro_current.Rotate(Tetro::Rotation::CW);
-    } else {
-      // WallkickCW goes here
-      game.tetro_current.WallKick(Enforcer::WallKickEval(game.tetro_current, game.matrix, Tetro::Rotation::CW), Tetro::Rotation::CW);
-    }
-  } else if (IsKeyPressed(KEY_A)) {
-    if (Enforcer::RotationIsSafe(game.tetro_current, game.matrix, Tetro::Rotation::CCW)) {
-      game.tetro_current.Rotate(Tetro::Rotation::CCW);
-    } else {
-      // WallkickCCW goes here
-      game.tetro_current.WallKick(Enforcer::WallKickEval(game.tetro_current, game.matrix, Tetro::Rotation::CCW), Tetro::Rotation::CCW);
-    }
-  }
-
-  if (IsKeyPressed(KEY_LEFT)) {
-    if (Enforcer::MovementIsSafe(game.tetro_current, game.matrix, Tetro::Movement::LEFT)) {
-      game.tetro_current.Move(Tetro::Movement::LEFT);
-    }
-  } else if (IsKeyPressed(KEY_RIGHT)) {
-    if (Enforcer::MovementIsSafe(game.tetro_current, game.matrix, Tetro::Movement::RIGHT)) {
-      game.tetro_current.Move(Tetro::Movement::RIGHT);
-    }
-  } else if (IsKeyPressed(KEY_DOWN)) {
-    if (Enforcer::MovementIsSafe(game.tetro_current, game.matrix, Tetro::Movement::DOWN)) {
-      game.tetro_current.Move(Tetro::Movement::DOWN);
-    }
-  }
-
-  if (IsKeyPressed(KEY_P)) {
-    game.tetro_current = game.bag.Pull();
-  }
+  // if (IsKeyPressed(KEY_P)) {
+  //   game.tetro_current = game.bag.Pull();
+  // }
   //  ------------------------------------- test
 
   BeginDrawing();
@@ -91,7 +62,7 @@ void Game::Tick(Properties& game)
   game.matrix.Draw();
 
   //  ------------------------------------- test
-  game.tetro_current.Draw();
+  // game.tetro_current.Draw();
   //  ------------------------------------- test
   
   EndDrawing();

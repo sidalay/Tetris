@@ -1,8 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "bag.hpp"
-#include "matrix.hpp"
+#include "controller.hpp"
 
 namespace Game
 {
@@ -22,6 +21,7 @@ namespace Game
     // test
     float tetro_deltatime{};
     float tetro_updatetime{1.f};
+    Controller controller{matrix};
     Bag bag{};
     Tetromino tetro_current{bag.Pull()};
   };
