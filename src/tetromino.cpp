@@ -202,7 +202,7 @@ void Tetromino::InitBlockColor()
   for (auto& block : blocks) {
     block.color = this->color;
   }
-  blocks[0].color = RAYWHITE;
+  // blocks[0].color = RAYWHITE;
 }
 
 void Tetromino::InitBlockOrigin()
