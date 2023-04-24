@@ -13,7 +13,7 @@ bool Enforcer::MovementIsSafe(
 
   if (direction == Tetro::Movement::LEFT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col - 1};
+      std::pair key{block.screen_row, block.screen_col}; // offset for 12 cells wide playfield
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
@@ -21,7 +21,7 @@ bool Enforcer::MovementIsSafe(
     }
   } else if (direction == Tetro::Movement::RIGHT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col + 1};
+      std::pair key{block.screen_row, block.screen_col + 2}; // offset for 12 cells wide playfield
       bool occupied{map.at(key)};
       if (occupied) {
         return false;

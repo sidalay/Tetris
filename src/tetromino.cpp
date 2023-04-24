@@ -327,9 +327,8 @@ void Tetromino::UpdateRowCol()
 
   for (auto& block : blocks) {
     block.screen_row = block.area.y / static_cast<int>(cell_size);
-    block.screen_col = (static_cast<int>(block.area.x - borderX) / static_cast<int>(cell_size)) + 1;
+    block.screen_col = (static_cast<int>(block.area.x - borderX) / static_cast<int>(cell_size));
   }
-
 }
 
 void Tetromino::UpdateFollowerPos()
