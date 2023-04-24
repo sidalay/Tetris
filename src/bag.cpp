@@ -7,6 +7,13 @@ Bag::Bag()
   }
 }
 
+void Bag::Tick()
+{
+  for (auto& tetromino : bag) {
+    tetromino.Tick();
+  }
+}
+
 void Bag::Fill()
 {
   std::vector<int> shapes{randomizer()};

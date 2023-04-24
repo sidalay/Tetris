@@ -9,6 +9,7 @@ struct Bag
 public:
   Bag();
 
+  void Tick();
   Tetromino Pull();
   const std::vector<Tetromino>& View() const {return bag;}
 
