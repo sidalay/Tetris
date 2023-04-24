@@ -29,7 +29,7 @@ bool Enforcer::MovementIsSafe(
     }
   } else {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row + 1, block.screen_col};
+      std::pair key{block.screen_row + 1, block.screen_col + 1};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
@@ -49,7 +49,7 @@ bool Enforcer::RotationIsSafe(
 
   t.RotateWallKick(rotation);
   for (auto& block : t.GetBlocks()) {
-    std::pair key{block.screen_row, block.screen_col};
+    std::pair key{block.screen_row, block.screen_col + 1};
     bool occupied{map.at(key)};
     if (occupied) {
       return false;
@@ -68,7 +68,7 @@ bool Enforcer::WallkickIsSafe(
   const auto map{p.GetMatrixMap()};
 
   for (auto& block : blocks) {
-    std::pair key{block.screen_row - kick.row, block.screen_col + kick.col};
+    std::pair key{block.screen_row - kick.row, (block.screen_col + 1) + kick.col};
     if (key.second < 0) {
       key.first = 0;
     } else if (key.second > 10) {
