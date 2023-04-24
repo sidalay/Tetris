@@ -36,6 +36,7 @@ public:
 
   void Tick();
   void Draw();
+  [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
   [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
 
@@ -44,7 +45,7 @@ private:
   std::vector<Tetro::Block>         blocks{};
   std::map<std::pair<int,int>,bool> matrix_map{};
   Bag                               bag{};
-  Tetromino                         currentpiece{bag.Pull()};
+  Tetromino                         tetromino{bag.Pull()};
   Lock                              lock{};
 
   void DrawFrames();
