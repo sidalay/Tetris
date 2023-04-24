@@ -34,6 +34,7 @@ void Playfield::Tick()
     UpdateFrames();
     UpdateMatrices();
   }
+  bag.Tick();
 }
 
 void Playfield::Draw()

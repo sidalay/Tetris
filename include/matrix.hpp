@@ -2,6 +2,7 @@
 #define MATRIX_HPP
 
 #include "tetromino.hpp"
+#include "bag.hpp"
 
 #include <vector>
 #include <map>
@@ -21,6 +22,13 @@ struct Frame
   // Todo: Texture member
 };
 
+struct Lock
+{
+  float time{};
+  float delay{0.5f};
+  bool  active{};
+};
+
 struct Playfield
 {
 public: 
@@ -32,8 +40,12 @@ public:
   [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
 
 private:
-  std::vector<Frame> frames{};
+  std::vector<Frame>                frames{};
+  std::vector<Tetro::Block>         blocks{};
   std::map<std::pair<int,int>,bool> matrix_map{};
+  Bag                               bag{};
+  Tetromino                         currentpiece{bag.Pull()};
+  Lock                              lock{};
 
   void DrawFrames();
   void DrawMatrices();
