@@ -4,25 +4,19 @@
 #include "randomizer.hpp"
 #include "tetromino.hpp"
 
-#include <vector>
-
 struct Bag
 {
 public:
   Bag();
 
-  // Retrieve a piece
-  void Pull();
-  // View current Bag
+  Tetromino Pull();
+  const std::vector<Tetromino>& View() const {return bag;}
 
-  // Fill the bag
-  void Fill();
 private:
   std::vector<Tetromino> bag{};
   Randomizer             randomizer{};
   
-  // Check capacity
-  bool IsEmpty() const {return bag.empty();}
+  void Fill();
 };
 
 #endif // BAG_HPP

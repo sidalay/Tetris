@@ -2,29 +2,26 @@
 
 Bag::Bag() 
 {
-  Fill();
+  for (int i{}; i < 2; ++i) {
+    Fill();
+  }
 }
 
 void Bag::Fill()
 {
-  std::vector<double> rolled{};
-  std::vector<double> ws{1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0};
-  for (double i{7.0}; i > 0.0; --i) {
-    for (auto& w : ws) {
-      w = 1.0/i;
-    }
-    for (auto& roll : rolled) {
-      ws.at(roll) = 0.0;
-    }
-    std::discrete_distribution<int> d(std::begin(ws), std::end(ws));
-    int shape{d(randomizer.GetEngine())};
-    rolled.push_back(shape);
+  std::vector<int> shapes{randomizer()};
+  for (auto& shape : shapes) {
     bag.emplace_back(Tetromino{Tetro::Shape{shape}});
   }
 }
 
-void Bag::Pull()
+Tetromino Bag::Pull()
 {
-
+  Tetromino piece{bag.front()};
+  bag.erase(bag.begin());
+  if (bag.size() < 8) {
+    Fill();
+  }
+  return piece;
 }
 
