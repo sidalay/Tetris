@@ -50,9 +50,20 @@ void Playfield::Draw()
 
 void Playfield::DrawFrames()
 {
-  DrawRectangleLinesEx(frames.at(0).area, 1.f, frame_color);
-  DrawRectangleLinesEx(frames.at(1).area, 1.f, frame_color);
-  DrawRectangleLinesEx(frames.at(2).area, 1.f, frame_color);
+  float offset{5.f};
+  for (auto& frame : frames) {
+    Rectangle area{
+      frame.area.x - offset, 
+      frame.area.y - offset, 
+      frame.area.width + (offset * 2.f), 
+      frame.area.height + (offset * 2.f)
+    };
+    DrawRectangleLinesEx(area, 3.f, RAYWHITE);
+  }
+  DrawLineEx(
+    {frames[0].area.x - offset, frames[0].area.y - offset}, 
+    {frames[0].area.x + frames[0].area.width + offset, frames[0].area.y - offset}, 
+    7.f, BLACK);
 }
 
 void Playfield::DrawMatrices()
@@ -67,7 +78,9 @@ void Playfield::DrawMatrices()
           cell.area.height, 
           cell.color);
         if (cell.color != cell_color_clear) {
-          DrawRectangleLinesEx(cell.area, 2.f, cell_color_lines); 
+          float offset{0.5f};
+          Rectangle area{cell.area.x, cell.area.y, cell.area.width - offset, cell.area.height - offset};
+          DrawRectangleLinesEx(area, 2.f, cell_color_lines); 
         }
       }
     }
