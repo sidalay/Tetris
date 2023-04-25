@@ -42,14 +42,22 @@ void Controller::SoftDrop()
 
 void Controller::HardDrop()
 {
-
+  Tetromino& tetro{matrix.GetCurrentTetro()};
+  while (Enforcer::MovementIsSafe(tetro, matrix, Tetro::Movement::DOWN)) {
+    tetro.Move(Tetro::Movement::DOWN);
+  }
+  matrix.SetLocked(true);
 }
 
 void Controller::SideStep(Tetro::Movement movement)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix, movement)) {
-    tetro.Move(movement);
+    deltatime += GetFrameTime();
+    if (deltatime >= 1.f/20.f) {
+      tetro.Move(movement);
+      deltatime = 0.f;
+    }
   }
 }
 
@@ -61,9 +69,9 @@ void Controller::CheckInput()
     HardDrop();
   } 
   
-  if (IsKeyPressed(KEY_LEFT)) {
+  if (IsKeyDown(KEY_LEFT)) {
     SideStep(Tetro::Movement::LEFT);
-  } else if (IsKeyPressed(KEY_RIGHT)) {
+  } else if (IsKeyDown(KEY_RIGHT)) {
     SideStep(Tetro::Movement::RIGHT);
   } 
   
