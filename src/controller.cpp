@@ -12,6 +12,11 @@ void Controller::Tick()
   CheckInput();
 }
 
+void Controller::Hold()
+{
+  
+}
+
 void Controller::Spin(Tetro::Rotation rotation)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};

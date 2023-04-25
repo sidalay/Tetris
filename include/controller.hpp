@@ -11,6 +11,7 @@ struct Controller
 private:
   Playfield& matrix;
 
+  void Hold();
   void Spin(Tetro::Rotation);
   void SoftDrop();
   void HardDrop();
