@@ -13,7 +13,7 @@ bool Enforcer::MovementIsSafe(
 
   // account for offset of invisble columns when we create keys
   if (direction == Tetro::Movement::LEFT) {
-    for (auto& block : blocks) {
+    for (const auto& block : blocks) {
       std::pair key{block.screen_row, block.screen_col};
       bool occupied{map.at(key)};
       if (occupied) {
@@ -21,7 +21,7 @@ bool Enforcer::MovementIsSafe(
       }
     }
   } else if (direction == Tetro::Movement::RIGHT) {
-    for (auto& block : blocks) {
+    for (const auto& block : blocks) {
       std::pair key{block.screen_row, block.screen_col + 2};
       bool occupied{map.at(key)};
       if (occupied) {
@@ -29,7 +29,7 @@ bool Enforcer::MovementIsSafe(
       }
     }
   } else {
-    for (auto& block : blocks) {
+    for (const auto& block : blocks) {
       std::pair key{block.screen_row + 1, block.screen_col + 1};
       bool occupied{map.at(key)};
       if (occupied) {
@@ -49,7 +49,7 @@ bool Enforcer::RotationIsSafe(
   const auto map{p.GetMatrixMap()};
 
   t.RotateWallKick(rotation);
-  for (auto& block : t.GetBlocks()) {
+  for (const auto& block : t.GetBlocks()) {
     std::pair key{block.screen_row, block.screen_col + 1};
     bool occupied{map.at(key)};
     if (occupied) {
@@ -68,7 +68,7 @@ bool Enforcer::WallkickIsSafe(
   const auto blocks{t.GetBlocks()};
   const auto map{p.GetMatrixMap()};
 
-  for (auto& block : blocks) {
+  for (const auto& block : blocks) {
     std::pair key{block.screen_row - kick.row, (block.screen_col + 1) + kick.col};
     if (key.second < 0) {
       key.first = 0;
@@ -163,7 +163,7 @@ Tetro::Wallkick Enforcer::WallKickTest(
   const Playfield& p,
   const std::array<Tetro::Wallkick,4>&& tests)
 {
-  for (auto& kick : tests) {
+  for (const auto& kick : tests) {
     if (WallkickIsSafe(t, p, kick)) {
       return kick;
     }
