@@ -36,9 +36,10 @@ private:
   std::vector<Frame>                        frames{};
   std::map<std::pair<int,int>,Tetro::Block> blocks{};
   std::map<std::pair<int,int>,bool>         matrix_map{};
+  Tetro::Lock                               lock{};
   Bag                                       bag{};
-  Tetromino                                 tetromino{bag.Pull()};
-  // Tetromino                                 hold;
+  Tetromino                                 tetromino;
+  // Tetromino                                hold;
   float                                     gravitytime{};
 
   void DrawFrames();
@@ -56,6 +57,13 @@ private:
   void UpdateTetromino();
   void DrawBag();
   void UpdateBag();
+  void CheckLock();
+  void DrawBlocks();
+  void CaptureBlocks();
+  void UpdateBlocks();
+  void OccupyMatrix(const Tetro::Block&);
+  void ResetLock();
+  void UpdateLock();
 
   // --------------- test
   void BagPull();

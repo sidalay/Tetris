@@ -22,6 +22,7 @@ bool operator==(const Color& lhs, const Color& rhs)
 } 
 
 Playfield::Playfield()
+  : tetromino{bag.Pull()}
 {
   InitializeFrames();
   InitializeMatrices();
@@ -33,11 +34,12 @@ void Playfield::Tick()
   if (IsWindowResized()) {
     UpdateFrames();
     UpdateMatrices();
+    UpdateBlocks();
   }
   UpdateBag();
   UpdateTetromino();
   Gravity();
-  BagPull();
+  UpdateLock();
 }
 
 void Playfield::Draw()
@@ -46,6 +48,7 @@ void Playfield::Draw()
   DrawFrames();
   DrawTetromino();
   DrawBag();
+  DrawBlocks();
 }
 
 void Playfield::DrawFrames()
@@ -155,7 +158,7 @@ void Playfield::InitializeFrames()
         Window::height * Window::h_margin,
         Window::height * Window::well_width,
         Window::height * Window::well_height},
-        Vector2{12,24}
+        Vector2{14,26}
   });
 
   frames.emplace_back(
@@ -165,7 +168,7 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 5.f},
-        Vector2{7,8} // (first,last) column and top three rows are invisible
+        Vector2{9,8} // (first,last) column and top three rows are invisible
   });
 
   frames.emplace_back(
@@ -175,7 +178,7 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 16.f},
-        Vector2{7,19} // (first,last) column and top three rows are invisible
+        Vector2{9,19} // (first,last) column and top three rows are invisible
   });
 
   for (auto& row : frames) {
@@ -195,14 +198,14 @@ void Playfield::InitializeMatrices()
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
         if (y >= 0 && y <= 2) { // rows 1-3
-          if (x == 0 || x == frames[i].matrix[y].size() - 1) {
+          if (x < 2 || x > frames[i].matrix[y].size() - 3) {
             frames[i].matrix[y][x].occupied = true;
           }
           frames[i].matrix[y][x].color = cell_color_clear;
-        } else if (x == 0 || x == frames[i].matrix[y].size() - 1) {
+        } else if (x == 0 || x > frames[i].matrix[y].size() - 4) {
           frames[i].matrix[y][x].color = cell_color_clear;
           frames[i].matrix[y][x].occupied = true;
-        } else if (i == 0 && y == frames[i].matrix.size() - 1) { // last row
+        } else if (i == 0 && y > frames[i].matrix.size() - 4) { // last row
           frames[i].matrix[y][x].color = cell_color_clear;
           frames[i].matrix[y][x].occupied = true;
         } else if (y % 2 == 0) {
@@ -213,7 +216,10 @@ void Playfield::InitializeMatrices()
         frames[i].matrix[y][x].outline = Color{48, 48, 48, static_cast<unsigned char>(30.f*alpha)};
         InitCells(frames[i], y, x);
       }
-      alpha += 1.f/frames[i].grid.y;
+      alpha += 1.f/(frames[i].grid.y - 2.f);
+      if (alpha > 1.f) {
+        alpha = 1.f;
+      }
       color_one.a = static_cast<unsigned char>(255.f*alpha);
       color_two.a = static_cast<unsigned char>(255.f*alpha);
     }
@@ -250,9 +256,7 @@ void Playfield::Gravity()
   if (gravitytime >= 1.f) {
     if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
       tetromino.Fall();
-      tetromino.ResetLock();
-    } else {
-      tetromino.ActivateLock();
+      ResetLock();
     }
     gravitytime = 0.f;
   }
@@ -290,10 +294,78 @@ void Playfield::UpdateBag()
   bag.Tick();
 }
 
-// ----------------------- test
+void Playfield::ResetLock()
+{
+  lock.time = 0.f;
+  lock.active = false;
+}
+
+void Playfield::UpdateLock()
+{
+  if (!IsWindowResized()) {
+    if (!Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
+      lock.time += GetFrameTime();
+      if (lock.time >= lock.delay) {
+        lock.active = true;
+      }
+    } else {
+      ResetLock();
+    }
+  }
+  CheckLock();
+}
+
+void Playfield::CheckLock()
+{
+  if (lock.active) {
+    CaptureBlocks();
+    BagPull();
+    ResetLock();
+  }
+}
+
+void Playfield::DrawBlocks()
+{
+  if (!blocks.empty()) {
+    float offset{1.f};
+    for (auto& [key,block] : blocks) {
+      DrawRectangleRec(block.area, block.color);
+      Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
+      DrawRectangleLinesEx(area, 2.f, BLACK);
+    }
+  }
+}
+
+void Playfield::CaptureBlocks()
+{
+  auto tetro{tetromino.GetBlocks()};
+  for (auto& block : tetro) {
+    blocks.emplace(std::make_pair(block.screen_row,block.screen_col+1), block);
+    OccupyMatrix(block);
+  }
+}
+
+void Playfield::UpdateBlocks()
+{
+  float cell_size{Window::height * Window::cell_size_percentage};
+  float borderX{(Window::width - (Window::well_width * Window::height)) * .5f};
+  for (auto& [key,block] : blocks) {
+    block.area.y = cell_size * block.screen_row;
+    block.area.x = borderX + (cell_size * block.screen_col); 
+    block.area.width = cell_size;
+    block.area.height = cell_size;
+  }
+}
+
+void Playfield::OccupyMatrix(const Tetro::Block& block)
+{
+  std::pair key{block.screen_row, block.screen_col+1};
+  matrix_map.at(key) = true;
+  // Check if line is full here
+  
+}
+
 void Playfield::BagPull()
 {
-  if (IsKeyPressed(KEY_P)) {
-    tetromino = bag.Pull();
-  }
+  tetromino = bag.Pull();
 }
