@@ -54,7 +54,7 @@ void Controller::SideStep(Tetro::Movement movement)
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix, movement)) {
     deltatime += GetFrameTime();
-    if (deltatime >= 1.f/20.f) {
+    if (deltatime >= 1.f/15.f) {
       tetro.Move(movement);
       deltatime = 0.f;
     }
