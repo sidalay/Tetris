@@ -66,9 +66,6 @@ public:
   void Rotate(const Tetro::Rotation);
   void WallKick(const Tetro::Wallkick, const Tetro::Rotation);
   void RotateWallKick(const Tetro::Rotation);
-  void ActivateLock();
-  void ResetLock();
-  bool IsLocked() const {return lock.active;}
   Tetro::Shape GetType() const {return type;}
   Tetro::Orientation GetOrientation() const {return facing;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
@@ -93,7 +90,6 @@ private:
   void UpdateOriginScale();
   void UpdateRowCol();
   void WallKickMove(Tetro::Wallkick);
-  void UpdateLock();
 };
 
 #endif // TETROMINO_HPP

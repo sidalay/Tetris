@@ -23,7 +23,6 @@ void Tetromino::Tick()
     UpdateBlockSize();
     UpdateOriginScale();
   }
-  UpdateLock();
   UpdateRowCol();
   UpdateFollowerPos();
 }
@@ -64,6 +63,8 @@ void Tetromino::Move(Tetro::Movement direction)
     default:
       break;
   }
+  UpdateFollowerPos();
+  UpdateRowCol();
 }
 
 void Tetromino::WallKickMove(Tetro::Wallkick kick) 
@@ -158,27 +159,6 @@ void Tetromino::RotateWallKick(const Tetro::Rotation rotation)
   UpdateOriginPos(rotation);
   UpdateFollowerPos();
   UpdateRowCol();
-}
-
-void Tetromino::ActivateLock()
-{
-  lock.locking = true;
-}
-
-void Tetromino::ResetLock()
-{
-  lock.time = 0.f;
-  lock.locking = false;
-}
-
-void Tetromino::UpdateLock()
-{
-  if (lock.locking) {
-    lock.time += GetFrameTime();
-    if (lock.time >= lock.delay) {
-      lock.active = true;
-    }
-  }
 }
 
 void Tetromino::Fall()
