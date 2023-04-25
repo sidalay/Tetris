@@ -23,8 +23,8 @@ void Tetromino::Tick()
     UpdateBlockSize();
     UpdateOriginScale();
   }
-  UpdateRowCol();
   UpdateFollowerPos();
+  UpdateRowCol();
 }
 
 void Tetromino::Draw() const
@@ -174,6 +174,7 @@ void Tetromino::InitBlocks()
   InitBlockColor();
   InitBlockOrigin();
   SetFollowers();
+  UpdateRowCol();
 }
 
 void Tetromino::InitBlockSize()
