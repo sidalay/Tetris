@@ -29,9 +29,11 @@ void Tetromino::Tick()
 
 void Tetromino::Draw() const
 {
+  float offset{1.f};
   for (auto& block : blocks) {
     DrawRectangleRec(block.area, block.color);
-    DrawRectangleLinesEx(block.area, 2.f, BLACK);
+    Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
+    DrawRectangleLinesEx(area, 2.f, BLACK);
   }
 }
 
