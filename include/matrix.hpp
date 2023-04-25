@@ -9,6 +9,7 @@ struct Cell
 {
   Rectangle area{};
   Color     color{};
+  Color     outline{};
   bool      occupied{};
 };
 

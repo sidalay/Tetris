@@ -50,20 +50,45 @@ void Playfield::Draw()
 
 void Playfield::DrawFrames()
 {
-  float offset{5.f};
+  float offset{7.f};
   for (auto& frame : frames) {
     Rectangle area{
       frame.area.x - offset, 
       frame.area.y - offset, 
-      frame.area.width + (offset * 2.f), 
-      frame.area.height + (offset * 2.f)
+      frame.area.width + (offset + 5.f), 
+      frame.area.height + (offset + 5.f)
     };
-    DrawRectangleLinesEx(area, 3.f, RAYWHITE);
+    // DrawRectangleLinesEx(area, 3.f, RAYWHITE);
+
+    // Left line
+    DrawRectangleGradientV(
+      area.x, 
+      area.y, 
+      3, 
+      area.height, 
+      BLACK, RAYWHITE
+    );
+    // Right line
+    DrawRectangleGradientV(
+      area.x + area.width - 2.f, 
+      area.y, 
+      3, 
+      area.height, 
+      BLACK, RAYWHITE
+    );
+    // Bottom line
+    DrawLineEx(
+      {frame.area.x - offset, frame.area.y + frame.area.height + (offset * 0.5f)}, 
+      {frame.area.x + frame.area.width + offset - 2.f, frame.area.y + frame.area.height + (offset * 0.5f)}, 
+      3.f, RAYWHITE
+    );
   }
-  DrawLineEx(
-    {frames[0].area.x - offset, frames[0].area.y - offset}, 
-    {frames[0].area.x + frames[0].area.width + offset, frames[0].area.y - offset}, 
-    7.f, BLACK);
+  // // Top line
+  // DrawLineEx(
+  //   {frames[0].area.x - offset + 3.f, frames[0].area.y - offset + 1.f}, 
+  //   {frames[0].area.x + frames[0].area.width + offset - 5.f, frames[0].area.y - offset + 1.f}, 
+  //   3.f, BLACK
+  // );
 }
 
 void Playfield::DrawMatrices()
@@ -78,9 +103,9 @@ void Playfield::DrawMatrices()
           cell.area.height, 
           cell.color);
         if (cell.color != cell_color_clear) {
-          float offset{0.5f};
+          float offset{2.f};
           Rectangle area{cell.area.x, cell.area.y, cell.area.width - offset, cell.area.height - offset};
-          DrawRectangleLinesEx(area, 2.f, cell_color_lines); 
+          DrawRectangleLinesEx(area, 2.f, cell.outline); 
         }
       }
     }
@@ -164,6 +189,9 @@ void Playfield::InitializeFrames()
 void Playfield::InitializeMatrices()
 {
   for (int i{}; i < frames.size(); ++i) {
+    float alpha{1.f/frames[i].grid.y};
+    Color color_one{15,14,14,static_cast<unsigned char>(255.f*alpha)};
+    Color color_two{20,19,19,static_cast<unsigned char>(255.f*alpha)};
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
         if (y >= 0 && y <= 2) { // rows 1-3
@@ -178,12 +206,16 @@ void Playfield::InitializeMatrices()
           frames[i].matrix[y][x].color = cell_color_clear;
           frames[i].matrix[y][x].occupied = true;
         } else if (y % 2 == 0) {
-          frames[i].matrix[y][x].color = x % 2 == 0 ? cell_color_one : cell_color_two;
+          frames[i].matrix[y][x].color = x % 2 == 0 ? color_one : color_two;
         } else {
-          frames[i].matrix[y][x].color = x % 2 != 0 ? cell_color_one : cell_color_two;
+          frames[i].matrix[y][x].color = x % 2 != 0 ? color_one : color_two;
         }
+        frames[i].matrix[y][x].outline = Color{48, 48, 48, static_cast<unsigned char>(30.f*alpha)};
         InitCells(frames[i], y, x);
       }
+      alpha += 1.f/frames[i].grid.y;
+      color_one.a = static_cast<unsigned char>(255.f*alpha);
+      color_two.a = static_cast<unsigned char>(255.f*alpha);
     }
   }
 }
