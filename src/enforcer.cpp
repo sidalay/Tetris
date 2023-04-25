@@ -11,9 +11,10 @@ bool Enforcer::MovementIsSafe(
   const auto blocks{t.GetBlocks()};
   const auto map{p.GetMatrixMap()};
 
+  // account for offset of invisble columns when we create keys
   if (direction == Tetro::Movement::LEFT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col}; // offset for 12 cells wide playfield
+      std::pair key{block.screen_row, block.screen_col};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
@@ -21,7 +22,7 @@ bool Enforcer::MovementIsSafe(
     }
   } else if (direction == Tetro::Movement::RIGHT) {
     for (auto& block : blocks) {
-      std::pair key{block.screen_row, block.screen_col + 2}; // offset for 12 cells wide playfield
+      std::pair key{block.screen_row, block.screen_col + 2};
       bool occupied{map.at(key)};
       if (occupied) {
         return false;
