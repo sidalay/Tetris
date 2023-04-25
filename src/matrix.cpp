@@ -49,6 +49,7 @@ void Playfield::Draw()
   DrawTetromino();
   DrawBag();
   DrawBlocks();
+  DrawGhost();
 }
 
 void Playfield::DrawFrames()
@@ -198,7 +199,7 @@ void Playfield::InitializeMatrices()
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
         if (y >= 0 && y <= 2) { // rows 1-3
-          if (x < 2 || x > frames[i].matrix[y].size() - 3) {
+          if (x == 0 || x > frames[i].matrix[y].size() - 4) {
             frames[i].matrix[y][x].occupied = true;
           }
           frames[i].matrix[y][x].color = cell_color_clear;
@@ -335,6 +336,21 @@ void Playfield::DrawBlocks()
       Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
       DrawRectangleLinesEx(area, 2.f, BLACK);
     }
+  }
+}
+
+void Playfield::DrawGhost()
+{
+  float offset{6.f};
+  auto  tetro{tetromino.GetBlocks()};
+  float cell_size{Window::height * Window::cell_size_percentage};
+
+  for (auto& block : tetro) {
+    Rectangle area{block.area.x, block.area.y + (cell_size * (offset - 1.f)), block.area.width, block.area.height};
+    if (block.area.y > 25) {
+      block.area.y = 25;
+    }
+    DrawRectangleLinesEx(area, 2.f, Color{ 245, 245, 245, 200 });
   }
 }
 

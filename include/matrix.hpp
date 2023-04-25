@@ -28,6 +28,7 @@ public:
 
   void Tick();
   void Draw();
+  void SetLocked(bool active) {lock.active = active;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
   [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
@@ -59,6 +60,7 @@ private:
   void UpdateBag();
   void CheckLock();
   void DrawBlocks();
+  void DrawGhost();
   void CaptureBlocks();
   void UpdateBlocks();
   void OccupyMatrix(const Tetro::Block&);
