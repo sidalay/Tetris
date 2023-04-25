@@ -46,6 +46,7 @@ private:
   Tetromino                         tetromino{bag.Pull()};
   // Tetromino                         hold;
   Lock                              lock{};
+  float                             gravitytime{};
 
   void DrawFrames();
   void DrawMatrices();
@@ -57,10 +58,14 @@ private:
   void InitMap();
   void UpdateCells(Frame&, int, int);
 
+  void Gravity();
   void DrawTetromino();
   void UpdateTetromino();
   void DrawBag();
   void UpdateBag();
+
+  // --------------- test
+  void BagPull();
 };
 
 #endif // MATRIX_HPP

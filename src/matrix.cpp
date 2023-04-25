@@ -1,5 +1,5 @@
 #include "matrix.hpp"
-
+#include "enforcer.hpp"
 #include "window.hpp"
 
 const Color frame_color{78, 78, 78, 100};
@@ -36,6 +36,8 @@ void Playfield::Tick()
   }
   UpdateBag();
   UpdateTetromino();
+  Gravity();
+  BagPull();
 }
 
 void Playfield::Draw()
@@ -197,6 +199,17 @@ void Playfield::UpdateCells(Frame& frame, int row, int col)
   InitCells(frame, row, col);
 }
 
+void Playfield::Gravity()
+{
+  gravitytime += GetFrameTime();
+  if (gravitytime >= 1.f) {
+    if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
+      tetromino.Fall();
+    }
+    gravitytime = 0.f;
+  }
+}
+
 void Playfield::DrawTetromino()
 {
   tetromino.Draw();
@@ -214,7 +227,7 @@ void Playfield::DrawBag()
   const auto& next{bag.View()};
   for (int i{}; i < 3; ++i) {
     if (next[i].GetType() == Tetro::Shape::I) {
-      next[i].Draw({area.x - (cell_size * 0.5f), area.y - cell_size});
+      next[i].Draw({area.x - (cell_size * 0.5f), area.y - cell_size * 0.5f});
     } else if (next[i].GetType() == Tetro::Shape::O) {
       next[i].Draw({area.x - (cell_size * 0.5f), area.y});
     } else {
@@ -227,4 +240,12 @@ void Playfield::DrawBag()
 void Playfield::UpdateBag()
 {
   bag.Tick();
+}
+
+// ----------------------- test
+void Playfield::BagPull()
+{
+  if (IsKeyPressed(KEY_P)) {
+    tetromino = bag.Pull();
+  }
 }
