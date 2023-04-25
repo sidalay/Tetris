@@ -27,11 +27,20 @@ void Tetromino::Tick()
   UpdateFollowerPos();
 }
 
-void Tetromino::Draw()
+void Tetromino::Draw() const
 {
   for (auto& block : blocks) {
     DrawRectangleRec(block.area, block.color);
     DrawRectangleLinesEx(block.area, 2.f, BLACK);
+  }
+}
+
+void Tetromino::Draw(Vector2 pos) const
+{
+  for (auto& block : blocks) {
+    Rectangle area{block.area.x + pos.x, block.area.y + pos.y, block.area.width, block.area.height};
+    DrawRectangleRec(area, block.color);
+    DrawRectangleLinesEx(area, 2.f, BLACK);
   }
 }
 

@@ -51,7 +51,8 @@ public:
   Tetromino(Tetro::Shape);
 
   void Tick();
-  void Draw();
+  void Draw() const;
+  void Draw(Vector2) const;
   void Fall();
   void Move(Tetro::Movement);
   void Rotate(const Tetro::Rotation);
