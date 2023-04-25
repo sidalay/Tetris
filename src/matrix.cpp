@@ -252,13 +252,15 @@ void Playfield::UpdateCells(Frame& frame, int row, int col)
 
 void Playfield::Gravity()
 {
-  gravitytime += GetFrameTime();
-  if (gravitytime >= 1.f) {
-    if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
-      tetromino.Fall();
-      ResetLock();
+  if (!IsKeyDown(KEY_DOWN)) {
+    gravitytime += GetFrameTime();
+    if (gravitytime >= 1.f) {
+      if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
+        tetromino.Fall();
+        ResetLock();
+      }
+      gravitytime = 0.f;
     }
-    gravitytime = 0.f;
   }
 }
 
@@ -362,7 +364,7 @@ void Playfield::OccupyMatrix(const Tetro::Block& block)
   std::pair key{block.screen_row, block.screen_col+1};
   matrix_map.at(key) = true;
   // Check if line is full here
-  
+
 }
 
 void Playfield::BagPull()

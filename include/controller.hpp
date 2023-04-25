@@ -10,6 +10,7 @@ struct Controller
 
 private:
   Playfield& matrix;
+  float deltatime{};
 
   void Hold();
   void Spin(Tetro::Rotation);
