@@ -21,13 +21,6 @@ struct Frame
   // Todo: Texture member
 };
 
-struct Lock
-{
-  float time{};
-  float delay{0.5f};
-  bool  active{};
-};
-
 struct Playfield
 {
 public: 
@@ -40,14 +33,13 @@ public:
   [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
 
 private:
-  std::vector<Frame>                frames{};
-  std::vector<Tetro::Block>         blocks{};
-  std::map<std::pair<int,int>,bool> matrix_map{};
-  Bag                               bag{};
-  Tetromino                         tetromino{bag.Pull()};
-  // Tetromino                         hold;
-  Lock                              lock{};
-  float                             gravitytime{};
+  std::vector<Frame>                        frames{};
+  std::map<std::pair<int,int>,Tetro::Block> blocks{};
+  std::map<std::pair<int,int>,bool>         matrix_map{};
+  Bag                                       bag{};
+  Tetromino                                 tetromino{bag.Pull()};
+  // Tetromino                                 hold;
+  float                                     gravitytime{};
 
   void DrawFrames();
   void DrawMatrices();

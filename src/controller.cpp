@@ -9,7 +9,10 @@ Controller::Controller(Playfield& playfield)
 
 void Controller::Tick()
 {
-  CheckInput();
+  Tetromino& tetro{matrix.GetCurrentTetro()};
+  if (!tetro.IsLocked()) {
+    CheckInput();
+  }
 }
 
 void Controller::Hold()
@@ -32,6 +35,9 @@ void Controller::SoftDrop()
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix, Tetro::Movement::DOWN)) {
     tetro.Move(Tetro::Movement::DOWN);
+    tetro.ResetLock();
+  } else {
+    tetro.ActivateLock();
   }
 }
 

@@ -250,6 +250,9 @@ void Playfield::Gravity()
   if (gravitytime >= 1.f) {
     if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
       tetromino.Fall();
+      tetromino.ResetLock();
+    } else {
+      tetromino.ActivateLock();
     }
     gravitytime = 0.f;
   }

@@ -42,6 +42,14 @@ struct Wallkick
   int col{};
   int row{};
 };
+
+struct Lock
+{
+  float time{};
+  float delay{1.f};
+  bool  active{};
+  bool  locking{};
+};
   
 }
 
@@ -58,6 +66,9 @@ public:
   void Rotate(const Tetro::Rotation);
   void WallKick(const Tetro::Wallkick, const Tetro::Rotation);
   void RotateWallKick(const Tetro::Rotation);
+  void ActivateLock();
+  void ResetLock();
+  bool IsLocked() const {return lock.active;}
   Tetro::Shape GetType() const {return type;}
   Tetro::Orientation GetOrientation() const {return facing;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
@@ -66,6 +77,7 @@ private:
   std::array<Tetro::Block,4> blocks{};
   Tetro::Shape               type{};
   Tetro::Orientation         facing{Tetro::Orientation::UP};
+  Tetro::Lock                lock{};
   Color                      color{};
 
 private:
@@ -81,6 +93,7 @@ private:
   void UpdateOriginScale();
   void UpdateRowCol();
   void WallKickMove(Tetro::Wallkick);
+  void UpdateLock();
 };
 
 #endif // TETROMINO_HPP
