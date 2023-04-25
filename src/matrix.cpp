@@ -34,13 +34,16 @@ void Playfield::Tick()
     UpdateFrames();
     UpdateMatrices();
   }
-  bag.Tick();
+  UpdateBag();
+  UpdateTetromino();
 }
 
 void Playfield::Draw()
 {
   DrawMatrices();
   DrawFrames();
+  DrawTetromino();
+  DrawBag();
 }
 
 void Playfield::DrawFrames()
@@ -86,7 +89,7 @@ void Playfield::UpdateFrames()
   frames.at(2).area.x = frames.at(0).area.x + cell_size * 11.f;
   frames.at(2).area.y = frames.at(0).area.y;
   frames.at(2).area.width = cell_size * 5.f;
-  frames.at(2).area.height = cell_size * 5.f;
+  frames.at(2).area.height = cell_size * 16.f;
 }
 
 void Playfield::UpdateMatrices()
@@ -131,8 +134,8 @@ void Playfield::InitializeFrames()
         frames.at(0).area.x + cell_size * 11.f,
         frames.at(0).area.y,
         cell_size * 5.f,
-        cell_size * 5.f},
-        Vector2{7,8} // (first,last) column and top three rows are invisible
+        cell_size * 16.f},
+        Vector2{7,19} // (first,last) column and top three rows are invisible
   });
 
   for (auto& row : frames) {
@@ -192,4 +195,36 @@ void Playfield::InitMap()
 void Playfield::UpdateCells(Frame& frame, int row, int col)
 {
   InitCells(frame, row, col);
+}
+
+void Playfield::DrawTetromino()
+{
+  tetromino.Draw();
+}
+
+void Playfield::UpdateTetromino()
+{
+  tetromino.Tick();
+}
+
+void Playfield::DrawBag()
+{
+  float cell_size{Window::height * Window::cell_size_percentage};
+  Vector2 area{cell_size * 9.f, cell_size * 4.f};
+  const auto& next{bag.View()};
+  for (int i{}; i < 3; ++i) {
+    if (next[i].GetType() == Tetro::Shape::I) {
+      next[i].Draw({area.x - (cell_size * 0.5f), area.y - cell_size});
+    } else if (next[i].GetType() == Tetro::Shape::O) {
+      next[i].Draw({area.x - (cell_size * 0.5f), area.y});
+    } else {
+      next[i].Draw(area);
+    }
+    area.y += cell_size * 5.f;
+  }
+}
+
+void Playfield::UpdateBag()
+{
+  bag.Tick();
 }

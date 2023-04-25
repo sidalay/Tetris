@@ -1,10 +1,8 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include "tetromino.hpp"
 #include "bag.hpp"
 
-#include <vector>
 #include <map>
 
 struct Cell
@@ -46,6 +44,7 @@ private:
   std::map<std::pair<int,int>,bool> matrix_map{};
   Bag                               bag{};
   Tetromino                         tetromino{bag.Pull()};
+  // Tetromino                         hold;
   Lock                              lock{};
 
   void DrawFrames();
@@ -57,6 +56,11 @@ private:
   void InitCells(Frame&, int, int);
   void InitMap();
   void UpdateCells(Frame&, int, int);
+
+  void DrawTetromino();
+  void UpdateTetromino();
+  void DrawBag();
+  void UpdateBag();
 };
 
 #endif // MATRIX_HPP
