@@ -2,6 +2,8 @@
 #include "enforcer.hpp"
 #include "window.hpp"
 
+#include <iostream>
+
 const Color frame_color{78, 78, 78, 100};
 const Color cell_color_one{15, 14, 14, 255};
 const Color cell_color_two{20, 19, 19, 255};
@@ -253,6 +255,13 @@ void Playfield::UpdateCells(Frame& frame, int row, int col)
   InitCells(frame, row, col);
 }
 
+void Playfield::UpdateCellState()
+{
+  for (auto& [key,block] : blocks) {
+    matrix_map.at(key) = true;
+  }
+}
+
 void Playfield::Gravity()
 {
   if (!IsKeyDown(KEY_DOWN)) {
@@ -287,6 +296,11 @@ void Playfield::DrawHold()
   } else {
     hold.Draw();
   }
+}
+
+void Playfield::BagPull()
+{
+  tetromino = bag.Pull();
 }
 
 void Playfield::DrawBag()
@@ -402,15 +416,6 @@ void Playfield::DrawGhost()
   }
 }
 
-void Playfield::CaptureBlocks()
-{
-  auto tetro{tetromino.GetBlocks()};
-  for (auto& block : tetro) {
-    blocks.emplace(std::make_pair(block.screen_row,block.screen_col+1), block);
-    OccupyMatrix(block);
-  }
-}
-
 void Playfield::UpdateBlocks()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
@@ -423,15 +428,91 @@ void Playfield::UpdateBlocks()
   }
 }
 
-void Playfield::OccupyMatrix(const Tetro::Block& block)
+void Playfield::CaptureBlocks()
 {
-  std::pair key{block.screen_row, block.screen_col+1};
-  matrix_map.at(key) = true;
-  // Check if line is full here
-
+  auto tetro{tetromino.GetBlocks()};
+  for (auto& block : tetro) {
+    // store current tetromino blocks in blocks map
+    blocks.emplace(std::make_pair(block.screen_row, block.screen_col + 1), block);
+    OccupyMatrix(block);
+  }
+  for (auto& block : tetro) {
+    CheckLine(block.screen_row);
+  }
 }
 
-void Playfield::BagPull()
+void Playfield::OccupyMatrix(const Tetro::Block& block)
 {
-  tetromino = bag.Pull();
+  std::pair key{block.screen_row, block.screen_col + 1};
+  // Set the block's cell to occupied
+  matrix_map.at(key) = true;
+}
+
+void Playfield::CheckLine(int row)
+{
+  // check if all cells in the row are occupied
+  for (int col{1}; col < 11; ++col) {
+    if (matrix_map.at({row,col}) == false) {
+      return;
+    }
+  }
+  ClearLine(row);
+}
+
+void Playfield::ClearLine(int row)
+{
+  for (int col{1}; col < 11; ++col) {
+    // remove blocks in this row
+    blocks.erase({row,col});
+    // switch all cells in this row to unoccupied
+    matrix_map.at({row,col}) = false;
+  }
+  DropLine(row);
+}
+
+void Playfield::DropLine(int clearedline)
+{
+  float cell_size{Window::height * Window::cell_size_percentage};
+  std::vector<Tetro::Block> newBlocks{};
+  
+  for (auto iter{blocks.rbegin()}; iter != blocks.rend(); ++iter) {
+    Tetro::Block& block{iter->second};
+    int row{iter->first.first};
+    int col{iter->first.second};
+    std::pair key{row, col};
+    std::pair nextRow{row + 1, col};
+
+    if (row < clearedline) {
+      std::cout << "row: " << key.first << " col: " << key.second << '\n';
+      // check if the cell in the row below is occupied
+      if (!matrix_map.at(nextRow)) {
+        // if its not move block down
+        block.area.y += cell_size;
+        block.screen_row += 1;
+        // set previous cell location to unoccupied
+        matrix_map.at(key) = false;
+      }
+    }
+    // store block into vector
+    newBlocks.emplace_back(block);
+  }
+  std::cout << '\n';
+
+  // clear the map
+  for (int row{}; row < 23; ++row) {
+    for (int col{1}; col < 11; ++col) {
+      matrix_map.at({row,col}) = false;
+    }
+  }
+
+  // clear blocks map
+  blocks.clear();
+  
+  // fill blocks map with newBlocks
+  for (auto& newBlock : newBlocks) {
+    blocks.emplace(std::make_pair(newBlock.screen_row, newBlock.screen_col + 1), newBlock);
+  }
+
+  // loop through blocks and set their cells to occupied
+  UpdateCellState();
 }

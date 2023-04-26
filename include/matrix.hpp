@@ -53,12 +53,14 @@ private:
   void InitCells(Frame&, int, int);
   void InitMap();
   void UpdateCells(Frame&, int, int);
+  void UpdateCellState();
 
   void Gravity();
   void DrawTetromino();
   void UpdateTetromino();
   void DrawHold();
   void UpdateHold();
+  void BagPull();
   void DrawBag();
   void UpdateBag();
   void CheckLock();
@@ -70,8 +72,9 @@ private:
   void ResetLock();
   void UpdateLock();
 
-  // --------------- test
-  void BagPull();
+  void CheckLine(int);
+  void ClearLine(int);
+  void DropLine(int);
 };
 
 #endif // MATRIX_HPP
