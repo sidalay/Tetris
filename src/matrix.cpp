@@ -48,7 +48,7 @@ void Playfield::Draw()
   DrawMatrices();
   DrawFrames();
   DrawBag();
-  // DrawGhost();
+  DrawGhost();
   DrawTetromino();
   DrawBlocks();
   DrawHold();
@@ -296,9 +296,9 @@ void Playfield::DrawBag()
   const auto& next{bag.View()};
   for (int i{}; i < 3; ++i) {
     if (next[i].GetType() == Tetro::Shape::I) {
-      next[i].Draw({area.x - (cell_size * 0.5f), area.y - cell_size * 0.5f});
+      next[i].Draw(Vector2{area.x - (cell_size * 0.5f), area.y - cell_size * 0.5f});
     } else if (next[i].GetType() == Tetro::Shape::O) {
-      next[i].Draw({area.x - (cell_size * 0.5f), area.y});
+      next[i].Draw(Vector2{area.x - (cell_size * 0.5f), area.y});
     } else {
       next[i].Draw(area);
     }
@@ -382,16 +382,23 @@ void Playfield::DrawBlocks()
 
 void Playfield::DrawGhost()
 {
-  float offset{6.f};
-  auto  tetro{tetromino.GetBlocks()};
-  float cell_size{Window::height * Window::cell_size_percentage};
+  if (!IsWindowResized()) {
+    float offset{};
+    auto  tetro{tetromino.GetBlocks()};
+    float cell_size{Window::height * Window::cell_size_percentage};
+    Tetromino temp{tetromino};
 
-  for (auto& block : tetro) {
-    Rectangle area{block.area.x, block.area.y + (cell_size * (offset - 1.f)), block.area.width, block.area.height};
-    if (block.area.y > 25) {
-      block.area.y = 25;
+    while (Enforcer::MovementIsSafe(temp, *this, Tetro::Movement::DOWN)) {
+      temp.Move(Tetro::Movement::DOWN);
+      ++offset;
     }
-    DrawRectangleLinesEx(area, 2.f, Color{ 245, 245, 245, 200 });
+    for (auto& block : tetro) {
+      Rectangle area{block.area.x, block.area.y + (cell_size * offset), block.area.width, block.area.height};
+      if (block.area.y > 25) {
+        block.area.y = 25;
+      }
+      DrawRectangleLinesEx(area, 2.f, Color{ 245, 245, 245, 200 });
+    }
   }
 }
 
