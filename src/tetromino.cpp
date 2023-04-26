@@ -9,7 +9,7 @@ const Color Yellow{255, 255, 0, 255}; // O
 const Color Green{0, 255, 0, 255};    // S
 const Color Purple{128, 0, 128, 255}; // T
 const Color Red{255, 0, 0, 255};      // Z
-const Color Cleared{0, 0, 0, 0};      // Line Cleared
+const Color Clear{0, 0, 0, 0};      // Line Cleared
 
 Tetromino::Tetromino(Tetro::Shape shape)
   : type{shape}
@@ -39,9 +39,21 @@ void Tetromino::Draw() const
 
 void Tetromino::Draw(Vector2 pos) const
 {
+  float offset{1.f};
   for (auto& block : blocks) {
     Rectangle area{block.area.x + pos.x, block.area.y + pos.y, block.area.width, block.area.height};
+    Rectangle area2{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
     DrawRectangleRec(area, block.color);
+    DrawRectangleLinesEx(area, 2.f, BLACK);
+  }
+}
+
+void Tetromino::Draw(Color disabled) const
+{
+  float offset{1.f};
+  for (auto& block : blocks) {
+    DrawRectangleRec(block.area, disabled);
+    Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(area, 2.f, BLACK);
   }
 }
@@ -274,6 +286,23 @@ void Tetromino::SetFollowers()
       SetShape(std::make_pair(1,0), std::make_pair(0,-1), std::make_pair(-1,-1));
       break;
   }
+}
+
+void Tetromino::SetHoldState(Vector2 holdframe)
+{
+  float cell_size{Window::height * Window::cell_size_percentage};
+  
+  if (type == Tetro::Shape::I) {
+    blocks[0].area.x = holdframe.x + (cell_size * 1.5f);
+    blocks[0].area.y = holdframe.y + (cell_size * 2.f);
+  } else if (type == Tetro::Shape::O) {
+    blocks[0].area.x = holdframe.x + (cell_size * 1.5f);
+    blocks[0].area.y = holdframe.y + (cell_size * 2.5f);
+  } else {
+    blocks[0].area.x = holdframe.x + (cell_size * 2.f);
+    blocks[0].area.y = holdframe.y + (cell_size * 2.5f);
+  }
+  facing = Tetro::Orientation::UP;
 }
 
 void Tetromino::UpdateOriginPos(const Tetro::Rotation rotation)

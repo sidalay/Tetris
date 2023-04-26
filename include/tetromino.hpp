@@ -47,8 +47,8 @@ struct Lock
 {
   float time{};
   float delay{0.80f};
+  bool  hold{};
   bool  active{};
-  bool  locking{};
 };
   
 }
@@ -56,16 +56,20 @@ struct Lock
 struct Tetromino
 {
 public:
+  Tetromino() = default;
   Tetromino(Tetro::Shape);
 
   void Tick();
   void Draw() const;
   void Draw(Vector2) const;
+  void Draw(Color) const;
   void Fall();
   void Move(Tetro::Movement);
   void Rotate(const Tetro::Rotation);
   void WallKick(const Tetro::Wallkick, const Tetro::Rotation);
   void RotateWallKick(const Tetro::Rotation);
+  void SetHoldState(Vector2);
+  Color GetColor() const {return color;}
   Tetro::Shape GetType() const {return type;}
   Tetro::Orientation GetOrientation() const {return facing;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
@@ -75,7 +79,7 @@ private:
   Tetro::Shape               type{};
   Tetro::Orientation         facing{Tetro::Orientation::UP};
   Tetro::Lock                lock{};
-  Color                      color{};
+  Color                      color{0, 0, 0, 0};
 
 private:
   void InitBlocks();

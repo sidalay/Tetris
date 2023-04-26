@@ -15,7 +15,7 @@ void Controller::Tick()
 
 void Controller::Hold()
 {
-  
+  matrix.Hold();
 }
 
 void Controller::Spin(Tetro::Rotation rotation)

@@ -37,6 +37,7 @@ void Playfield::Tick()
     UpdateBlocks();
   }
   UpdateBag();
+  UpdateHold();
   UpdateTetromino();
   Gravity();
   UpdateLock();
@@ -46,10 +47,11 @@ void Playfield::Draw()
 {
   DrawMatrices();
   DrawFrames();
-  DrawTetromino();
   DrawBag();
+  // DrawGhost();
+  DrawTetromino();
   DrawBlocks();
-  DrawGhost();
+  DrawHold();
 }
 
 void Playfield::DrawFrames()
@@ -275,6 +277,18 @@ void Playfield::UpdateTetromino()
   tetromino.Tick();
 }
 
+void Playfield::DrawHold()
+{
+  if (hold.GetColor() == Color{0,0,0,0}) {
+    return;
+  }
+  if (lock.hold) {
+    hold.Draw(GRAY);
+  } else {
+    hold.Draw();
+  }
+}
+
 void Playfield::DrawBag()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
@@ -289,6 +303,32 @@ void Playfield::DrawBag()
       next[i].Draw(area);
     }
     area.y += cell_size * 5.f;
+  }
+}
+
+void Playfield::Hold()
+{
+  if (lock.hold) {
+    return;
+  }
+
+  if (hold.GetColor() == Color{0, 0, 0, 0}) {
+    hold = tetromino;
+    BagPull();
+  } else {
+    Tetromino temp{hold};
+    hold = tetromino;
+    tetromino = Tetromino{temp.GetType()};
+  }
+  hold.SetHoldState({frames[1].area.x, frames[1].area.y});
+  lock.hold = true;
+}
+
+void Playfield::UpdateHold()
+{
+  hold.Tick();
+  if (IsWindowResized()) {
+    hold.SetHoldState({frames[1].area.x, frames[1].area.y});
   }
 }
 
@@ -324,6 +364,7 @@ void Playfield::CheckLock()
     CaptureBlocks();
     BagPull();
     ResetLock();
+    lock.hold = false;
   }
 }
 

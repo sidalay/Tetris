@@ -28,6 +28,7 @@ public:
 
   void Tick();
   void Draw();
+  void Hold();
   void SetLocked(bool active) {lock.active = active;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
@@ -40,7 +41,7 @@ private:
   Tetro::Lock                               lock{};
   Bag                                       bag{};
   Tetromino                                 tetromino;
-  // Tetromino                                hold;
+  Tetromino                                 hold{};
   float                                     gravitytime{};
 
   void DrawFrames();
@@ -56,6 +57,8 @@ private:
   void Gravity();
   void DrawTetromino();
   void UpdateTetromino();
+  void DrawHold();
+  void UpdateHold();
   void DrawBag();
   void UpdateBag();
   void CheckLock();
