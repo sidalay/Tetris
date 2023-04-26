@@ -2,7 +2,7 @@
 #include "enforcer.hpp"
 #include "window.hpp"
 
-#include <iostream>
+#include <algorithm>
 
 const Color frame_color{78, 78, 78, 100};
 const Color cell_color_one{15, 14, 14, 255};
@@ -431,17 +431,13 @@ void Playfield::UpdateBlocks()
 void Playfield::CaptureBlocks()
 {
   auto tetro{tetromino.GetBlocks()};
+  std::sort(tetro.begin(), tetro.end());
+
   for (auto& block : tetro) {
     // store current tetromino blocks in blocks map
     blocks.emplace(std::make_pair(block.screen_row, block.screen_col + 1), block);
     OccupyMatrix(block);
   }
-  for (auto& [key,value] : matrix_map) {
-    if (value && key.first > 2 && key.first < 23 && key.second > 0 && key.second < 11) {
-      std::cout << "row: " << key.first << " col: " << key.second << " is occupied\n";
-    }
-  }
-  std::cout << '\n';
   for (auto& block : tetro) {
     CheckLine(block.screen_row);
   }
@@ -489,7 +485,6 @@ void Playfield::DropLine(int clearedline)
     std::pair nextRow{row + 1, col};
 
     if (row < clearedline) {
-      // std::cout << "row: " << key.first << " col: " << key.second << '\n';
       // check if the cell in the row below is occupied
       if (!matrix_map.at(nextRow)) {
         // if its not move block down
@@ -502,7 +497,6 @@ void Playfield::DropLine(int clearedline)
     // store block into vector
     newBlocks.emplace_back(block);
   }
-  // std::cout << '\n';
 
   // clear the map
   for (int row{}; row < 23; ++row) {

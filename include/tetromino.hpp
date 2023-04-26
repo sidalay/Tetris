@@ -35,6 +35,8 @@ struct Block
   Color     color{};
   int       screen_row{};
   int       screen_col{};
+
+  bool operator<(const Block& block) {return screen_row < block.screen_row;}  
 };
 
 struct Wallkick
