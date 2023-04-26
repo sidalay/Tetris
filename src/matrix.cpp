@@ -436,6 +436,12 @@ void Playfield::CaptureBlocks()
     blocks.emplace(std::make_pair(block.screen_row, block.screen_col + 1), block);
     OccupyMatrix(block);
   }
+  for (auto& [key,value] : matrix_map) {
+    if (value && key.first > 2 && key.first < 23 && key.second > 0 && key.second < 11) {
+      std::cout << "row: " << key.first << " col: " << key.second << " is occupied\n";
+    }
+  }
+  std::cout << '\n';
   for (auto& block : tetro) {
     CheckLine(block.screen_row);
   }
@@ -483,7 +489,7 @@ void Playfield::DropLine(int clearedline)
     std::pair nextRow{row + 1, col};
 
     if (row < clearedline) {
-      std::cout << "row: " << key.first << " col: " << key.second << '\n';
+      // std::cout << "row: " << key.first << " col: " << key.second << '\n';
       // check if the cell in the row below is occupied
       if (!matrix_map.at(nextRow)) {
         // if its not move block down
@@ -496,7 +502,7 @@ void Playfield::DropLine(int clearedline)
     // store block into vector
     newBlocks.emplace_back(block);
   }
-  std::cout << '\n';
+  // std::cout << '\n';
 
   // clear the map
   for (int row{}; row < 23; ++row) {
