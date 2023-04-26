@@ -36,7 +36,7 @@ struct Block
   int       screen_row{};
   int       screen_col{};
 
-  bool operator<(const Block& block) {return screen_row < block.screen_row;}  
+  [[nodiscard]] constexpr friend bool operator<(const Block& lhs, const Block& rhs) noexcept {return lhs.screen_row < rhs.screen_row;}
 };
 
 struct Wallkick
