@@ -11,6 +11,7 @@ void Controller::Tick()
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
   CheckInput();
+  CheckGamepadInput();
 }
 
 void Controller::Hold()
@@ -28,14 +29,14 @@ void Controller::Spin(Tetro::Rotation rotation)
   }
 }
 
-void Controller::SoftDrop()
+void Controller::SoftDrop(float& time)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), Tetro::Movement::DOWN)) {
-    deltatime += GetFrameTime();
-    if (deltatime >= 1.f/20.f) {
+    time += GetFrameTime();
+    if (time >= 1.f/20.f) {
       tetro.Move(Tetro::Movement::DOWN);
-      deltatime = 0.f;
+      time = 0.f;
     }
   }
 }
@@ -49,14 +50,14 @@ void Controller::HardDrop()
   matrix.GetHandler().SetLocked(true);
 }
 
-void Controller::SideStep(Tetro::Movement movement)
+void Controller::SideStep(Tetro::Movement movement, float& time)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), movement)) {
-    deltatime += GetFrameTime();
-    if (deltatime >= 1.f/15.f) {
+    time += GetFrameTime();
+    if (time >= 1.f/15.f) {
       tetro.Move(movement);
-      deltatime = 0.f;
+      time = 0.f;
     }
   }
 }
@@ -64,15 +65,15 @@ void Controller::SideStep(Tetro::Movement movement)
 void Controller::CheckInput()
 {
   if (IsKeyDown(SOFT_DROP)) {
-    SoftDrop();
+    SoftDrop(keyboard);
   } else if (IsKeyPressed(HARD_DROP)) {
     HardDrop();
   } 
   
   if (IsKeyDown(STEP_LEFT)) {
-    SideStep(Tetro::Movement::LEFT);
+    SideStep(Tetro::Movement::LEFT, keyboard);
   } else if (IsKeyDown(STEP_RIGHT)) {
-    SideStep(Tetro::Movement::RIGHT);
+    SideStep(Tetro::Movement::RIGHT, keyboard);
   } 
   
   if (IsKeyPressed(HOLD)) {
@@ -86,6 +87,37 @@ void Controller::CheckInput()
   }
 
   if (IsKeyUp(STEP_LEFT) && IsKeyUp(STEP_RIGHT) && IsKeyUp(SOFT_DROP)) {
-    deltatime = 1.f/20.f;
+    keyboard = 1.f/20.f;
+  }
+}
+
+void Controller::CheckGamepadInput()
+{
+  if (IsGamepadAvailable(0)) {
+    if (IsGamepadButtonDown(0, GP_SOFT_DROP)) {
+      SoftDrop(gamepad);
+    } else if (IsGamepadButtonPressed(0, GP_HARD_DROP) || IsGamepadButtonPressed(0, GP_HARD_DROP_ALT)) {
+      HardDrop();
+    }
+
+    if (IsGamepadButtonDown(0, GP_STEP_LEFT)) {
+      SideStep(Tetro::Movement::LEFT, gamepad);
+    } else if (IsGamepadButtonDown(0, GP_STEP_RIGHT)) {
+      SideStep(Tetro::Movement::RIGHT, gamepad);
+    }
+
+    if (IsGamepadButtonPressed(0, GP_HOLD) || IsGamepadButtonPressed(0, GP_HOLD_ALT)) {
+      Hold();
+    }
+
+    if (IsGamepadButtonPressed(0, GP_ROTATE_CCW) || IsGamepadButtonPressed(0, GP_ROTATE_CCW_ALT)) {
+      Spin(Tetro::Rotation::CCW);
+    } else if (IsGamepadButtonPressed(0, GP_ROTATE_CW) || IsGamepadButtonPressed(0, GP_ROTATE_CW_ALT)) {
+      Spin(Tetro::Rotation::CW);
+    }
+
+    if (IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT) && IsGamepadButtonUp(0, GP_SOFT_DROP)) {
+      gamepad = 1.f/20.f;
+    }
   }
 }
