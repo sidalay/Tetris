@@ -23,6 +23,7 @@ add_executable(${PROJECT_NAME}
   src/animations.cpp
   src/audio.cpp
   src/bag.cpp
+  src/block.cpp
   src/controller.cpp
   src/enforcer.cpp
   src/game.cpp
