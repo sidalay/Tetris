@@ -1,15 +1,6 @@
 #include "controller.hpp"
 #include "enforcer.hpp"
 
-#define HARD_DROP   KEY_UP
-#define SOFT_DROP   KEY_DOWN
-#define STEP_LEFT   KEY_LEFT
-#define STEP_RIGHT  KEY_RIGHT
-#define ROTATE_CW   KEY_D
-#define ROTATE_CCW  KEY_A
-#define HOLD        KEY_LEFT_SHIFT
-#define PAUSE       KEY_P
-
 Controller::Controller(Playfield& playfield)
   : matrix{playfield}
 {

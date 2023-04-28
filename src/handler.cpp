@@ -1,5 +1,6 @@
 #include "handler.hpp"
 
+#include "controller.hpp"
 #include "enforcer.hpp"
 
 bool operator==(const Color& lhs, const Color& rhs) 
@@ -35,7 +36,7 @@ void Handler::Tick()
 
 void Handler::Gravity()
 {
-  if (!IsKeyDown(KEY_DOWN)) {
+  if (IsKeyUp(SOFT_DROP)) {
     gravitytime += GetFrameTime();
     if (gravitytime >= 1.f) {
       if (Enforcer::MovementIsSafe(tetromino, matrix, Tetro::Movement::DOWN)) {
