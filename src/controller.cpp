@@ -21,17 +21,17 @@ void Controller::Hold()
 void Controller::Spin(Tetro::Rotation rotation)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
-  if (Enforcer::RotationIsSafe(tetro, matrix, rotation)) {
+  if (Enforcer::RotationIsSafe(tetro, matrix.GetMatrixMap(), rotation)) {
     tetro.Rotate(rotation);
   } else {
-    tetro.WallKick(Enforcer::WallKickEval(tetro, matrix, rotation), rotation);
+    tetro.WallKick(Enforcer::WallKickEval(tetro, matrix.GetMatrixMap(), rotation), rotation);
   }
 }
 
 void Controller::SoftDrop()
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
-  if (Enforcer::MovementIsSafe(tetro, matrix, Tetro::Movement::DOWN)) {
+  if (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), Tetro::Movement::DOWN)) {
     deltatime += GetFrameTime();
     if (deltatime >= 1.f/20.f) {
       tetro.Move(Tetro::Movement::DOWN);
@@ -43,16 +43,16 @@ void Controller::SoftDrop()
 void Controller::HardDrop()
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
-  while (Enforcer::MovementIsSafe(tetro, matrix, Tetro::Movement::DOWN)) {
+  while (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), Tetro::Movement::DOWN)) {
     tetro.Move(Tetro::Movement::DOWN);
   }
-  matrix.SetLocked(true);
+  matrix.GetHandler().SetLocked(true);
 }
 
 void Controller::SideStep(Tetro::Movement movement)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
-  if (Enforcer::MovementIsSafe(tetro, matrix, movement)) {
+  if (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), movement)) {
     deltatime += GetFrameTime();
     if (deltatime >= 1.f/15.f) {
       tetro.Move(movement);
