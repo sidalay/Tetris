@@ -41,8 +41,7 @@ void Playfield::Tick()
   UpdateBag();
   UpdateHold();
   UpdateTetromino();
-  Gravity();
-  UpdateLock();
+  UpdateHandler();
 }
 
 void Playfield::Draw()
@@ -245,7 +244,7 @@ void Playfield::InitMap()
   const std::vector<std::vector<Cell>>& border{frames.at(0).matrix};
   for (int row{}; row < border.size(); ++row) {
     for (int col{}; col < border.at(row).size(); ++col) {
-      matrix_map.emplace(std::make_pair(row,col), border[row][col].occupied);
+      matrix.emplace(std::make_pair(row,col), border[row][col].occupied);
     }
   }
 }
@@ -258,21 +257,7 @@ void Playfield::UpdateCells(Frame& frame, int row, int col)
 void Playfield::UpdateCellState()
 {
   for (auto& [key,block] : blocks) {
-    matrix_map.at(key) = true;
-  }
-}
-
-void Playfield::Gravity()
-{
-  if (!IsKeyDown(KEY_DOWN)) {
-    gravitytime += GetFrameTime();
-    if (gravitytime >= 1.f) {
-      if (Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
-        tetromino.Fall();
-        ResetLock();
-      }
-      gravitytime = 0.f;
-    }
+    matrix.at(key) = true;
   }
 }
 
@@ -351,37 +336,6 @@ void Playfield::UpdateBag()
   bag.Tick();
 }
 
-void Playfield::ResetLock()
-{
-  lock.time = 0.f;
-  lock.active = false;
-}
-
-void Playfield::UpdateLock()
-{
-  if (!IsWindowResized()) {
-    if (!Enforcer::MovementIsSafe(tetromino, *this, Tetro::Movement::DOWN)) {
-      lock.time += GetFrameTime();
-      if (lock.time >= lock.delay) {
-        lock.active = true;
-      }
-    } else {
-      ResetLock();
-    }
-  }
-  CheckLock();
-}
-
-void Playfield::CheckLock()
-{
-  if (lock.active) {
-    CaptureBlocks();
-    BagPull();
-    ResetLock();
-    lock.hold = false;
-  }
-}
-
 void Playfield::DrawBlocks()
 {
   if (!blocks.empty()) {
@@ -402,7 +356,7 @@ void Playfield::DrawGhost()
     float cell_size{Window::height * Window::cell_size_percentage};
     Tetromino temp{tetromino};
 
-    while (Enforcer::MovementIsSafe(temp, *this, Tetro::Movement::DOWN)) {
+    while (Enforcer::MovementIsSafe(temp, matrix, Tetro::Movement::DOWN)) {
       temp.Move(Tetro::Movement::DOWN);
       ++offset;
     }
@@ -447,14 +401,14 @@ void Playfield::OccupyMatrix(const Tetro::Block& block)
 {
   std::pair key{block.screen_row, block.screen_col + 1};
   // Set the block's cell to occupied
-  matrix_map.at(key) = true;
+  matrix.at(key) = true;
 }
 
 void Playfield::CheckLine(int row)
 {
   // check if all cells in the row are occupied
   for (int col{1}; col < 11; ++col) {
-    if (matrix_map.at({row,col}) == false) {
+    if (matrix.at({row,col}) == false) {
       return;
     }
   }
@@ -467,9 +421,18 @@ void Playfield::ClearLine(int row)
     // remove blocks in this row
     blocks.erase({row,col});
     // switch all cells in this row to unoccupied
-    matrix_map.at({row,col}) = false;
+    matrix.at({row,col}) = false;
   }
   DropLine(row);
+}
+
+void Playfield::UpdateHandler()
+{
+  handler.Tick();
+  if (handler.UpdateLock()) {
+    CaptureBlocks();
+    BagPull();
+  }
 }
 
 void Playfield::DropLine(int clearedline)
@@ -486,12 +449,12 @@ void Playfield::DropLine(int clearedline)
 
     if (row < clearedline) {
       // check if the cell in the row below is occupied
-      if (!matrix_map.at(nextRow)) {
+      if (!matrix.at(nextRow)) {
         // if its not move block down
         block.area.y += cell_size;
         block.screen_row += 1;
         // set previous cell location to unoccupied
-        matrix_map.at(key) = false;
+        matrix.at(key) = false;
       }
     }
     // store block into vector
@@ -501,7 +464,7 @@ void Playfield::DropLine(int clearedline)
   // clear the map
   for (int row{}; row < 23; ++row) {
     for (int col{1}; col < 11; ++col) {
-      matrix_map.at({row,col}) = false;
+      matrix.at({row,col}) = false;
     }
   }
 

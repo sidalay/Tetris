@@ -2,8 +2,7 @@
 #define MATRIX_HPP
 
 #include "bag.hpp"
-
-#include <map>
+#include "handler.hpp"
 
 struct Cell
 {
@@ -29,19 +28,20 @@ public:
   void Tick();
   void Draw();
   void Hold();
-  void SetLocked(bool active) {lock.active = active;}
+  [[nodiscard]] Handler& GetHandler() {return handler;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
-  [[nodiscard]] std::map<std::pair<int,int>,bool> GetMatrixMap() const {return matrix_map;}
+  [[nodiscard]] const std::map<std::pair<int,int>,bool>& GetMatrixMap() const {return matrix;}
 
 private:
   std::vector<Frame>                        frames{};
   std::map<std::pair<int,int>,Tetro::Block> blocks{};
-  std::map<std::pair<int,int>,bool>         matrix_map{};
-  Tetro::Lock                               lock{};
+  std::map<std::pair<int,int>,bool>         matrix{};
   Bag                                       bag{};
+  Tetro::Lock                               lock{};
   Tetromino                                 tetromino;
   Tetromino                                 hold{};
+  Handler                                   handler{tetromino, matrix};
   float                                     gravitytime{};
 
   void DrawFrames();
@@ -55,22 +55,20 @@ private:
   void UpdateCells(Frame&, int, int);
   void UpdateCellState();
 
-  void Gravity();
+  void DrawBag();
   void DrawTetromino();
-  void UpdateTetromino();
   void DrawHold();
   void UpdateHold();
   void BagPull();
-  void DrawBag();
   void UpdateBag();
-  void CheckLock();
-  void DrawBlocks();
+  void UpdateTetromino();
   void DrawGhost();
+  void DrawBlocks();
   void CaptureBlocks();
   void UpdateBlocks();
   void OccupyMatrix(const Tetro::Block&);
-  void ResetLock();
-  void UpdateLock();
+
+  void UpdateHandler();
 
   void CheckLine(int);
   void ClearLine(int);
