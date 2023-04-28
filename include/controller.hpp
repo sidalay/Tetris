@@ -19,6 +19,7 @@ private:
   void HardDrop();
   void SideStep(Tetro::Movement, float&);
   void Pause();
+  void Reset();
   void CheckInput();
   void CheckGamepadInput();
 };
@@ -33,6 +34,7 @@ private:
 #define ROTATE_CCW  KEY_A
 #define HOLD        KEY_LEFT_SHIFT
 #define PAUSE       KEY_P
+#define RESET       KEY_F1
 
 #define GP_HARD_DROP   GAMEPAD_BUTTON_LEFT_FACE_UP
 #define GP_SOFT_DROP   GAMEPAD_BUTTON_LEFT_FACE_DOWN
@@ -42,6 +44,7 @@ private:
 #define GP_ROTATE_CW   GAMEPAD_BUTTON_RIGHT_FACE_RIGHT
 #define GP_HOLD        GAMEPAD_BUTTON_RIGHT_FACE_LEFT
 #define GP_PAUSE       GAMEPAD_BUTTON_MIDDLE_RIGHT
+#define GP_RESET       GAMEPAD_BUTTON_MIDDLE_LEFT
 
 #define GP_HARD_DROP_ALT   GAMEPAD_BUTTON_RIGHT_FACE_DOWN
 #define GP_SOFT_DROP_ALT   
@@ -51,3 +54,4 @@ private:
 #define GP_ROTATE_CW_ALT   GAMEPAD_BUTTON_RIGHT_TRIGGER_1
 #define GP_HOLD_ALT        GAMEPAD_BUTTON_RIGHT_TRIGGER_2
 #define GP_PAUSE_ALT       
+#define GP_RESET_ALT

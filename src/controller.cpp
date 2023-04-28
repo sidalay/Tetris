@@ -67,6 +67,11 @@ void Controller::Pause()
   matrix.Pause();
 }
 
+void Controller::Reset()
+{
+  matrix.Reset();
+}
+
 void Controller::CheckInput()
 {
   if (!matrix.IsPaused()) {
@@ -90,6 +95,10 @@ void Controller::CheckInput()
       Spin(Tetro::Rotation::CCW);
     } else if (IsKeyPressed(ROTATE_CW)) {
       Spin(Tetro::Rotation::CW);
+    }
+
+    if (IsKeyPressed(RESET)) {
+      Reset();
     }
   }
 
@@ -126,6 +135,10 @@ void Controller::CheckGamepadInput()
         Spin(Tetro::Rotation::CCW);
       } else if (IsGamepadButtonPressed(0, GP_ROTATE_CW) || IsGamepadButtonPressed(0, GP_ROTATE_CW_ALT)) {
         Spin(Tetro::Rotation::CW);
+      }
+
+      if (IsGamepadButtonPressed(0, GP_RESET)) {
+        Reset();
       }
     }
 

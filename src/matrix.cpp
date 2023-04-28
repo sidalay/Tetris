@@ -435,6 +435,6 @@ void Playfield::CheckLevelUp()
 void Playfield::DrawPause()
 {
   if (pause) {
-    DrawText("PAUSED", 20, Window::height - (Window::height * 0.10f), 20, GREEN);
+    DrawText("PAUSED", Window::width - (Window::width * 0.10f), Window::height - (Window::height * 0.10f), 20, GREEN);
   }
 }

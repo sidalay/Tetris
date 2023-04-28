@@ -28,6 +28,7 @@ public:
   void Tick();
   void Draw();
   void Pause() {pause = !pause;}
+  void Reset() {GameOver();}
   [[nodiscard]] bool IsPaused() {return pause;}
   [[nodiscard]] Handler& GetHandler() {return handler;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
