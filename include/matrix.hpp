@@ -36,13 +36,13 @@ private:
   std::vector<Frame>                        frames{};
   std::map<std::pair<int,int>,Tetro::Block> blocks{};
   std::map<std::pair<int,int>,bool>         matrix{};
-  int                                       level{};
-  int                                       lines{};
-  int                                       previouslines{};
-  std::array<int,20>                        linesToClear{10,20,30,40,50,50,50,60,60,60,70,70,70,70,70,70,80,80,90,100};
   Bag                                       bag{};
   Handler                                   handler{tetromino, bag, matrix};
   Tetromino                                 tetromino;
+  int                                       level{};
+  int                                       lines{};
+  int                                       previouslines{};
+  std::array<int,20>                        linesToClear{};
 
   void DrawFrames();
   void DrawMatrices();

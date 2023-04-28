@@ -11,7 +11,14 @@ const Color cell_color_lines{48, 48, 48, 100};
 const Color cell_color_clear{0, 0, 0, 0};
 
 Playfield::Playfield()
-  : tetromino{bag.Pull()}
+  : tetromino{bag.Pull()}, 
+    linesToClear {
+      10,10,15,20,
+      20,25,25,25,
+      30,30,30,30,
+      30,30,35,35,
+      35,40,45,50
+    }
 {
   InitializeFrames();
   InitializeMatrices();
@@ -33,7 +40,7 @@ void Playfield::Tick()
 
   DrawText(TextFormat("Level: %i", level+1), 20, 20, 20, RAYWHITE);
   DrawText(TextFormat("Lines cleared: %i", lines), 20, 50, 20, RAYWHITE);
-  DrawText(TextFormat("Lines needed to clear: %i", (linesToClear[level] + previouslines) - lines), 20, 80, 20, RAYWHITE);
+  DrawText(TextFormat("Lines to clear: %i", (linesToClear[level] + previouslines) - lines), 20, 80, 20, RAYWHITE);
 }
 
 void Playfield::Draw()
