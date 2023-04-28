@@ -26,9 +26,14 @@ void Playfield::Tick()
     UpdateMatrices();
     UpdateBlocks();
   }
+  CheckLevelUp();
   UpdateHandler();
   tetromino.Tick();
   bag.Tick();
+
+  DrawText(TextFormat("Level: %i", level+1), 20, 20, 20, RAYWHITE);
+  DrawText(TextFormat("Lines cleared: %i", lines), 20, 50, 20, RAYWHITE);
+  DrawText(TextFormat("Lines needed to clear: %i", (linesToClear[level] + previouslines) - lines), 20, 80, 20, RAYWHITE);
 }
 
 void Playfield::Draw()
@@ -322,6 +327,7 @@ void Playfield::ClearLine(int row)
     // switch all cells in this row to unoccupied
     matrix.at({row,col}) = false;
   }
+  ++lines;
   DropLine(row);
 }
 
@@ -391,10 +397,25 @@ void Playfield::GameOver()
     }
   }
 
+  // reset handler level
+  handler.Reset();
+  // reset lines cleared count
+  lines = 0;
+  previouslines = 0;
+
   // clear bag and pull new piece
   bag.Reset();
   PullTetromino();
 }
 
-
+void Playfield::CheckLevelUp()
+{
+  if (level < 20) {
+    if (lines >= previouslines + linesToClear[level]) {
+      ++level;
+      previouslines = lines;
+      handler.LevelUp();
+    }
+  }
+}
 

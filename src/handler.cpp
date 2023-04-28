@@ -38,13 +38,13 @@ void Handler::Tick()
 void Handler::Gravity()
 {
   if (IsKeyUp(SOFT_DROP)) {
-    gravitytime += GetFrameTime();
-    if (gravitytime >= 1.f) {
+    deltatime += GetFrameTime();
+    if (deltatime >= multiplier[level]) {
       if (Enforcer::MovementIsSafe(tetromino, matrix, Tetro::Movement::DOWN)) {
         tetromino.Fall();
         ResetLock();
       }
-      gravitytime = 0.f;
+      deltatime = 0.f;
     }
   }
 }
