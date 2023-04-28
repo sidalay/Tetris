@@ -31,11 +31,11 @@ Handler::Handler(
 void Handler::Tick()
 {
   hold.Tick();
-  Gravity();
+  ApplyGravity();
   ScaleHold();
 }
 
-void Handler::Gravity()
+void Handler::ApplyGravity()
 {
   if (IsKeyUp(SOFT_DROP)) {
     deltatime += GetFrameTime();

@@ -56,7 +56,7 @@ private:
   const std::map<std::pair<int,int>,bool>& matrix;
 
 
-  void Gravity();
+  void ApplyGravity();
   bool CheckLock();
   void ResetLock();
 };
