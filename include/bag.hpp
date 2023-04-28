@@ -10,6 +10,7 @@ public:
   Bag();
 
   void Tick();
+  void Draw();
   Tetromino Pull();
   const std::vector<Tetromino>& View() const {return bag;}
 
