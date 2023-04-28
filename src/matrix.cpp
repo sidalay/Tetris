@@ -26,9 +26,9 @@ void Playfield::Tick()
     UpdateMatrices();
     UpdateBlocks();
   }
-  bag.Tick();
-  tetromino.Tick();
   UpdateHandler();
+  tetromino.Tick();
+  bag.Tick();
 }
 
 void Playfield::Draw()

@@ -6,6 +6,8 @@
 
 #include <map>
 
+// handles locking, holding, and ghost state for the Tetromino inside of the matrix/playfield
+
 class Handler
 {
 public:
