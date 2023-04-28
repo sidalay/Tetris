@@ -1,7 +1,7 @@
 #ifndef TETROMINO_HPP
 #define TETROMINO_HPP
 
-#include "raylib.h"
+#include "block.hpp"
 
 #include <array>
 #include <utility>
@@ -27,16 +27,6 @@ enum class Movement
 enum class Rotation
 {
   CW, CCW
-};
-
-struct Block
-{
-  Rectangle area{};
-  Color     color{};
-  int       screen_row{};
-  int       screen_col{};
-
-  [[nodiscard]] constexpr friend bool operator<(const Block& lhs, const Block& rhs) noexcept {return lhs.screen_row < rhs.screen_row;}
 };
 
 struct Wallkick
