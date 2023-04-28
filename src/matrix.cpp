@@ -10,25 +10,13 @@ const Color cell_color_two{20, 19, 19, 255};
 const Color cell_color_lines{48, 48, 48, 100};
 const Color cell_color_clear{0, 0, 0, 0};
 
-bool operator==(const Color& lhs, const Color& rhs) 
-{
-  bool r{lhs.r == rhs.r};
-  bool g{lhs.g == rhs.g};
-  bool b{lhs.b == rhs.b};
-  bool a{lhs.a == rhs.a};
-
-  if (r && g && b && a) {
-    return true;
-  }
-  return false;
-} 
-
 Playfield::Playfield()
   : tetromino{bag.Pull()}
 {
   InitializeFrames();
   InitializeMatrices();
   InitMap();
+  handler.UpdateArea(frames[1].area);
 }
 
 void Playfield::Tick() 
@@ -38,9 +26,8 @@ void Playfield::Tick()
     UpdateMatrices();
     UpdateBlocks();
   }
-  UpdateBag();
-  UpdateHold();
-  UpdateTetromino();
+  bag.Tick();
+  tetromino.Tick();
   UpdateHandler();
 }
 
@@ -48,11 +35,11 @@ void Playfield::Draw()
 {
   DrawMatrices();
   DrawFrames();
-  DrawBag();
   DrawGhost();
-  DrawTetromino();
+  bag.Draw();
+  tetromino.Draw();
   DrawBlocks();
-  DrawHold();
+  handler.DrawHold();
 }
 
 void Playfield::DrawFrames()
@@ -261,81 +248,6 @@ void Playfield::UpdateCellState()
   }
 }
 
-void Playfield::DrawTetromino()
-{
-  tetromino.Draw();
-}
-
-void Playfield::UpdateTetromino()
-{
-  tetromino.Tick();
-}
-
-void Playfield::DrawHold()
-{
-  if (hold.GetColor() == Color{0,0,0,0}) {
-    return;
-  }
-  if (lock.hold) {
-    hold.Draw(GRAY);
-  } else {
-    hold.Draw();
-  }
-}
-
-void Playfield::BagPull()
-{
-  tetromino = bag.Pull();
-}
-
-void Playfield::DrawBag()
-{
-  float cell_size{Window::height * Window::cell_size_percentage};
-  Vector2 area{cell_size * 9.f, cell_size * 4.f};
-  const auto& next{bag.View()};
-  for (int i{}; i < 3; ++i) {
-    if (next[i].GetType() == Tetro::Shape::I) {
-      next[i].Draw(Vector2{area.x - (cell_size * 0.5f), area.y - cell_size * 0.5f});
-    } else if (next[i].GetType() == Tetro::Shape::O) {
-      next[i].Draw(Vector2{area.x - (cell_size * 0.5f), area.y});
-    } else {
-      next[i].Draw(area);
-    }
-    area.y += cell_size * 5.f;
-  }
-}
-
-void Playfield::Hold()
-{
-  if (lock.hold) {
-    return;
-  }
-
-  if (hold.GetColor() == Color{0, 0, 0, 0}) {
-    hold = tetromino;
-    BagPull();
-  } else {
-    Tetromino temp{hold};
-    hold = tetromino;
-    tetromino = Tetromino{temp.GetType()};
-  }
-  hold.SetHoldState({frames[1].area.x, frames[1].area.y});
-  lock.hold = true;
-}
-
-void Playfield::UpdateHold()
-{
-  hold.Tick();
-  if (IsWindowResized()) {
-    hold.SetHoldState({frames[1].area.x, frames[1].area.y});
-  }
-}
-
-void Playfield::UpdateBag()
-{
-  bag.Tick();
-}
-
 void Playfield::DrawBlocks()
 {
   if (!blocks.empty()) {
@@ -428,13 +340,14 @@ void Playfield::ClearLine(int row)
 
 void Playfield::UpdateHandler()
 {
-  handler.Tick();
-  bool locked{handler.UpdateLock()};
-  if (locked) {
-    CaptureBlocks();
-    BagPull();
-    lock.hold = false;
+  if (IsWindowResized()) {
+    handler.UpdateArea(frames[1].area);
   }
+  if (handler.UpdateLock()) {
+    CaptureBlocks();
+    tetromino = bag.Pull();
+  }
+  handler.Tick();
 }
 
 void Playfield::DropLine(int clearedline)

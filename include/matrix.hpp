@@ -27,7 +27,6 @@ public:
 
   void Tick();
   void Draw();
-  void Hold();
   [[nodiscard]] Handler& GetHandler() {return handler;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
@@ -38,11 +37,8 @@ private:
   std::map<std::pair<int,int>,Tetro::Block> blocks{};
   std::map<std::pair<int,int>,bool>         matrix{};
   Bag                                       bag{};
-  Tetro::Lock                               lock{};
   Tetromino                                 tetromino;
-  Tetromino                                 hold{};
-  Handler                                   handler{tetromino, matrix};
-  float                                     gravitytime{};
+  Handler                                   handler{tetromino, bag, matrix};
 
   void DrawFrames();
   void DrawMatrices();
@@ -55,21 +51,14 @@ private:
   void UpdateCells(Frame&, int, int);
   void UpdateCellState();
 
-  void DrawBag();
-  void DrawTetromino();
-  void DrawHold();
-  void UpdateHold();
-  void BagPull();
-  void UpdateBag();
-  void UpdateTetromino();
   void DrawGhost();
   void DrawBlocks();
   void CaptureBlocks();
   void UpdateBlocks();
-  void OccupyMatrix(const Tetro::Block&);
 
   void UpdateHandler();
 
+  void OccupyMatrix(const Tetro::Block&);
   void CheckLine(int);
   void ClearLine(int);
   void DropLine(int);
