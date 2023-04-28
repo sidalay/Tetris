@@ -35,6 +35,13 @@ void Bag::Reset()
   Fill();
 }
 
+void Bag::CheckScaling()
+{
+  for (auto& tetromino : bag) {
+    tetromino.CheckScaling();
+  }
+}
+
 void Bag::Fill()
 {
   std::vector<int> shapes{randomizer()};

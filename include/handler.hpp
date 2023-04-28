@@ -32,7 +32,7 @@ public:
     std::map<std::pair<int,int>,bool>&);
 
   void Tick();
-
+  void CheckScaling();
   void Hold();
   void DrawHold();
   void DrawGhost();

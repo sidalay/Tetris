@@ -55,6 +55,7 @@ public:
   void Draw() const;
   void Draw(Vector2) const;
   void Draw(Color) const;
+  void CheckScaling();
   void Fall();
   void Move(Tetro::Movement);
   void Rotate(const Tetro::Rotation);

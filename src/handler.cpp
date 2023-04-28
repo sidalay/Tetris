@@ -35,6 +35,11 @@ void Handler::Tick()
   ScaleHold();
 }
 
+void Handler::CheckScaling()
+{
+  hold.CheckScaling();
+}
+
 void Handler::ApplyGravity()
 {
   if (IsKeyUp(SOFT_DROP)) {

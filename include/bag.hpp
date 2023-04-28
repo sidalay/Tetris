@@ -12,6 +12,7 @@ public:
   void Tick();
   void Draw();
   void Reset();
+  void CheckScaling();
   Tetromino Pull();
   const std::vector<Tetromino>& View() const {return bag;}
 

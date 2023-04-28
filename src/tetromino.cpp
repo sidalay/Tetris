@@ -19,12 +19,17 @@ Tetromino::Tetromino(Tetro::Shape shape)
 
 void Tetromino::Tick()
 {
+  UpdateFollowerPos();
+  UpdateRowCol();
+}
+
+void Tetromino::CheckScaling()
+{
   if (IsWindowResized()) {
     UpdateBlockSize();
     UpdateOriginScale();
+    UpdateFollowerPos();
   }
-  UpdateFollowerPos();
-  UpdateRowCol();
 }
 
 void Tetromino::Draw() const
