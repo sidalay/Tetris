@@ -7,7 +7,7 @@ namespace Game
 {
   enum class State
   {
-
+    RUN,PAUSE
   };
 
   struct Properties
@@ -19,8 +19,6 @@ namespace Game
     Playfield matrix{};
 
     // test
-    float tetro_deltatime{};
-    float tetro_updatetime{1.f};
     Controller controller{matrix};
   };
 
