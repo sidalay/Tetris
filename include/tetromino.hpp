@@ -47,8 +47,8 @@ struct Wallkick
 
 struct Lock
 {
-  float time{0.80f};
-  float delay{0.80f};
+  float time{0.70f};
+  float delay{0.70f};
   bool  hold{};
   bool  active{};
 };
