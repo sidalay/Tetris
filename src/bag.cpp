@@ -29,6 +29,12 @@ void Bag::Draw()
   }
 }
 
+void Bag::Reset()
+{
+  bag.clear();
+  Fill();
+}
+
 void Bag::Fill()
 {
   std::vector<int> shapes{randomizer()};

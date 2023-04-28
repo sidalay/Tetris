@@ -61,6 +61,9 @@ private:
   void CheckLine(int);
   void ClearLine(int);
   void DropLine(int);
+
+  void PullTetromino();
+  void GameOver();
 };
 
 #endif // MATRIX_HPP

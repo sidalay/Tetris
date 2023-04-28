@@ -276,7 +276,7 @@ void Playfield::UpdateHandler()
   }
   if (handler.UpdateLock()) {
     CaptureBlocks();
-    tetromino = bag.Pull();
+    PullTetromino();
   }
   handler.Tick();
 }
@@ -351,7 +351,7 @@ void Playfield::DropLine(int clearedline)
     newBlocks.emplace_back(block);
   }
 
-  // clear the map
+  // clear matrix map
   for (int row{}; row < 23; ++row) {
     for (int col{1}; col < 11; ++col) {
       matrix.at({row,col}) = false;
@@ -369,3 +369,32 @@ void Playfield::DropLine(int clearedline)
   // loop through blocks and set their cells to occupied
   UpdateCellState();
 }
+
+void Playfield::PullTetromino()
+{
+  tetromino = bag.Pull();
+
+  if (!Enforcer::MovementIsSafe(tetromino, matrix, Tetro::Movement::DOWN)) {
+    GameOver();
+  }
+}
+
+void Playfield::GameOver()
+{
+  // clear blocks map
+  blocks.clear();
+
+  // clear matrix map
+  for (int row{}; row < 23; ++row) {
+    for (int col{1}; col < 11; ++col) {
+      matrix.at({row,col}) = false;
+    }
+  }
+
+  // clear bag and pull new piece
+  bag.Reset();
+  PullTetromino();
+}
+
+
+

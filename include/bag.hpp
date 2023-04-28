@@ -11,6 +11,7 @@ public:
 
   void Tick();
   void Draw();
+  void Reset();
   Tetromino Pull();
   const std::vector<Tetromino>& View() const {return bag;}
 
