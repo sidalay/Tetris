@@ -37,8 +37,8 @@ private:
   std::map<std::pair<int,int>,Tetro::Block> blocks{};
   std::map<std::pair<int,int>,bool>         matrix{};
   Bag                                       bag{};
-  Tetromino                                 tetromino;
   Handler                                   handler{tetromino, bag, matrix};
+  Tetromino                                 tetromino;
 
   void DrawFrames();
   void DrawMatrices();
@@ -51,13 +51,12 @@ private:
   void UpdateCells(Frame&, int, int);
   void UpdateCellState();
 
-  void DrawGhost();
   void DrawBlocks();
-  void CaptureBlocks();
+  void DrawHandler();
   void UpdateBlocks();
-
   void UpdateHandler();
 
+  void CaptureBlocks();
   void OccupyMatrix(const Tetro::Block&);
   void CheckLine(int);
   void ClearLine(int);

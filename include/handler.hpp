@@ -18,6 +18,7 @@ public:
 
   void Hold();
   void DrawHold();
+  void DrawGhost();
   void ScaleHold();
   bool UpdateLock();
   void UpdateArea(Rectangle matrixArea) {area = matrixArea;}

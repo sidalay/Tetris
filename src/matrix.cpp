@@ -35,11 +35,10 @@ void Playfield::Draw()
 {
   DrawMatrices();
   DrawFrames();
-  DrawGhost();
-  bag.Draw();
-  tetromino.Draw();
+  DrawHandler();
   DrawBlocks();
-  handler.DrawHold();
+  tetromino.Draw();
+  bag.Draw();
 }
 
 void Playfield::DrawFrames()
@@ -251,47 +250,35 @@ void Playfield::UpdateCellState()
 void Playfield::DrawBlocks()
 {
   if (!blocks.empty()) {
-    float offset{1.f};
     for (auto& [key,block] : blocks) {
-      DrawRectangleRec(block.area, block.color);
-      Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
-      DrawRectangleLinesEx(area, 2.f, BLACK);
-    }
-  }
-}
-
-void Playfield::DrawGhost()
-{
-  if (!IsWindowResized()) {
-    float offset{};
-    auto  tetro{tetromino.GetBlocks()};
-    float cell_size{Window::height * Window::cell_size_percentage};
-    Tetromino temp{tetromino};
-
-    while (Enforcer::MovementIsSafe(temp, matrix, Tetro::Movement::DOWN)) {
-      temp.Move(Tetro::Movement::DOWN);
-      ++offset;
-    }
-    for (auto& block : tetro) {
-      Rectangle area{block.area.x, block.area.y + (cell_size * offset), block.area.width, block.area.height};
-      if (block.area.y > 25) {
-        block.area.y = 25;
-      }
-      DrawRectangleLinesEx(area, 2.f, Color{ 245, 245, 245, 200 });
+      block.Draw();
     }
   }
 }
 
 void Playfield::UpdateBlocks()
 {
-  float cell_size{Window::height * Window::cell_size_percentage};
-  float borderX{(Window::width - (Window::well_width * Window::height)) * .5f};
   for (auto& [key,block] : blocks) {
-    block.area.y = cell_size * block.screen_row;
-    block.area.x = borderX + (cell_size * block.screen_col); 
-    block.area.width = cell_size;
-    block.area.height = cell_size;
+    block.Tick();
   }
+}
+
+void Playfield::DrawHandler()
+{
+  handler.DrawGhost();
+  handler.DrawHold();
+}
+
+void Playfield::UpdateHandler()
+{
+  if (IsWindowResized()) {
+    handler.UpdateArea(frames[1].area);
+  }
+  if (handler.UpdateLock()) {
+    CaptureBlocks();
+    tetromino = bag.Pull();
+  }
+  handler.Tick();
 }
 
 void Playfield::CaptureBlocks()
@@ -336,18 +323,6 @@ void Playfield::ClearLine(int row)
     matrix.at({row,col}) = false;
   }
   DropLine(row);
-}
-
-void Playfield::UpdateHandler()
-{
-  if (IsWindowResized()) {
-    handler.UpdateArea(frames[1].area);
-  }
-  if (handler.UpdateLock()) {
-    CaptureBlocks();
-    tetromino = bag.Pull();
-  }
-  handler.Tick();
 }
 
 void Playfield::DropLine(int clearedline)

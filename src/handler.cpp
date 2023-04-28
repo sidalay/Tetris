@@ -2,6 +2,7 @@
 
 #include "controller.hpp"
 #include "enforcer.hpp"
+#include "window.hpp"
 
 bool operator==(const Color& lhs, const Color& rhs) 
 {
@@ -113,5 +114,29 @@ void Handler::ScaleHold()
 {
   if (IsWindowResized()) {
     hold.SetHoldState({area.x, area.y});
+  }
+}
+
+void Handler::DrawGhost()
+{
+  if (!IsWindowResized()) {
+    float offset{};
+    auto  tetro{tetromino.GetBlocks()};
+    float cell_size{Window::height * Window::cell_size_percentage};
+    Tetromino temp{tetromino};
+
+    while (Enforcer::MovementIsSafe(temp, matrix, Tetro::Movement::DOWN)) {
+      temp.Move(Tetro::Movement::DOWN);
+      ++offset;
+    }
+    for (auto& block : tetro) {
+      float thickness{1.f};
+      Rectangle outline{
+        block.area.x + thickness, 
+        block.area.y + (cell_size * offset) + thickness, 
+        block.area.width - thickness * 2.f, 
+        block.area.height - thickness * 2.f};
+      DrawRectangleLinesEx(outline, thickness, Color{ 245, 245, 245, 200 });
+    }
   }
 }
