@@ -429,9 +429,11 @@ void Playfield::ClearLine(int row)
 void Playfield::UpdateHandler()
 {
   handler.Tick();
-  if (handler.UpdateLock()) {
+  bool locked{handler.UpdateLock()};
+  if (locked) {
     CaptureBlocks();
     BagPull();
+    lock.hold = false;
   }
 }
 
