@@ -27,6 +27,8 @@ public:
 
   void Tick();
   void Draw();
+  void Pause() {pause = !pause;}
+  [[nodiscard]] bool IsPaused() {return pause;}
   [[nodiscard]] Handler& GetHandler() {return handler;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}
@@ -43,6 +45,7 @@ private:
   int                                       lines{};
   int                                       previouslines{};
   std::array<int,20>                        linesToClear{};
+  bool                                      pause{};
 
   void DrawFrames();
   void DrawMatrices();
@@ -68,6 +71,7 @@ private:
 
   void CheckLevelUp();
   void PullTetromino();
+  void DrawPause();
   void GameOver();
 };
 

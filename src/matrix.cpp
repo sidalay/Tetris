@@ -13,11 +13,11 @@ const Color cell_color_clear{0, 0, 0, 0};
 Playfield::Playfield()
   : tetromino{bag.Pull()}, 
     linesToClear {
-      10,10,15,20,
-      20,25,25,25,
-      30,30,30,30,
-      30,30,35,35,
-      35,40,45,50
+      10,10,10,10,
+      10,10,10,10,
+      10,10,10,10,
+      10,10,10,10,
+      10,10,10,10
     }
 {
   InitializeFrames();
@@ -32,11 +32,16 @@ void Playfield::Tick()
     UpdateFrames();
     UpdateMatrices();
     UpdateBlocks();
+    tetromino.CheckScaling();
+    bag.CheckScaling();
+    handler.CheckScaling();
   }
-  CheckLevelUp();
-  UpdateHandler();
-  tetromino.Tick();
-  bag.Tick();
+  if (!pause) {
+    CheckLevelUp();
+    UpdateHandler();
+    tetromino.Tick();
+    bag.Tick();
+  }
 
   DrawText(TextFormat("Level: %i", level+1), 20, 20, 20, RAYWHITE);
   DrawText(TextFormat("Lines cleared: %i", lines), 20, 50, 20, RAYWHITE);
@@ -49,6 +54,7 @@ void Playfield::Draw()
   DrawFrames();
   DrawHandler();
   DrawBlocks();
+  DrawPause();
   tetromino.Draw();
   bag.Draw();
 }
@@ -426,3 +432,9 @@ void Playfield::CheckLevelUp()
   }
 }
 
+void Playfield::DrawPause()
+{
+  if (pause) {
+    DrawText("PAUSED", 20, Window::height - (Window::height * 0.10f), 20, GREEN);
+  }
+}

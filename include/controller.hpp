@@ -18,6 +18,7 @@ private:
   void SoftDrop(float&);
   void HardDrop();
   void SideStep(Tetro::Movement, float&);
+  void Pause();
   void CheckInput();
   void CheckGamepadInput();
 };
