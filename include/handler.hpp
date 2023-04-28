@@ -32,13 +32,12 @@ public:
     std::map<std::pair<int,int>,bool>&);
 
   void Tick();
-  void CheckScaling();
+  void CheckScaling(Rectangle);
   void Hold();
   void DrawHold();
   void DrawGhost();
   void ScaleHold();
   bool UpdateLock();
-  void UpdateArea(Rectangle matrixArea) {area = matrixArea;}
   void SetLocked(bool active) {lock.active = active;}
   void LevelUp() {++level;}
   void Reset() {level = 0;}

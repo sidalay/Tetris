@@ -308,6 +308,7 @@ void Tetromino::SetHoldState(Vector2 holdframe)
     blocks[0].area.y = holdframe.y + (cell_size * 2.5f);
   }
   facing = Tetro::Orientation::UP;
+  UpdateFollowerPos();
 }
 
 void Tetromino::UpdateOriginPos(const Tetro::Rotation rotation)

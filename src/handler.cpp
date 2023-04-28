@@ -35,9 +35,11 @@ void Handler::Tick()
   ScaleHold();
 }
 
-void Handler::CheckScaling()
+void Handler::CheckScaling(Rectangle matrixArea)
 {
+  area = matrixArea;
   hold.CheckScaling();
+  ScaleHold();
 }
 
 void Handler::ApplyGravity()
@@ -117,9 +119,7 @@ void Handler::DrawHold()
 
 void Handler::ScaleHold()
 {
-  if (IsWindowResized()) {
-    hold.SetHoldState({area.x, area.y});
-  }
+  hold.SetHoldState({area.x, area.y});
 }
 
 void Handler::DrawGhost()

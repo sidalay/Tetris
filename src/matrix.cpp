@@ -23,7 +23,7 @@ Playfield::Playfield()
   InitializeFrames();
   InitializeMatrices();
   InitMap();
-  handler.UpdateArea(frames[1].area);
+  handler.CheckScaling(frames[1].area);
 }
 
 void Playfield::Tick() 
@@ -34,7 +34,7 @@ void Playfield::Tick()
     UpdateBlocks();
     tetromino.CheckScaling();
     bag.CheckScaling();
-    handler.CheckScaling();
+    handler.CheckScaling(frames[1].area);
   }
   if (!pause) {
     CheckLevelUp();
@@ -289,9 +289,6 @@ void Playfield::DrawHandler()
 
 void Playfield::UpdateHandler()
 {
-  if (IsWindowResized()) {
-    handler.UpdateArea(frames[1].area);
-  }
   if (handler.UpdateLock()) {
     CaptureBlocks();
     PullTetromino();
@@ -413,6 +410,7 @@ void Playfield::GameOver()
   // reset handler level
   handler.Reset();
   // reset lines cleared count
+  level = 1;
   lines = 0;
   previouslines = 0;
 
