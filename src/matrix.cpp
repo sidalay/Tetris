@@ -390,7 +390,7 @@ void Playfield::PullTetromino()
 {
   tetromino = bag.Pull();
 
-  if (!Enforcer::MovementIsSafe(tetromino, matrix, Tetro::Movement::DOWN)) {
+  if (!Enforcer::IsSpawnSafe(tetromino, matrix)) {
     GameOver();
   }
 }
@@ -410,7 +410,7 @@ void Playfield::GameOver()
   // reset handler level
   handler.Reset();
   // reset lines cleared count
-  level = 1;
+  level = 0;
   lines = 0;
   previouslines = 0;
 
