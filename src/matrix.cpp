@@ -159,6 +159,7 @@ void Playfield::UpdateMatrices()
 void Playfield::InitializeFrames()
 {
   float cell_size{Window::height * Window::cell_size_percentage};
+  // matrix/playfield frame
   frames.emplace_back(
     Frame{
       Rectangle{
@@ -168,7 +169,7 @@ void Playfield::InitializeFrames()
         Window::height * Window::well_height},
         Vector2{14,26}
   });
-
+  // hold frame
   frames.emplace_back(
     Frame{
       Rectangle{
@@ -176,9 +177,9 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 5.f},
-        Vector2{9,8} // (first,last) column and top three rows are invisible
+        Vector2{9,8} // first & last column and top three rows are invisible
   });
-
+  // bag frame
   frames.emplace_back(
     Frame{
       Rectangle{
@@ -186,7 +187,7 @@ void Playfield::InitializeFrames()
         frames.at(0).area.y,
         cell_size * 5.f,
         cell_size * 16.f},
-        Vector2{9,19} // (first,last) column and top three rows are invisible
+        Vector2{9,19} // first & last column and top three rows are invisible
   });
 
   for (auto& row : frames) {
@@ -201,27 +202,30 @@ void Playfield::InitializeMatrices()
 {
   for (int i{}; i < frames.size(); ++i) {
     float alpha{1.f/frames[i].grid.y};
+    float maxRow{frames[i].grid.y - 4};
+    float maxCol{frames[i].grid.x - 4};
     Color color_one{15,14,14,static_cast<unsigned char>(255.f*alpha)};
     Color color_two{20,19,19,static_cast<unsigned char>(255.f*alpha)};
     for (int y{}; y < frames[i].grid.y; ++y) {
       for (int x{}; x < frames[i].grid.x; ++x) {
+        Cell& cell{frames[i].matrix[y][x]};
         if (y >= 0 && y <= 2) { // rows 1-3
-          if (x == 0 || x > frames[i].matrix[y].size() - 4) {
-            frames[i].matrix[y][x].occupied = true;
+          if (x == 0 || x > maxCol) {
+            cell.occupied = true;
           }
-          frames[i].matrix[y][x].color = cell_color_clear;
-        } else if (x == 0 || x > frames[i].matrix[y].size() - 4) {
-          frames[i].matrix[y][x].color = cell_color_clear;
-          frames[i].matrix[y][x].occupied = true;
-        } else if (i == 0 && y > frames[i].matrix.size() - 4) { // last row
-          frames[i].matrix[y][x].color = cell_color_clear;
-          frames[i].matrix[y][x].occupied = true;
+          cell.color = cell_color_clear;
+        } else if (x == 0 || x > maxCol) {
+          cell.color = cell_color_clear;
+          cell.occupied = true;
+        } else if (i == 0 && y > maxRow) { // last row
+          cell.color = cell_color_clear;
+          cell.occupied = true;
         } else if (y % 2 == 0) {
-          frames[i].matrix[y][x].color = x % 2 == 0 ? color_one : color_two;
+          cell.color = x % 2 == 0 ? color_one : color_two;
         } else {
-          frames[i].matrix[y][x].color = x % 2 != 0 ? color_one : color_two;
+          cell.color = x % 2 != 0 ? color_one : color_two;
         }
-        frames[i].matrix[y][x].outline = Color{48, 48, 48, static_cast<unsigned char>(30.f*alpha)};
+        cell.outline = Color{48, 48, 48, static_cast<unsigned char>(30.f*alpha)};
         InitCells(frames[i], y, x);
       }
       alpha += 1.f/(frames[i].grid.y - 2.f);
