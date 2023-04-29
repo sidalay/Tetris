@@ -15,7 +15,7 @@ void Tetro::Block::Tick()
 void Tetro::Block::Draw()
 {
   float offset{1.f};
-  DrawRectangleGradientH(area.x, area.y, area.width, area.height, gradient.primary, gradient.secondary);
+  DrawRectangleGradientV(area.x, area.y, area.width, area.height, gradient.primary, gradient.secondary);
   // DrawRectangleRec(area, color);
   Rectangle outline{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
   DrawRectangleLinesEx(outline, 2.f, BLACK);

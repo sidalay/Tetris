@@ -71,7 +71,7 @@ void Tetromino::Draw() const
 {
   float offset{1.f};
   for (auto& block : blocks) {
-    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
+    DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
     // DrawRectangleRec(block.area, block.color);
     Rectangle outline{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(outline, 2.f, BLACK);
@@ -85,7 +85,7 @@ void Tetromino::Draw(Vector2 pos) const
     Rectangle area{block.area.x + pos.x, block.area.y + pos.y, block.area.width, block.area.height};
     Rectangle outline{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
     // DrawRectangleRec(area, block.color);
-    DrawRectangleGradientH(area.x, area.y, area.width, area.height, block.gradient.primary, block.gradient.secondary);
+    DrawRectangleGradientV(area.x, area.y, area.width, area.height, block.gradient.primary, block.gradient.secondary);
     DrawRectangleLinesEx(outline, 2.f, BLACK);
   }
 }
@@ -95,8 +95,8 @@ void Tetromino::Draw(Color disabled) const
   float offset{1.f};
   for (auto& block : blocks) {
     // DrawRectangleRec(block.area, disabled);
-    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
-    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, G_Primary_Gray, G_Secondary_Gray);
+    DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
+    DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, G_Primary_Gray, G_Secondary_Gray);
     Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(area, 2.f, BLACK);
   }
