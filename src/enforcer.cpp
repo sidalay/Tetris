@@ -167,3 +167,19 @@ Tetro::Wallkick Enforcer::WallKickTest(
   }
   return Tetro::Wallkick{0,0};
 }
+
+bool Enforcer::IsSpawnSafe(
+  Tetromino t,
+  const Map& map)
+{
+  const auto blocks{t.GetBlocks()};
+
+  for (const auto& block : blocks) {
+    std::pair key{block.screen_row, block.screen_col + 1};
+    bool occupied{map.at(key)};
+    if (occupied) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -29,6 +29,9 @@ namespace Enforcer
     Tetromino,
     const Map&,
     const std::array<Tetro::Wallkick,4>&&);
+  bool IsSpawnSafe(
+    Tetromino,
+    const Map&);
 };
 
 #endif // ENFORCER_HPP
