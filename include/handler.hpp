@@ -40,7 +40,7 @@ public:
   bool UpdateLock();
   void SetLocked(bool active) {lock.active = active;}
   void LevelUp() {++level;}
-  void Reset() {level = 0;}
+  void Reset();
   [[nodiscard]] bool IsLocked() const {return lock.active;}
   [[nodiscard]] bool IsHeld() const {return lock.hold;}
 private:

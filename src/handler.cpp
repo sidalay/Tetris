@@ -145,3 +145,9 @@ void Handler::DrawGhost()
     }
   }
 }
+
+void Handler::Reset()
+{
+  hold = Tetromino{};
+  level = 0;
+}
