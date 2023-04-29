@@ -2,14 +2,46 @@
 
 #include "window.hpp"
 
-const Color Cyan{0, 255, 255, 255};   // I
-const Color Blue{0, 0, 255, 255};     // J
-const Color Orange{255, 165, 0, 255}; // L
-const Color Yellow{255, 255, 0, 255}; // O
-const Color Green{0, 255, 0, 255};    // S
-const Color Purple{128, 0, 128, 255}; // T
-const Color Red{255, 0, 0, 255};      // Z
-const Color Clear{0, 0, 0, 0};      // Line Cleared
+const Color Cyan      { 0, 255, 255, 255 };   // I
+const Color Blue      { 0, 0, 255, 255 };     // J
+const Color Orange    { 255, 165, 0, 255 };   // L
+const Color Yellow    { 255, 255, 0, 255 };   // O
+const Color Green     { 0, 255, 0, 255 };     // S
+const Color Purple    { 128, 0, 128, 255 };   // T
+const Color Red       { 255, 0, 0, 255 };     // Z
+const Color Clear     { 0, 0, 0, 0 };         // Line Cleared
+
+// gradients
+
+// Cyan
+const Color G_Primary_Cyan     { 125, 175, 255, 255 };
+const Color G_Secondary_Cyan   { 102, 240, 255, 255 };
+
+// Blue
+const Color G_Primary_Blue     { 7, 200, 249, 255 };
+const Color G_Secondary_Blue   { 13, 65, 225, 255 };
+
+// Orange
+const Color G_Primary_Orange   { 243, 105, 110, 255 };
+const Color G_Secondary_Orange { 248, 169, 2, 255 };
+
+// Yellow
+const Color G_Primary_Yellow   { 247, 162, 161, 255 };
+const Color G_Secondary_Yellow { 255, 237, 0, 255 };
+
+// Green
+const Color G_Primary_Green    { 0, 255, 135, 255 };
+const Color G_Secondary_Green  { 96, 239, 255, 255 };
+
+// Purple
+const Color G_Primary_Purple   { 255, 251, 175, 255 };
+const Color G_Secondary_Purple { 171, 42, 237, 255 };
+
+// Red
+const Color G_Primary_Red      { 255, 15, 123, 255 };
+const Color G_Secondary_Red    { 248, 155, 41, 255 };
+
+
 
 Tetromino::Tetromino(Tetro::Shape shape)
   : type{shape}
@@ -36,9 +68,10 @@ void Tetromino::Draw() const
 {
   float offset{1.f};
   for (auto& block : blocks) {
-    DrawRectangleRec(block.area, block.color);
-    Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
-    DrawRectangleLinesEx(area, 2.f, BLACK);
+    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
+    // DrawRectangleRec(block.area, block.color);
+    Rectangle outline{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
+    DrawRectangleLinesEx(outline, 2.f, BLACK);
   }
 }
 
@@ -47,9 +80,10 @@ void Tetromino::Draw(Vector2 pos) const
   float offset{1.f};
   for (auto& block : blocks) {
     Rectangle area{block.area.x + pos.x, block.area.y + pos.y, block.area.width, block.area.height};
-    Rectangle area2{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
-    DrawRectangleRec(area, block.color);
-    DrawRectangleLinesEx(area, 2.f, BLACK);
+    Rectangle outline{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
+    // DrawRectangleRec(area, block.color);
+    DrawRectangleGradientH(area.x, area.y, area.width, area.height, block.gradient.primary, block.gradient.secondary);
+    DrawRectangleLinesEx(outline, 2.f, BLACK);
   }
 }
 
@@ -205,33 +239,52 @@ void Tetromino::InitBlockSize()
 
 void Tetromino::InitBlockColor()
 {
-  switch (type)
-  {
-    case Tetro::Shape::I:
-      color = Cyan;
-      break;
-    case Tetro::Shape::J:
-      color = Blue;
-      break;
-    case Tetro::Shape::L:
-      color = Orange;
-      break;
-    case Tetro::Shape::O:
-      color = Yellow;
-      break;
-    case Tetro::Shape::S:
-      color = Green;
-      break;
-    case Tetro::Shape::T:
-      color = Purple;
-      break;
-    case Tetro::Shape::Z:
-      color = Red;
-      break;
-  }
-
   for (auto& block : blocks) {
-    block.color = this->color;
+    switch (type)
+    {
+      case Tetro::Shape::I:
+        color = Cyan;
+        block.color = Cyan;
+        block.gradient.primary = G_Primary_Cyan;
+        block.gradient.secondary = G_Secondary_Cyan;
+        break;
+      case Tetro::Shape::J:
+        color = Blue;
+        block.color = Blue;
+        block.gradient.primary = G_Primary_Blue;
+        block.gradient.secondary = G_Secondary_Blue;
+        break;
+      case Tetro::Shape::L:
+        color = Orange;
+        block.color = Orange;
+        block.gradient.primary = G_Primary_Orange;
+        block.gradient.secondary = G_Secondary_Orange;
+        break;
+      case Tetro::Shape::O:
+        color = Yellow;
+        block.color = Yellow;
+        block.gradient.primary = G_Primary_Yellow;
+        block.gradient.secondary = G_Secondary_Yellow;
+        break;
+      case Tetro::Shape::S:
+        color = Green;
+        block.color = Green;
+        block.gradient.primary = G_Primary_Green;
+        block.gradient.secondary = G_Secondary_Green;
+        break;
+      case Tetro::Shape::T:
+        color = Purple;
+        block.color = Purple;
+        block.gradient.primary = G_Primary_Purple;
+        block.gradient.secondary = G_Secondary_Purple;
+        break;
+      case Tetro::Shape::Z:
+        color = Red;
+        block.color = Red;
+        block.gradient.primary = G_Primary_Red;
+        block.gradient.secondary = G_Secondary_Red;
+        break;
+    }
   }
   // blocks[0].color = RAYWHITE;
 }

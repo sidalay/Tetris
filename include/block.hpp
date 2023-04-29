@@ -5,10 +5,17 @@
 
 namespace Tetro
 {
+  struct Gradient
+  {
+    Color primary{};
+    Color secondary{};
+  };
+  
   struct Block
   {
     Rectangle area{};
     Color     color{};
+    Gradient  gradient{};
     int       screen_row{};
     int       screen_col{};
 
