@@ -41,6 +41,9 @@ const Color G_Secondary_Purple { 61, 5, 221, 255 };
 const Color G_Primary_Red      { 248, 155, 41, 255 };
 const Color G_Secondary_Red    { 255, 15, 85, 255 };
 
+// Gray
+const Color G_Primary_Gray      { 255, 255, 255, 225 };
+const Color G_Secondary_Gray    { 62, 62, 62, 225 };
 
 
 Tetromino::Tetromino(Tetro::Shape shape)
@@ -91,7 +94,9 @@ void Tetromino::Draw(Color disabled) const
 {
   float offset{1.f};
   for (auto& block : blocks) {
-    DrawRectangleRec(block.area, disabled);
+    // DrawRectangleRec(block.area, disabled);
+    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
+    DrawRectangleGradientH(block.area.x, block.area.y, block.area.width, block.area.height, G_Primary_Gray, G_Secondary_Gray);
     Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(area, 2.f, BLACK);
   }
