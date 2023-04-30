@@ -41,8 +41,8 @@ public:
   void SetLocked(bool active) {lock.active = active;}
   void LevelUp() {++level;}
   void Reset();
-  [[nodiscard]] bool IsLocked() const {return lock.active;}
-  [[nodiscard]] bool IsHeld() const {return lock.hold;}
+  [[nodiscard]] bool IsLocked() const noexcept {return lock.active;}
+  [[nodiscard]] bool IsHeld() const noexcept {return lock.hold;}
 private:
   int              level{};
   float            deltatime{};

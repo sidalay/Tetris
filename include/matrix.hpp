@@ -29,7 +29,7 @@ public:
   void Draw();
   void Pause() {pause = !pause;}
   void Reset() {GameOver();}
-  [[nodiscard]] bool IsPaused() {return pause;}
+  [[nodiscard]] bool IsPaused() const {return pause;}
   [[nodiscard]] Handler& GetHandler() {return handler;}
   [[nodiscard]] Tetromino& GetCurrentTetro() {return tetromino;}
   [[nodiscard]] Rectangle GetBorder() const {return frames.at(0).area;}

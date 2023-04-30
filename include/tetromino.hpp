@@ -62,11 +62,11 @@ public:
   void WallKick(const Tetro::Wallkick, const Tetro::Rotation);
   void RotateWallKick(const Tetro::Rotation);
   void SetHoldState(Vector2);
-  Color GetColor() const {return color;}
-  Tetro::Shape GetType() const {return type;}
-  Tetro::Orientation GetOrientation() const {return facing;}
-  std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
-  std::array<Tetro::Block,4>& GetBlocks() {return blocks;}
+  [[nodiscard]] constexpr Color GetColor() const noexcept {return color;}
+  [[nodiscard]] constexpr Tetro::Shape GetType() const noexcept {return type;}
+  [[nodiscard]] constexpr Tetro::Orientation GetOrientation() const noexcept {return facing;}
+  [[nodiscard]] constexpr std::array<Tetro::Block,4> GetBlocks() const noexcept {return blocks;}
+  [[nodiscard]] std::array<Tetro::Block,4>& GetBlocks() noexcept {return blocks;}
 
 private:
   std::array<Tetro::Block,4> blocks{};
