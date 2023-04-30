@@ -24,6 +24,7 @@ void Game::Initialize(Properties& game)
   InitWindow(Window::width, Window::height, Window::title.c_str());
   SetWindowState(FLAG_WINDOW_RESIZABLE);
   SetWindowMinSize(800, 600);
+  HideCursor();
 }
 
 void Game::Tick(Properties& game)
