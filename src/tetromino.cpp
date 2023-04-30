@@ -72,7 +72,6 @@ void Tetromino::Draw() const
   float offset{1.f};
   for (auto& block : blocks) {
     DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
-    // DrawRectangleRec(block.area, block.color);
     Rectangle outline{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(outline, 2.f, BLACK);
   }
@@ -101,7 +100,6 @@ void Tetromino::Draw(Color disabled) const
 {
   float offset{1.f};
   for (auto& block : blocks) {
-    // DrawRectangleRec(block.area, disabled);
     DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
     DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, G_Primary_Gray, G_Secondary_Gray);
     Rectangle area{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
@@ -298,7 +296,6 @@ void Tetromino::InitBlockColor()
         break;
     }
   }
-  // blocks[0].color = RAYWHITE;
 }
 
 void Tetromino::InitBlockOrigin()

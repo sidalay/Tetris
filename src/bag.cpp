@@ -15,16 +15,19 @@ void Bag::Tick()
 
 void Bag::Draw(Rectangle bagframe)
 {
-  int tetrominos{5};
   float cell_size{Window::height * Window::cell_size_percentage};
+  int tetrominos{5};
+  // set margins
   float w_margin{bagframe.width - (cell_size * 4.f)}; // d = (W - (n*tw))
   float h_margin{(bagframe.height - (tetrominos * (cell_size * 2.f))) / (tetrominos + 1)}; // d = (H - (n*th)) / n + 1 
 
   for (int i{1}; i <= tetrominos; ++i) {
+    // create new position for origin block
     Vector2 pos{
       bagframe.x + w_margin + (bagframe.width * .1f), 
       bagframe.y + (i * h_margin) + ((i-1) * (cell_size * 2.f))
     };
+    // adjust drawing based on tetromino shape
     if (bag[i-1].GetType() == Tetro::Shape::I) {
       bag[i-1].Draw(Vector2{pos.x, pos.y - (cell_size * .5f)});
     } else if (bag[i-1].GetType() == Tetro::Shape::O) {
