@@ -56,7 +56,7 @@ void Playfield::Draw()
   DrawBlocks();
   DrawPause();
   tetromino.Draw();
-  bag.Draw();
+  bag.Draw(frames[2].area);
 }
 
 void Playfield::DrawFrames()
@@ -135,12 +135,12 @@ void Playfield::UpdateFrames()
   frames.at(1).area.x = frames.at(0).area.x - cell_size * 6.f;
   frames.at(1).area.y = frames.at(0).area.y;
   frames.at(1).area.width = cell_size * 5.f;
-  frames.at(1).area.height = cell_size * 5.f;
+  frames.at(1).area.height = cell_size * (frames.at(1).grid.y - 3.f);
 
   frames.at(2).area.x = frames.at(0).area.x + cell_size * 11.f;
-  frames.at(2).area.y = frames.at(0).area.y;
+  frames.at(2).area.y = frames.at(0).area.y + (cell_size * .5f);
   frames.at(2).area.width = cell_size * 5.f;
-  frames.at(2).area.height = cell_size * 16.f;
+  frames.at(2).area.height = cell_size * (frames.at(2).grid.y - 3.f);
 }
 
 void Playfield::UpdateMatrices()
@@ -176,18 +176,18 @@ void Playfield::InitializeFrames()
         frames.at(0).area.x - cell_size * 6.f,
         frames.at(0).area.y,
         cell_size * 5.f,
-        cell_size * 5.f},
-        Vector2{9,8} // first & last column and top three rows are invisible
+        cell_size * 5.f}, // frame border height
+        Vector2{9,8} // cell row & col
   });
   // bag frame
   frames.emplace_back(
     Frame{
       Rectangle{
         frames.at(0).area.x + cell_size * 11.f,
-        frames.at(0).area.y,
+        frames.at(0).area.y + (cell_size * .5f),
         cell_size * 5.f,
-        cell_size * 16.f},
-        Vector2{9,19} // first & last column and top three rows are invisible
+        cell_size * 16.f}, // frame border height
+        Vector2{9,19} // cell row & col
   });
 
   for (auto& row : frames) {
@@ -305,12 +305,12 @@ void Playfield::CaptureBlocks()
   auto tetro{tetromino.GetBlocks()};
   std::sort(tetro.begin(), tetro.end());
 
-  for (auto& block : tetro) {
+  for (const auto block : tetro) {
     // store current tetromino blocks in blocks map
     blocks.emplace(std::make_pair(block.screen_row, block.screen_col + 1), block);
     OccupyMatrix(block);
   }
-  for (auto& block : tetro) {
+  for (const auto block : tetro) {
     CheckLine(block.screen_row);
   }
 }
