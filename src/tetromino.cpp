@@ -76,7 +76,7 @@ void Tetromino::Draw(Vector2 pos)
   Tetromino tetro{*this};
   // set origin
   tetro.GetBlocks().at(0).area.x = pos.x;
-  tetro.GetBlocks().at(0).area.y = pos.y + (cell_size * 0.5f);
+  tetro.GetBlocks().at(0).area.y = pos.y + cell_size;
   // set shape
   tetro.SetFollowers();
 
