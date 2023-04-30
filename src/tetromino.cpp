@@ -2,40 +2,40 @@
 
 #include "window.hpp"
 
-const Color Cyan      { 0, 255, 255, 255 };   // I
-const Color Blue      { 0, 0, 255, 255 };     // J
-const Color Orange    { 255, 165, 0, 255 };   // L
-const Color Yellow    { 255, 255, 0, 255 };   // O
-const Color Green     { 0, 255, 0, 255 };     // S
-const Color Purple    { 128, 0, 128, 255 };   // T
-const Color Red       { 255, 0, 0, 255 };     // Z
-const Color Clear     { 0, 0, 0, 0 };         // Line Cleared
+const Color Cyan      { 0,   255, 255, 255 };  // I
+const Color Blue      { 0,   0,   255, 255 };  // J
+const Color Orange    { 255, 165, 0,   255 };  // L
+const Color Yellow    { 255, 255, 0,   255 };  // O
+const Color Green     { 0,   255, 0,   255 };  // S
+const Color Purple    { 128, 0,   128, 255 };  // T
+const Color Red       { 255, 0,   0,   255 };  // Z
+const Color Clear     { 0,   0,   0,   0   };  // Line Cleared
 
 // GRADIENTS
 // Cyan
-const Color G_Primary_Cyan     { 0, 255, 255, 255 };
-const Color G_Secondary_Cyan   { 0, 134, 253, 255 };
+const Color G_Primary_Cyan     { 0,   255, 255, 255 };
+const Color G_Secondary_Cyan   { 0,   134, 253, 255 };
 // Blue
-const Color G_Primary_Blue     { 7, 200, 249, 255 };
-const Color G_Secondary_Blue   { 9, 31, 241, 255 };
+const Color G_Primary_Blue     { 7,   200, 249, 255 };
+const Color G_Secondary_Blue   { 9,   31,  241, 255 };
 // Orange
 const Color G_Primary_Orange   { 255, 215, 100, 255 };
-const Color G_Secondary_Orange { 255, 78, 0, 255 };
+const Color G_Secondary_Orange { 255, 78,  0,   255 };
 // Yellow
 const Color G_Primary_Yellow   { 255, 255, 150, 255 };
-const Color G_Secondary_Yellow { 255, 195, 0, 255 };
+const Color G_Secondary_Yellow { 255, 195, 0,   255 };
 // Green
 const Color G_Primary_Green    { 106, 199, 167, 255 };
-const Color G_Secondary_Green  { 3, 59, 42, 255 };
+const Color G_Secondary_Green  { 3,   59,  42,  255 };
 // Purple
 const Color G_Primary_Purple   { 248, 114, 233, 255 };
-const Color G_Secondary_Purple { 61, 5, 221, 255 };
+const Color G_Secondary_Purple { 61,  5,   221, 255 };
 // Red
-const Color G_Primary_Red      { 248, 155, 41, 255 };
-const Color G_Secondary_Red    { 255, 15, 85, 255 };
+const Color G_Primary_Red      { 248, 155, 41,  255 };
+const Color G_Secondary_Red    { 255, 15,  85,  255 };
 // Gray
-const Color G_Primary_Gray      { 255, 255, 255, 225 };
-const Color G_Secondary_Gray    { 62, 62, 62, 225 };
+const Color G_Primary_Gray     { 255, 255, 255, 225 };
+const Color G_Secondary_Gray   { 62,  62,  62,  225 };
 
 
 Tetromino::Tetromino(Tetro::Shape shape)
