@@ -149,5 +149,6 @@ void Handler::DrawGhost()
 void Handler::Reset()
 {
   hold = Tetromino{};
+  lock.hold = false;
   level = 0;
 }
