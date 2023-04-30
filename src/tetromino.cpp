@@ -78,14 +78,21 @@ void Tetromino::Draw() const
   }
 }
 
-void Tetromino::Draw(Vector2 pos) const
+void Tetromino::Draw(Vector2 pos)
 {
+  float cell_size{Window::height * Window::cell_size_percentage};
+  // make copy of tetromino
+  Tetromino tetro{*this};
+  // set origin
+  tetro.GetBlocks().at(0).area.x = pos.x;
+  tetro.GetBlocks().at(0).area.y = pos.y + (cell_size * 0.5f);
+  // set shape
+  tetro.SetFollowers();
+
   float offset{1.f};
-  for (auto& block : blocks) {
-    Rectangle area{block.area.x + pos.x, block.area.y + pos.y, block.area.width, block.area.height};
-    Rectangle outline{area.x - offset, area.y - offset, area.width + offset, area.height + offset};
-    // DrawRectangleRec(area, block.color);
-    DrawRectangleGradientV(area.x, area.y, area.width, area.height, block.gradient.primary, block.gradient.secondary);
+  for (auto block : tetro.GetBlocks()) {
+    DrawRectangleGradientV(block.area.x, block.area.y, block.area.width, block.area.height, block.gradient.primary, block.gradient.secondary);
+    Rectangle outline{block.area.x - offset, block.area.y - offset, block.area.width + offset, block.area.height + offset};
     DrawRectangleLinesEx(outline, 2.f, BLACK);
   }
 }

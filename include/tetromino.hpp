@@ -53,8 +53,8 @@ public:
 
   void Tick();
   void Draw() const;
-  void Draw(Vector2) const;
   void Draw(Color) const;
+  void Draw(Vector2);
   void CheckScaling();
   void Fall();
   void Move(Tetro::Movement);
@@ -66,6 +66,7 @@ public:
   Tetro::Shape GetType() const {return type;}
   Tetro::Orientation GetOrientation() const {return facing;}
   std::array<Tetro::Block,4> GetBlocks() const {return blocks;}
+  std::array<Tetro::Block,4>& GetBlocks() {return blocks;}
 
 private:
   std::array<Tetro::Block,4> blocks{};

@@ -10,7 +10,7 @@ public:
   Bag();
 
   void Tick();
-  void Draw();
+  void Draw(Rectangle);
   void Reset();
   void CheckScaling();
   Tetromino Pull();
