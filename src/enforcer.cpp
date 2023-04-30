@@ -12,7 +12,7 @@ bool Enforcer::MovementIsSafe(
 
   // account for offset of invisble columns when we create keys
   if (direction == Tetro::Movement::LEFT) {
-    for (const auto& block : blocks) {
+    for (const auto block : blocks) {
       std::pair key{block.screen_row, block.screen_col};
       bool occupied{map.at(key)};
       if (occupied) {
@@ -47,7 +47,7 @@ bool Enforcer::RotationIsSafe(
   const float cell_size{Window::height * Window::cell_size_percentage};
 
   t.RotateWallKick(rotation);
-  for (const auto& block : t.GetBlocks()) {
+  for (const auto block : t.GetBlocks()) {
     std::pair key{block.screen_row, block.screen_col + 1};
     bool occupied{map.at(key)};
     if (occupied) {
@@ -65,7 +65,7 @@ bool Enforcer::WallkickIsSafe(
   const float cell_size{Window::height * Window::cell_size_percentage};
   const auto blocks{t.GetBlocks()};
 
-  for (const auto& block : blocks) {
+  for (const auto block : blocks) {
     std::pair key{block.screen_row - kick.row, (block.screen_col + 1) + kick.col};
     if (key.second < 0) {
       key.first = 0;
@@ -174,7 +174,7 @@ bool Enforcer::IsSpawnSafe(
 {
   const auto blocks{t.GetBlocks()};
 
-  for (const auto& block : blocks) {
+  for (const auto block : blocks) {
     std::pair key{block.screen_row, block.screen_col + 1};
     bool occupied{map.at(key)};
     if (occupied) {

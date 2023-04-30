@@ -134,7 +134,7 @@ void Handler::DrawGhost()
       temp.Move(Tetro::Movement::DOWN);
       ++offset;
     }
-    for (auto& block : tetro) {
+    for (const auto block : tetro) {
       float thickness{1.f};
       Rectangle outline{
         block.area.x + thickness, 
