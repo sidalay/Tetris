@@ -37,6 +37,7 @@ public:
   void DrawHold();
   void DrawGhost();
   void ScaleHold();
+  void ResetLock();
   bool UpdateLock();
   void SetLocked(bool active) {lock.active = active;}
   void LevelUp() {++level;}
@@ -57,7 +58,6 @@ private:
 
   void ApplyGravity();
   bool CheckLock();
-  void ResetLock();
 };
 
 bool operator==(const Color& lhs, const Color& rhs);

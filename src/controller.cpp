@@ -57,6 +57,7 @@ void Controller::SideStep(Tetro::Movement movement, float& time)
     time += GetFrameTime();
     if (time >= deltatime.step_delay) {
       tetro.Move(movement);
+      matrix.GetHandler().ResetLock();
       time = 0.f;
     }
   }
