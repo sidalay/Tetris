@@ -18,10 +18,10 @@ public:
   void Tick();
   void Draw();
 private:
-  Mode mode{Play::Mode::MARATHON};
+  Mode      mode{};
+  Level     level{};
+  Score     score{};
   Playfield playfield{};
-  Level level{};
-  Score score{};
 };
 
 }
