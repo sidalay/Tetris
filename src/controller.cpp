@@ -19,7 +19,7 @@ void Controller::Hold()
   matrix.GetHandler().Hold();
 }
 
-void Controller::Spin(Tetro::Rotation rotation)
+void Controller::Rotate(Tetro::Rotation rotation)
 {
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::RotationIsSafe(tetro, matrix.GetMatrixMap(), rotation)) {
@@ -114,6 +114,12 @@ void Controller::CheckSideStep()
 void Controller::CheckKeyboardInput()
 {
   if (!matrix.IsPaused()) {
+    if (IsKeyPressed(ROTATE_CCW)) {
+      Rotate(Tetro::Rotation::CCW);
+    } else if (IsKeyPressed(ROTATE_CW)) {
+      Rotate(Tetro::Rotation::CW);
+    }
+
     if (IsKeyDown(SOFT_DROP)) {
       SoftDrop(deltatime.kb_drop);
     } else if (IsKeyPressed(HARD_DROP)) {
@@ -124,12 +130,6 @@ void Controller::CheckKeyboardInput()
     
     if (IsKeyPressed(HOLD)) {
       Hold();
-    }
-
-    if (IsKeyPressed(ROTATE_CCW)) {
-      Spin(Tetro::Rotation::CCW);
-    } else if (IsKeyPressed(ROTATE_CW)) {
-      Spin(Tetro::Rotation::CW);
     }
 
     if (IsKeyPressed(RESET)) {
@@ -153,6 +153,12 @@ void Controller::CheckGamepadInput()
 {
   if (IsGamepadAvailable(0)) {
     if (!matrix.IsPaused()) {
+      if (IsGamepadButtonPressed(0, GP_ROTATE_CCW) || IsGamepadButtonPressed(0, GP_ROTATE_CCW_ALT)) {
+        Rotate(Tetro::Rotation::CCW);
+      } else if (IsGamepadButtonPressed(0, GP_ROTATE_CW) || IsGamepadButtonPressed(0, GP_ROTATE_CW_ALT)) {
+        Rotate(Tetro::Rotation::CW);
+      }
+
       if (IsGamepadButtonDown(0, GP_SOFT_DROP)) {
         SoftDrop(deltatime.gp_drop);
       } else if (IsGamepadButtonPressed(0, GP_HARD_DROP) || IsGamepadButtonPressed(0, GP_HARD_DROP_ALT)) {
@@ -163,12 +169,6 @@ void Controller::CheckGamepadInput()
 
       if (IsGamepadButtonPressed(0, GP_HOLD) || IsGamepadButtonPressed(0, GP_HOLD_ALT)) {
         Hold();
-      }
-
-      if (IsGamepadButtonPressed(0, GP_ROTATE_CCW) || IsGamepadButtonPressed(0, GP_ROTATE_CCW_ALT)) {
-        Spin(Tetro::Rotation::CCW);
-      } else if (IsGamepadButtonPressed(0, GP_ROTATE_CW) || IsGamepadButtonPressed(0, GP_ROTATE_CW_ALT)) {
-        Spin(Tetro::Rotation::CW);
       }
 
       if (IsGamepadButtonPressed(0, GP_RESET)) {

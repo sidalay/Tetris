@@ -27,7 +27,7 @@ private:
   Tetro::Movement direction{};
 
   void Hold();
-  void Spin(Tetro::Rotation);
+  void Rotate(Tetro::Rotation);
   void SoftDrop(float&);
   void HardDrop();
   void SideStep(Tetro::Movement, float&);
