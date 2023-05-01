@@ -15,7 +15,8 @@ enum class Mode {
 };
 
 public:
-  void Run();
+  void Tick();
+  void Draw();
 private:
   Mode mode{Play::Mode::MARATHON};
   Playfield playfield{};
