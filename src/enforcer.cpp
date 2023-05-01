@@ -7,7 +7,6 @@ bool Enforcer::MovementIsSafe(
   const Map& map, 
   const Tetro::Movement direction)
 {
-  const float cell_size{Window::height * Window::cell_size_percentage};
   const auto blocks{t.GetBlocks()};
 
   // account for offset of invisble columns when we create keys
@@ -44,8 +43,6 @@ bool Enforcer::RotationIsSafe(
   const Map& map,
   const Tetro::Rotation rotation)
 {
-  const float cell_size{Window::height * Window::cell_size_percentage};
-
   t.RotateWallKick(rotation);
   for (const auto block : t.GetBlocks()) {
     std::pair key{block.screen_row, block.screen_col + 1};
@@ -62,7 +59,6 @@ bool Enforcer::WallkickIsSafe(
     const Map& map, 
     const Tetro::Wallkick kick)
 {
-  const float cell_size{Window::height * Window::cell_size_percentage};
   const auto blocks{t.GetBlocks()};
 
   for (const auto block : blocks) {
@@ -85,8 +81,6 @@ Tetro::Wallkick Enforcer::WallKickEval(
   const Map& map, 
   const Tetro::Rotation rotation)
 {
-  const float cell_size{Window::height * Window::cell_size_percentage};
-
   if (t.GetType() == Tetro::Shape::I) {
     switch (t.GetOrientation())
     {
