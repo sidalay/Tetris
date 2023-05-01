@@ -30,8 +30,10 @@ add_executable(${PROJECT_NAME}
   src/garbage.cpp
   src/handler.cpp
   src/lerp.cpp
+  src/level.cpp
   src/main.cpp
   src/matrix.cpp
+  src/play.cpp
   src/player.cpp
   src/randomizer.cpp
   src/score.cpp

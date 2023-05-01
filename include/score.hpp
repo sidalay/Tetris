@@ -1,6 +1,11 @@
 #ifndef SCORE_HPP
 #define SCORE_HPP
 
+struct Score
+{
+
+};
+
 #endif // SCORE_HPP
 
 /*
