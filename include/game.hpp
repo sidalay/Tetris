@@ -5,11 +5,6 @@
 
 namespace Game
 {
-  enum class State
-  {
-    RUN,PAUSE
-  };
-
   struct Properties
   {
     float     deltatime{};
