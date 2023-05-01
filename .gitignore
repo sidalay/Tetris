@@ -2,6 +2,9 @@
 .VSCodeCounter
 .code-workspace
 *.exe
+.idea
 
 build
 release
+cmake-build-debug
+cmake-build-release
