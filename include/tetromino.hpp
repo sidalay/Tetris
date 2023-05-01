@@ -9,23 +9,19 @@
 namespace Tetro 
 {
   
-enum class Shape 
-{
+enum class Shape {
   I, J, L, O, S, T, Z
 };
 
-enum class Orientation
-{
+enum class Orientation {
   UP, DOWN, LEFT, RIGHT
 };
 
-enum class Movement
-{
+enum class Movement {
   DOWN, LEFT, RIGHT
 };
 
-enum class Rotation
-{
+enum class Rotation {
   CW, CCW
 };
 
