@@ -9,7 +9,6 @@ Controller::Controller(Playfield& playfield)
 
 void Controller::Tick()
 {
-  Tetromino& tetro{matrix.GetCurrentTetro()};
   CheckKeyboardInput();
   CheckGamepadInput();
 }
@@ -34,7 +33,7 @@ void Controller::SoftDrop(float& time)
   Tetromino& tetro{matrix.GetCurrentTetro()};
   if (Enforcer::MovementIsSafe(tetro, matrix.GetMatrixMap(), Tetro::Movement::DOWN)) {
     time += GetFrameTime();
-    if (time >= deltatime.step_delay) {
+    if (time >= deltatime.drop_delay) {
       tetro.Move(Tetro::Movement::DOWN);
       time = 0.f;
     }

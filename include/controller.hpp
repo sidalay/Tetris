@@ -18,7 +18,7 @@ struct Deltatime
 };
 
 public:
-  Controller(Playfield&);
+  explicit Controller(Playfield&);
   void Tick();
 
 private:
