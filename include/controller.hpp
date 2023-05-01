@@ -3,8 +3,9 @@
 
 #include "matrix.hpp"
 
-struct Controller
+class Controller
 {
+public:
   Controller(Playfield&);
   void Tick();
 
