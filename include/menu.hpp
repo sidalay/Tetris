@@ -5,7 +5,7 @@ namespace Game
 {
 
 enum class Menu {
-  TITLE, PAUSE, SETTINGS, GAMEOVER  
+  TITLE, MAIN, MODESELECT, PAUSE, SETTINGS, GAMEOVER, HELP
 };
 
 }
