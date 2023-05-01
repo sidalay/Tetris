@@ -33,6 +33,7 @@ add_executable(${PROJECT_NAME}
   src/level.cpp
   src/main.cpp
   src/matrix.cpp
+  src/menu.cpp
   src/play.cpp
   src/player.cpp
   src/randomizer.cpp
