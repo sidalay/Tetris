@@ -14,7 +14,7 @@ public:
   void Reset();
   void CheckScaling();
   Tetromino Pull();
-  [[nodiscard]] const std::vector<Tetromino>& View() const {return bag;}
+  [[nodiscard]] const std::vector<Tetromino> View() const {return bag;}
 
 private:
   std::vector<Tetromino> bag{};
