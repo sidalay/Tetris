@@ -3,16 +3,28 @@
 
 #include "matrix.hpp"
 
+
 class Controller
 {
+struct Deltatime
+{
+  float kb_drop{1.f/20.f};
+  float kb_step{1.f/15.f};
+  float gp_drop{1.f/20.f};
+  float gp_step{1.f/15.f};
+  float auto_repeat{0.f};
+  const float drop_delay{1.f/20.f};
+  const float step_delay{1.f/15.f};
+};
+
 public:
   Controller(Playfield&);
   void Tick();
 
 private:
   Playfield& matrix;
-  float keyboard{1.f/20.f};
-  float gamepad{1.f/20.f};
+  Deltatime deltatime;
+  Tetro::Movement direction{};
 
   void Hold();
   void Spin(Tetro::Rotation);
@@ -21,7 +33,8 @@ private:
   void SideStep(Tetro::Movement, float&);
   void Pause();
   void Reset();
-  void CheckInput();
+  void CheckSideStep();
+  void CheckKeyboardInput();
   void CheckGamepadInput();
 };
 
