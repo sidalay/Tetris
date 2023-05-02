@@ -11,7 +11,7 @@ void Controller::Tick()
 {
   CheckKeyboardInput();
   CheckGamepadInput();
-  DrawText(TextFormat("auto repeat: %f", deltatime.auto_repeat), 20, 300, 20, GREEN);
+  // DrawText(TextFormat("auto repeat: %f", deltatime.auto_repeat), 20, 300, 20, GREEN);
 }
 
 void Controller::Hold()
