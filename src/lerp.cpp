@@ -2,53 +2,53 @@
 
 #include <cmath>
 
-float Lerp(float a, float b, float t)
+float Game::Lerp(float a, float b, float t)
 {
   return a * (1.f - t) + b * t;
 }
 
-float InvLerp(float a, float b, float v)
+float Game::InvLerp(float a, float b, float v)
 {
   return (v - a) / (b - a);
 }
 
-float Remap(float iMin, float iMax, float oMin, float oMax, float v)
+float Game::Remap(float iMin, float iMax, float oMin, float oMax, float v)
 {
   float t = InvLerp(iMin, iMax, v);
   return Lerp(oMin, oMax, t);
 }
 
-float EaseIn(float t) 
+float Game::EaseIn(float t) 
 {
   return t * t;
 }
 
-float EaseOut(float t)
+float Game::EaseOut(float t)
 {
   return 1.f - (1.f - t) * (1.f - t);
 }
 
-float Smoothstep(float t)
+float Game::Smoothstep(float t)
 {
   return std::lerp(EaseIn(t), EaseOut(t), t);
 }
 
-float Parabola(float t, float k) 
+float Game::Parabola(float t, float k) 
 {
   return std::pow(4.f * t * (1.f - t), k);
 }
 
-float Triangle(float t)
+float Game::Triangle(float t)
 {
   return 1.f - 2.f * std::abs(t - 0.5f);
 }
 
-float ElasticOut(float t) 
+float Game::ElasticOut(float t) 
 {
   return std::sin(-13.f * (t + 1.f) * 3.14f/2.f) * std::pow(2.0, -10.0 * t) + 1.0;
 }
 
-float BounceOut(float t)
+float Game::BounceOut(float t)
 {
   const float nl{7.5625f};
   const float dl{2.75f};

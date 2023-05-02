@@ -4,6 +4,9 @@
 static float blend{};
 static float direction{0.01};
 
+namespace Game
+{
+
 float Lerp(float a, float b, float t);
 float InvLerp(float a, float b, float v);
 float Remap(float iMin, float iMax, float oMin, float oMax, float v);
@@ -15,5 +18,6 @@ float Triangle(float t);
 float ElasticOut(float t);
 float BounceOut(float t);
 
+}
 
 #endif // LERP_HPP
