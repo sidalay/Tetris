@@ -40,15 +40,15 @@ private:
 
 #endif // CONTROLLER_HPP
 
-#define HARD_DROP   KEY_UP
-#define SOFT_DROP   KEY_DOWN
-#define STEP_LEFT   KEY_LEFT
-#define STEP_RIGHT  KEY_RIGHT
-#define ROTATE_CW   KEY_D
-#define ROTATE_CCW  KEY_A
-#define HOLD        KEY_LEFT_SHIFT
-#define PAUSE       KEY_P
-#define RESET       KEY_F1
+#define KB_HARD_DROP   KEY_UP
+#define KB_SOFT_DROP   KEY_DOWN
+#define KB_STEP_LEFT   KEY_LEFT
+#define KB_STEP_RIGHT  KEY_RIGHT
+#define KB_ROTATE_CW   KEY_D
+#define KB_ROTATE_CCW  KEY_A
+#define KB_HOLD        KEY_LEFT_SHIFT
+#define KB_PAUSE       KEY_P
+#define KB_RESET       KEY_F1
 
 #define GP_HARD_DROP   GAMEPAD_BUTTON_LEFT_FACE_UP
 #define GP_SOFT_DROP   GAMEPAD_BUTTON_LEFT_FACE_DOWN

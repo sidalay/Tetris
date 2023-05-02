@@ -75,25 +75,25 @@ void Controller::Reset()
 void Controller::CheckSideStep()
 {
   // set key last pressed
-  if (IsKeyPressed(STEP_LEFT)) {
+  if (IsKeyPressed(KB_STEP_LEFT)) {
     direction = Tetro::Movement::LEFT;
-  } else if (IsKeyPressed(STEP_RIGHT)) {
+  } else if (IsKeyPressed(KB_STEP_RIGHT)) {
     direction = Tetro::Movement::RIGHT;
   }
 
   // Update auto repeat
-  if (IsKeyDown(STEP_LEFT) || IsKeyDown(STEP_RIGHT) || IsGamepadButtonDown(0, GP_STEP_LEFT) || IsGamepadButtonDown(0, GP_STEP_RIGHT)) {
+  if (IsKeyDown(KB_STEP_LEFT) || IsKeyDown(KB_STEP_RIGHT) || IsGamepadButtonDown(0, GP_STEP_LEFT) || IsGamepadButtonDown(0, GP_STEP_RIGHT)) {
     deltatime.auto_repeat += GetFrameTime();
   }
 
   float repeat_delay{.3f};
   if (deltatime.auto_repeat < 0.01f || deltatime.auto_repeat >= repeat_delay) {
     // keyboard
-    if (IsKeyDown(STEP_LEFT) && IsKeyDown(STEP_RIGHT)) {
+    if (IsKeyDown(KB_STEP_LEFT) && IsKeyDown(KB_STEP_RIGHT)) {
       SideStep(direction, deltatime.kb_step);
-    } else if (IsKeyDown(STEP_LEFT)) {
+    } else if (IsKeyDown(KB_STEP_LEFT)) {
       SideStep(Tetro::Movement::LEFT, deltatime.kb_step);
-    } else if (IsKeyDown(STEP_RIGHT)) {
+    } else if (IsKeyDown(KB_STEP_RIGHT)) {
       SideStep(Tetro::Movement::RIGHT, deltatime.kb_step);
     }
 
@@ -105,7 +105,7 @@ void Controller::CheckSideStep()
     }
   }
   // Reset auto repeat
-  if (IsKeyUp(STEP_LEFT) && IsKeyUp(STEP_RIGHT) && IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT)) {
+  if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT) && IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT)) {
     deltatime.auto_repeat = 0.f;
   }
 }
@@ -113,37 +113,37 @@ void Controller::CheckSideStep()
 void Controller::CheckKeyboardInput()
 {
   if (!matrix.IsPaused()) {
-    if (IsKeyPressed(ROTATE_CCW)) {
+    if (IsKeyPressed(KB_ROTATE_CCW)) {
       Rotate(Tetro::Rotation::CCW);
-    } else if (IsKeyPressed(ROTATE_CW)) {
+    } else if (IsKeyPressed(KB_ROTATE_CW)) {
       Rotate(Tetro::Rotation::CW);
     }
 
-    if (IsKeyDown(SOFT_DROP)) {
+    if (IsKeyDown(KB_SOFT_DROP)) {
       SoftDrop(deltatime.kb_drop);
-    } else if (IsKeyPressed(HARD_DROP)) {
+    } else if (IsKeyPressed(KB_HARD_DROP)) {
       HardDrop();
     }
     
     CheckSideStep();
     
-    if (IsKeyPressed(HOLD)) {
+    if (IsKeyPressed(KB_HOLD)) {
       Hold();
     }
 
-    if (IsKeyPressed(RESET)) {
+    if (IsKeyPressed(KB_RESET)) {
       Reset();
     }
   }
 
-  if (IsKeyPressed(PAUSE)) {
+  if (IsKeyPressed(KB_PAUSE)) {
     Pause();
   }
 
-  if (IsKeyUp(STEP_LEFT) && IsKeyUp(STEP_RIGHT)) {
+  if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT)) {
     deltatime.kb_step = deltatime.step_delay;
   }
-  if (IsKeyUp(SOFT_DROP)) {
+  if (IsKeyUp(KB_SOFT_DROP)) {
     deltatime.kb_drop = deltatime.step_delay;
   }
 }

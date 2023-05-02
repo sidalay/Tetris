@@ -44,7 +44,7 @@ void Handler::CheckScaling(Rectangle matrixArea)
 
 void Handler::ApplyGravity()
 {
-  if (IsKeyUp(SOFT_DROP)) {
+  if (IsKeyUp(KB_SOFT_DROP)) {
     deltatime += GetFrameTime();
     if (deltatime >= multiplier[level]) {
       if (Enforcer::MovementIsSafe(tetromino, matrix, Tetro::Movement::DOWN)) {
