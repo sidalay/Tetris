@@ -33,8 +33,9 @@ void Game::Tick(Properties& game)
 
   if (game.deltatime >= game.updatetime) {
     Window::Tick();
-    game.matrix.Tick();
+    // game.matrix.Tick();
     //  ------------------------------------- test
+    game.menu.Tick();
     game.controller.Tick();
     //  ------------------------------------- test
     game.deltatime = 0.f;
@@ -43,7 +44,8 @@ void Game::Tick(Properties& game)
   BeginDrawing();
   ClearBackground(BLACK);
 
-  game.matrix.Draw();
+  game.menu.Draw();
+  // game.matrix.Draw();
 
   EndDrawing();
 }

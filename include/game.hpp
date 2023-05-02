@@ -2,6 +2,8 @@
 #define GAME_HPP
 
 #include "controller.hpp"
+#include "menu.hpp"
+#include "play.hpp"
 
 namespace Game
 {
@@ -14,6 +16,7 @@ namespace Game
     Playfield matrix{};
 
     // test
+    Menu       menu{};
     Controller controller{matrix};
   };
 
