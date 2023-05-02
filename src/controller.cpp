@@ -11,6 +11,7 @@ void Controller::Tick()
 {
   CheckKeyboardInput();
   CheckGamepadInput();
+  DrawText(TextFormat("auto repeat: %f", deltatime.auto_repeat), 20, 300, 20, GREEN);
 }
 
 void Controller::Hold()
@@ -86,7 +87,7 @@ void Controller::CheckSideStep()
     deltatime.auto_repeat += GetFrameTime();
   }
 
-  float repeat_delay{.3f};
+  float repeat_delay{.2f};
   if (deltatime.auto_repeat < 0.01f || deltatime.auto_repeat >= repeat_delay) {
     // keyboard
     if (IsKeyDown(KB_STEP_LEFT) && IsKeyDown(KB_STEP_RIGHT)) {
@@ -105,8 +106,14 @@ void Controller::CheckSideStep()
     }
   }
   // Reset auto repeat
-  if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT) && IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT)) {
-    deltatime.auto_repeat = 0.f;
+  if (IsGamepadAvailable(0)) {
+    if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT) && IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT)) {
+      deltatime.auto_repeat = 0.f;
+    }
+  } else {
+    if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT)) {
+      deltatime.auto_repeat = 0.f;
+    }
   }
 }
 
