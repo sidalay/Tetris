@@ -86,8 +86,8 @@ void Controller::CheckSideStep()
     deltatime.auto_repeat += GetFrameTime();
   }
 
-  float repeat_delay{.2f};
-  if (deltatime.auto_repeat < 0.02f || deltatime.auto_repeat >= repeat_delay) {
+  float repeat_delay{.3f};
+  if (deltatime.auto_repeat < 0.01f || deltatime.auto_repeat >= repeat_delay) {
     // keyboard
     if (IsKeyDown(STEP_LEFT) && IsKeyDown(STEP_RIGHT)) {
       SideStep(direction, deltatime.kb_step);
