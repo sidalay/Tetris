@@ -84,12 +84,16 @@ private:
 // MENU CONTROLS
 #define KB_SELECT          KEY_ENTER
 #define KB_BACK            KEY_BACKSPACE
+#define KB_UP              KEY_UP
+#define KB_DOWN            KEY_DOWN
 
 #define KB_SELECT_ALT      KEY_SPACE
 #define KB_BACK_ALT        KEY_ESCAPE
 
 #define GP_SELECT          GAMEPAD_BUTTON_RIGHT_FACE_DOWN
 #define GP_BACK            GAMEPAD_BUTTON_RIGHT_FACE_RIGHT
+#define GP_UP              GAMEPAD_BUTTON_LEFT_FACE_UP
+#define GP_DOWN            GAMEPAD_BUTTON_LEFT_FACE_DOWN
 
 #define GP_SELECT_ALT      GAMEPAD_BUTTON_MIDDLE_RIGHT
 #define GP_BACK_ALT
