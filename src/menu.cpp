@@ -28,6 +28,9 @@ void Game::Menu::TickScreen()
     case Screen::PLAY:
       TickPlay();
       break;
+    case Screen::GAME:
+      TickGame();
+      break;
     case Screen::SETTINGS:
       TickSettings();
       break;
@@ -53,6 +56,8 @@ void Game::Menu::DrawScreen()
     break;
   case Screen::PLAY:
     DrawPlay();
+    break;
+  case Screen::GAME:
     break;
   case Screen::SETTINGS:
     DrawSettings();
@@ -146,13 +151,25 @@ void Game::Menu::DrawMain()
 
 void Game::Menu::TickPlay()
 {
-  std::vector<Selection> select_options{};
+  std::vector<Selection> select_options{Selection::MARATHON, Selection::ULTRA, Selection::ENDLESS, Selection::FORTY, Selection::VERSUS};
   CycleMenu(select_options);
 }
 
 void Game::Menu::DrawPlay()
 {
   DrawText("PLAY SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
+  Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Button(Selection::MARATHON, button_rec, 0);
+  Button(Selection::ULTRA, button_rec, 1);
+  Button(Selection::ENDLESS, button_rec, 2);
+  Button(Selection::FORTY, button_rec, 3);
+  Button(Selection::VERSUS, button_rec, 4);
+}
+
+void Game::Menu::TickGame()
+{
+  
+  play.Run();
 }
 
 void Game::Menu::TickSettings()
@@ -231,7 +248,6 @@ void Game::Menu::TickCountdown()
   if (menu.countdown <= 0.f) {
     menu.countdown = 3.f;
     state = State::NEUTRAL;
-    current_screen = Screen::TITLE;
   }
 }
 
@@ -277,12 +293,24 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
         menu.standby = false;
         break;
       case Selection::MARATHON:
+        play.SetMode(Play::Mode::MARATHON);
+        Transition(Screen::GAME);
         break;
       case Selection::ULTRA:
+        play.SetMode(Play::Mode::ULTRA);
+        Transition(Screen::GAME);
         break;
       case Selection::FORTY:
+        play.SetMode(Play::Mode::FORTY);
+        Transition(Screen::GAME);
         break;
       case Selection::VERSUS:
+        play.SetMode(Play::Mode::VERSUS);
+        Transition(Screen::GAME);
+        break;
+      case Selection::ENDLESS:
+        play.SetMode(Play::Mode::ENDLESS);
+        Transition(Screen::GAME);
         break;
       case Selection::NEUTRAL:
         break;
@@ -359,6 +387,9 @@ void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
       break;
     case Selection::VERSUS:
       DrawText("VERSUS", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::ENDLESS:
+      DrawText("ENDLESS", pos.x, pos.y, font_size, text_color);
       break;
     case Selection::NEUTRAL:
       break;

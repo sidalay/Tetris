@@ -11,13 +11,13 @@ namespace Game
 class Menu 
 {
 enum class Screen {
-  TITLE, MAIN, PLAY, SETTINGS, GAMEOVER, HELP
+  TITLE, MAIN, PLAY, GAME, SETTINGS, GAMEOVER, HELP
 };
 enum class State {
   NEUTRAL, PAUSE, COUNTDOWN, QUIT, TRANSITION_IN, TRANSITION_OUT
 };
 enum class Selection {
-  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, QUIT, CONFIRM_QUIT, CANCEL, MARATHON, ULTRA, VERSUS, FORTY
+  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, QUIT, CONFIRM_QUIT, CANCEL, MARATHON, ULTRA, VERSUS, FORTY, ENDLESS
 };
 enum class Movement {
   UP, DOWN, LEFT, RIGHT
@@ -35,8 +35,8 @@ public:
 
   void Tick();
   void Draw();
-  [[nodiscard]] constexpr bool ShouldExit() const {return menu.exit;}
-  [[nodiscard]] constexpr Screen CurrentScreen() const {return current_screen;}
+  [[nodiscard]] constexpr bool ShouldExit() const noexcept {return menu.exit;}
+  [[nodiscard]] constexpr Screen CurrentScreen() const noexcept {return current_screen;}
 
 private:
   Screen     current_screen{};
@@ -44,6 +44,7 @@ private:
   State      state{};
   Selection  select{};
   Properties menu{};
+  Play       play{};
   // Controller controller{};
 
   void TickScreen();
@@ -59,6 +60,8 @@ private:
 
   void TickPlay();
   void DrawPlay();
+
+  void TickGame();
 
   void TickSettings();
   void DrawSettings();
