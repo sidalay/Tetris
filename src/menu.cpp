@@ -190,7 +190,7 @@ void Game::Menu::DrawHelp()
 
 void Game::Menu::TickQuit()
 {
-  std::vector<Selection> select_options{Selection::CONFIRM, Selection::CANCEL};
+  std::vector<Selection> select_options{Selection::CONFIRM_QUIT, Selection::CANCEL};
   CycleMenu(select_options);
 }
 
@@ -199,7 +199,7 @@ void Game::Menu::DrawQuit()
   DrawRectangle(Window::width * 0.2f, Window::height * 0.2, Window::width * 0.6f, Window::height * 0.6f, Color{10,20,10,255});
   DrawText("QUIT SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
   Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
-  Button(Selection::CONFIRM, button_rec, 0);
+  Button(Selection::CONFIRM_QUIT, button_rec, 0);
   Button(Selection::CANCEL, button_rec, 1);
 }
 
@@ -269,7 +269,7 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
         state = State::QUIT;
         menu.standby = true;
         break;
-      case Selection::CONFIRM:
+      case Selection::CONFIRM_QUIT:
         menu.exit = true;
         break;
       case Selection::CANCEL:
@@ -342,7 +342,7 @@ void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
     case Selection::QUIT:
       DrawText("QUIT", pos.x, pos.y, font_size, text_color);
       break;
-    case Selection::CONFIRM:
+    case Selection::CONFIRM_QUIT:
       DrawText("CONFIRM", pos.x, pos.y, font_size, text_color);
       break;
     case Selection::CANCEL:
@@ -394,7 +394,7 @@ void Game::Menu::DrawTransition()
 {
   if (state == State::TRANSITION_IN) {
     DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, menu.transition))});
-  } else {
+  } else if (state == State::TRANSITION_OUT) {
     DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, menu.transition * 0.5f))});
   }
 }
@@ -429,7 +429,7 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
 
   // back out
   if (CheckInputBack()) {
-    if (select == Selection::NEUTRAL) {
+    if (select == Selection::NEUTRAL && !menu.standby) {
       switch (current_screen) 
       {
         case Screen::MAIN:
@@ -444,6 +444,12 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
       }
     } else {
       menu.select_index = options.size() - 1;
+    }
+    // check for back on pop up menus
+    if (state != State::NEUTRAL && menu.standby) {
+      state = State::NEUTRAL;
+      menu.standby = false;
+      menu.select_index = 0;
     }
   }
 
