@@ -14,10 +14,10 @@ enum class Screen {
   TITLE, MAIN, PLAY, SETTINGS, GAMEOVER, HELP
 };
 enum class State {
-  NEUTRAL, PAUSE, COUNTDOWN, TRANSITION_IN, TRANSITION_OUT
+  NEUTRAL, PAUSE, COUNTDOWN, QUIT, TRANSITION_IN, TRANSITION_OUT
 };
 enum class Selection {
-  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, MARATHON, ULTRA, VERSUS, FORTY
+  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, QUIT, CONFIRM, CANCEL, MARATHON, ULTRA, VERSUS, FORTY
 };
 enum class Movement {
   UP, DOWN, LEFT, RIGHT
@@ -26,6 +26,7 @@ struct Properties {
   float transition{};
   float countdown{3.f};
   int   select_index{};
+  bool  standby{};
 };
 
 public:
@@ -65,6 +66,9 @@ private:
 
   void TickHelp();
   void DrawHelp();
+
+  void TickQuit();
+  void DrawQuit();
 
   void TickNeutral();
 

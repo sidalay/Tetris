@@ -16,7 +16,7 @@ void Game::Menu::Draw()
 
 void Game::Menu::TickScreen()
 {
-  if (state != State::PAUSE && state != State::COUNTDOWN) {
+  if (state != State::PAUSE && state != State::COUNTDOWN && !menu.standby) {
     switch (current_screen)
     {
     case Screen::TITLE:
@@ -79,6 +79,9 @@ void Game::Menu::TickState()
     case State::COUNTDOWN:
       TickCountdown();
       break;
+    case State::QUIT:
+      TickQuit();
+      break;
     case State::TRANSITION_IN:
       TransitionIn(next_screen);
       break;
@@ -99,6 +102,9 @@ void Game::Menu::DrawState()
       break;
     case State::COUNTDOWN:
       DrawCountdown();
+      break;
+    case State::QUIT:
+      DrawQuit();
       break;
     case State::TRANSITION_IN: [[fallthrough]];
     case State::TRANSITION_OUT:
@@ -123,20 +129,19 @@ void Game::Menu::DrawTitle()
 
 void Game::Menu::TickMain()
 {
-  std::vector<Selection> select_options{Selection::START, Selection::SETTINGS, Selection::HELP};
-
+  std::vector<Selection> select_options{Selection::START, Selection::SETTINGS, Selection::HELP, Selection::QUIT};
   CycleMenu(select_options);
-
-  Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
-  Button(Selection::START, button_rec, 0);
-  Button(Selection::SETTINGS, button_rec, 1);
-  Button(Selection::HELP, button_rec, 2);
 }
 
 void Game::Menu::DrawMain()
 {
   DrawText("MAIN SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
-  // DrawText("Press Enter", Window::width/2 - 3*22, Window::height/2, 20, GREEN);
+  Rectangle button_left{Window::width*0.5f - ((Window::width * 0.02f) + Window::width * 0.1f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Rectangle button_right{Window::width*0.5f + Window::width * 0.02f, Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Button(Selection::START, button_left, 0);
+  Button(Selection::SETTINGS, button_left, 1);
+  Button(Selection::HELP, button_right, 0);
+  Button(Selection::QUIT, button_right, 1);
 }
 
 void Game::Menu::TickPlay()
@@ -182,6 +187,22 @@ void Game::Menu::DrawHelp()
 {
   DrawText("HELP SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
 }
+
+void Game::Menu::TickQuit()
+{
+  std::vector<Selection> select_options{Selection::CONFIRM, Selection::CANCEL};
+  CycleMenu(select_options);
+}
+
+void Game::Menu::DrawQuit()
+{
+  DrawRectangle(Window::width * 0.2f, Window::height * 0.2, Window::width * 0.6f, Window::height * 0.6f, Color{10,20,10,255});
+  DrawText("QUIT SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
+  Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Button(Selection::CONFIRM, button_rec, 0);
+  Button(Selection::CANCEL, button_rec, 1);
+}
+
 
 void Game::Menu::TickNeutral()
 {
@@ -244,6 +265,16 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
       case Selection::HELP:
         Transition(Screen::HELP);
         break;
+      case Selection::QUIT:
+        state = State::QUIT;
+        menu.standby = true;
+        break;
+      case Selection::CONFIRM:
+        break;
+      case Selection::CANCEL:
+        state = State::NEUTRAL;
+        menu.standby = false;
+        break;
       case Selection::MARATHON:
         break;
       case Selection::ULTRA:
@@ -252,7 +283,7 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
         break;
       case Selection::VERSUS:
         break;
-      default:
+      case Selection::NEUTRAL:
         break;
     }
   }
@@ -286,6 +317,51 @@ void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
     }, 
     0.5f, 4, 2.f, BLACK
   );
+
+  Vector2 pos{shape.x + 10.f, shape.y + 10.f};
+  Color text_color{BLACK};
+  int font_size{20};
+  switch (button_type)
+  {
+    case Selection::START:
+      DrawText("START", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::PAUSE:
+      DrawText("PAUSE", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::SETTINGS:
+      DrawText("SETTINGS", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::BACK:
+      DrawText("BACK", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::HELP:
+      DrawText("HELP", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::QUIT:
+      DrawText("QUIT", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::CONFIRM:
+      DrawText("CONFIRM", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::CANCEL:
+      DrawText("CANCEL", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::MARATHON:
+      DrawText("MARATHON", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::ULTRA:
+      DrawText("ULTRA", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::FORTY:
+      DrawText("FORTY", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::VERSUS:
+      DrawText("VERSUS", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::NEUTRAL:
+      break;
+  }
 }
 
 void Game::Menu::Transition(Screen next)
