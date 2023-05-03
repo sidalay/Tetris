@@ -101,6 +101,7 @@ void Game::Menu::DrawState()
       DrawCountdown();
       break;
     case State::TRANSITION_IN:
+      [[fallthrough]];
     case State::TRANSITION_OUT:
       DrawTransition();
       break;
@@ -109,7 +110,7 @@ void Game::Menu::DrawState()
 
 void Game::Menu::TickTitle()
 {
-  if (IsKeyPressed(KEY_ENTER)) {
+  if (IsKeyPressed(KB_SELECT) || IsKeyPressed(KB_SELECT_ALT)) {
     state = State::TRANSITION_IN;
     next_screen = Screen::MAIN;
   }
@@ -124,10 +125,13 @@ void Game::Menu::DrawTitle()
 
 void Game::Menu::TickMain()
 {
-  if (IsKeyPressed(KEY_ENTER)) {
-    state = State::TRANSITION_IN;
-    next_screen = Screen::TITLE;
-  }
+  // if (IsKeyPressed(KEY_ENTER)) {
+  //   state = State::TRANSITION_IN;
+  //   next_screen = Screen::TITLE;
+  // }
+  Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Button(Selection::START, button_rec, 0);
+  Button(Selection::SETTINGS, button_rec, 1);
 }
 
 void Game::Menu::DrawMain()
@@ -209,6 +213,69 @@ void Game::Menu::DrawCountdown()
   } else {
     DrawText("1", Window::width/2 - 20, Window::height/2, 40, GREEN);
   }
+}
+
+void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
+{
+  // highlight button if selected
+  Color highlight{0,70,255,100};
+  if (select != button_type) {
+    highlight = {0,255,255,0};
+  }
+
+  // set height offset based on button id
+  shape.y += (shape.height * 2.f) * id;
+
+  // draw buttons
+  switch (select)
+  {
+    case Selection::START:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::PAUSE:
+      break;
+    case Selection::SETTINGS:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::BACK:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::HELP:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::MARATHON:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::ULTRA:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::FORTY:
+      DrawButton(shape, highlight);
+      break;
+    case Selection::VERSUS:
+      DrawButton(shape, highlight);
+      break;
+    default:
+      break;
+  }
+}
+
+void Game::Menu::DrawButton(Rectangle shape, Color highlight)
+{
+  DrawRectangleRounded(shape, 0.5f, 4, GRAY);
+  DrawRectangleRounded(shape, 0.5f, 4, highlight);
+  DrawRectangleRoundedLines(shape, 0.5f, 4, 2.f, RAYWHITE);
+
+  float offset{1.f};
+  DrawRectangleRoundedLines(
+    Rectangle{
+      shape.x + offset, 
+      shape.y + offset, 
+      shape.width - offset*2.f, 
+      shape.height - offset*2.f
+    }, 
+    0.5f, 4, 2.f, BLACK
+  );
 }
 
 void Game::Menu::TransitionIn(Screen next)

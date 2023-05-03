@@ -17,7 +17,7 @@ enum class State {
   NEUTRAL, PAUSE, COUNTDOWN, TRANSITION_IN, TRANSITION_OUT
 };
 enum class Selection {
-  START, SETTINGS, HELP, PAUSE, BACK, MARATHON, ULTRA, VERSUS, FORTY
+  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, MARATHON, ULTRA, VERSUS, FORTY
 };
 
 public:
@@ -66,6 +66,9 @@ private:
 
   void TickCountdown();
   void DrawCountdown();
+
+  void Button(Selection, Rectangle, int);
+  void DrawButton(Rectangle, Color);
 
   void TransitionIn(Screen);
   void TransitionOut();
