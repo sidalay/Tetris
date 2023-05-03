@@ -4,24 +4,44 @@
 #include "matrix.hpp"
 #include "level.hpp"
 #include "score.hpp"
+#include "controller.hpp"
 
 namespace Game
 {
 
 class Play
 {
+public:
 enum class Mode {
-  MARATHON, ULTRA, FORTY, ENDLESS, VERSUS
+  NEUTRAL, MARATHON, ULTRA, FORTY, ENDLESS, VERSUS
 };
 
-public:
+  void Run();
+  void SetMode(Mode newMode) {mode = newMode;}
+private:
+  Mode       mode{};
+  Level      level{};
+  Score      score{};
+  Playfield  playfield{};
+  Controller controller{playfield};
+
   void Tick();
   void Draw();
-private:
-  Mode      mode{};
-  Level     level{};
-  Score     score{};
-  Playfield playfield{};
+
+  void TickMarathon();
+  void DrawMarathon();
+
+  void TickUltra();
+  void DrawUltra();
+
+  void TickForty();
+  void DrawForty();
+
+  void TickEndless();
+  void DrawEndless();
+
+  void TickVersus();
+  void DrawVersus();
 };
 
 }
