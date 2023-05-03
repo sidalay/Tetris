@@ -270,6 +270,7 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
         menu.standby = true;
         break;
       case Selection::CONFIRM:
+        menu.exit = true;
         break;
       case Selection::CANCEL:
         state = State::NEUTRAL;
@@ -412,6 +413,18 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
     if (++menu.select_index >= options.size() - 1) {
       menu.select_index = 0;
     }
+  } else if (CheckInputCycle(Menu::Movement::LEFT)) {
+    if (menu.select_index - 2 < 0) {
+      menu.select_index = (options.size() - 1) + (menu.select_index - 2);
+    } else {
+      menu.select_index -= 2;
+    }
+  } else if (CheckInputCycle(Menu::Movement::RIGHT)) {
+    if (menu.select_index + 2 >= options.size() - 1) {
+      menu.select_index = 0;
+    } else {
+      menu.select_index += 2;
+    }
   }
 
   // back out
@@ -482,6 +495,24 @@ bool Game::Menu::CheckInputCycle(Menu::Movement direction)
       }
     }
     if (IsKeyPressed(KB_DOWN)) {
+      return true;
+    }
+  } else if (direction == Menu::Movement::LEFT) {
+    if (IsGamepadAvailable(0)) {
+      if (IsGamepadButtonPressed(0, GP_LEFT)) {
+        return true;
+      }
+    }
+    if (IsKeyPressed(KB_LEFT)) {
+      return true;
+    }
+  } else if (direction == Menu::Movement::RIGHT) {
+    if (IsGamepadAvailable(0)) {
+      if (IsGamepadButtonPressed(0, GP_RIGHT)) {
+        return true;
+      }
+    }
+    if (IsKeyPressed(KB_RIGHT)) {
       return true;
     }
   }

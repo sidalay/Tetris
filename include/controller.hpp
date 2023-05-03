@@ -86,6 +86,8 @@ private:
 #define KB_BACK            KEY_BACKSPACE
 #define KB_UP              KEY_UP
 #define KB_DOWN            KEY_DOWN
+#define KB_LEFT            KEY_LEFT
+#define KB_RIGHT           KEY_RIGHT
 
 #define KB_SELECT_ALT      KEY_SPACE
 #define KB_BACK_ALT        KEY_ESCAPE
@@ -94,6 +96,8 @@ private:
 #define GP_BACK            GAMEPAD_BUTTON_RIGHT_FACE_RIGHT
 #define GP_UP              GAMEPAD_BUTTON_LEFT_FACE_UP
 #define GP_DOWN            GAMEPAD_BUTTON_LEFT_FACE_DOWN
+#define GP_LEFT            GAMEPAD_BUTTON_LEFT_FACE_LEFT
+#define GP_RIGHT           GAMEPAD_BUTTON_LEFT_FACE_RIGHT
 
 #define GP_SELECT_ALT      GAMEPAD_BUTTON_MIDDLE_RIGHT
 #define GP_BACK_ALT

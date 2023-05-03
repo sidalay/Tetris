@@ -27,6 +27,7 @@ struct Properties {
   float countdown{3.f};
   int   select_index{};
   bool  standby{};
+  bool  exit{};
 };
 
 public:
@@ -34,6 +35,7 @@ public:
 
   void Tick();
   void Draw();
+  [[nodiscard]] constexpr bool ShouldExit() const {return menu.exit;}
   [[nodiscard]] constexpr Screen CurrentScreen() const {return current_screen;}
 
 private:
