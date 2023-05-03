@@ -1,7 +1,6 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
-#include "controller.hpp"
 #include "play.hpp"
 #include "lerp.hpp"
 
