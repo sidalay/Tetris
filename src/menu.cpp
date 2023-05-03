@@ -512,7 +512,7 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
 bool Game::Menu::CheckInputSelect()
 {
   if (IsGamepadAvailable(0)) {
-    if (IsGamepadButtonPressed(0, GP_SELECT) || IsGamepadButtonPressed(0, GP_SELECT_ALT)) {
+    if (IsGamepadButtonPressed(0, GP_SELECT)) {
       return true;
     }
   }
