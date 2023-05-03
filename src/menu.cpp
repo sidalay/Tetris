@@ -242,13 +242,18 @@ void Game::Menu::TickPause()
   if (CheckInputPause() || CheckInputBack()) {
     state = State::COUNTDOWN;
   }
+  std::vector<Selection> select_options{Selection::RESUME, Selection::SETTINGS, Selection::QUIT};
+  CycleMenu(select_options);
 }
 
 void Game::Menu::DrawPause()
 {
   DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,200});
   DrawText("PAUSE SCREEN", Window::width/2 - 3*26, Window::height/2 - 100, 20, GREEN);
-  DrawText("Press P", Window::width/2 - 3*15, Window::height/2, 20, GREEN);
+  Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
+  Button(Selection::RESUME, button_rec, 0);
+  Button(Selection::SETTINGS, button_rec, 1);
+  Button(Selection::QUIT, button_rec, 2);
 }
 
 void Game::Menu::TickCountdown()
@@ -299,6 +304,10 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
         break;
       case Selection::CANCEL:
         state = State::NEUTRAL;
+        menu.standby = false;
+        break;
+      case Selection::RESUME:
+        state = State::COUNTDOWN;
         menu.standby = false;
         break;
       case Selection::MARATHON:
@@ -384,6 +393,9 @@ void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
       break;
     case Selection::CANCEL:
       DrawText("CANCEL", pos.x, pos.y, font_size, text_color);
+      break;
+    case Selection::RESUME:
+      DrawText("RESUME", pos.x, pos.y, font_size, text_color);
       break;
     case Selection::MARATHON:
       DrawText("MARATHON", pos.x, pos.y, font_size, text_color);
