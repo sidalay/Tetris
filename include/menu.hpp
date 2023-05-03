@@ -19,6 +19,9 @@ enum class State {
 enum class Selection {
   NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, MARATHON, ULTRA, VERSUS, FORTY
 };
+enum class Movement {
+  UP, DOWN, LEFT, RIGHT
+};
 struct Properties {
   float transition{};
   float countdown{3.f};
@@ -80,7 +83,9 @@ private:
   void DrawTransition();
 
   void CycleMenu(std::vector<Selection>&);
-  bool CheckSelectInput();
+  bool CheckInputSelect();
+  bool CheckInputBack();
+  bool CheckInputCycle(Menu::Movement);
 
 };
 

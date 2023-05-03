@@ -109,7 +109,7 @@ void Game::Menu::DrawState()
 
 void Game::Menu::TickTitle()
 {
-  if (IsKeyPressed(KB_SELECT) || IsKeyPressed(KB_SELECT_ALT)) {
+  if (CheckInputSelect()) {
     Transition(Screen::MAIN);
   }
 }
@@ -228,7 +228,7 @@ void Game::Menu::DrawCountdown()
 
 void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
 {
-  if (CheckSelectInput()) {
+  if (CheckInputSelect()) {
     switch (select)
     {
       case Selection::START:
@@ -328,18 +328,18 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
   options.push_back(Selection::NEUTRAL);
 
   // cycle through selection options
-  if (IsKeyPressed(KB_UP)) {
+  if (CheckInputCycle(Menu::Movement::UP)) {
     if (--menu.select_index < 0) {
       menu.select_index = options.size() - 2;
     }
-  } else if (IsKeyPressed(KB_DOWN)) {
+  } else if (CheckInputCycle(Menu::Movement::DOWN)) {
     if (++menu.select_index >= options.size() - 1) {
       menu.select_index = 0;
     }
   }
 
   // back out
-  if (IsKeyPressed(KB_BACK)) {
+  if (CheckInputBack()) {
     if (select == Selection::NEUTRAL) {
       switch (current_screen) 
       {
@@ -362,7 +362,7 @@ void Game::Menu::CycleMenu(std::vector<Selection>& options)
   select = options[menu.select_index];
 }
 
-bool Game::Menu::CheckSelectInput()
+bool Game::Menu::CheckInputSelect()
 {
   if (IsGamepadAvailable(0)) {
     if (IsGamepadButtonPressed(0, GP_SELECT) || IsGamepadButtonPressed(0, GP_SELECT_ALT)) {
@@ -371,6 +371,43 @@ bool Game::Menu::CheckSelectInput()
   }
   if (IsKeyPressed(KB_SELECT) || IsKeyPressed(KB_SELECT_ALT)) {
     return true;
+  }
+  return false;
+}
+
+bool Game::Menu::CheckInputBack()
+{
+  if (IsGamepadAvailable(0)) {
+    if (IsGamepadButtonPressed(0, GP_BACK)) {
+      return true;
+    }
+  }
+  if (IsKeyPressed(KB_BACK) || IsKeyPressed(KB_BACK_ALT)) {
+    return true;
+  }
+  return false;
+}
+
+bool Game::Menu::CheckInputCycle(Menu::Movement direction)
+{
+  if (direction == Menu::Movement::UP) {
+    if (IsGamepadAvailable(0)) {
+      if (IsGamepadButtonPressed(0, GP_UP)) {
+        return true;
+      }
+    }
+    if (IsKeyPressed(KB_UP)) {
+      return true;
+    }
+  } else if (direction == Menu::Movement::DOWN) {
+    if (IsGamepadAvailable(0)) {
+      if (IsGamepadButtonPressed(0, GP_DOWN)) {
+        return true;
+      }
+    }
+    if (IsKeyPressed(KB_DOWN)) {
+      return true;
+    }
   }
   return false;
 }
