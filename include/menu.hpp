@@ -45,7 +45,6 @@ private:
   Selection  select{};
   Properties menu{};
   Play       play{};
-  // Controller controller{};
 
   void TickScreen();
   void DrawScreen();
@@ -62,6 +61,7 @@ private:
   void DrawPlay();
 
   void TickGame();
+  void DrawGame();
 
   void TickSettings();
   void DrawSettings();
@@ -95,6 +95,7 @@ private:
   bool CheckInputSelect();
   bool CheckInputBack();
   bool CheckInputCycle(Menu::Movement);
+  bool CheckInputPause();
 
 };
 

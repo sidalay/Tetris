@@ -58,6 +58,7 @@ void Game::Menu::DrawScreen()
     DrawPlay();
     break;
   case Screen::GAME:
+    DrawGame();
     break;
   case Screen::SETTINGS:
     DrawSettings();
@@ -168,8 +169,14 @@ void Game::Menu::DrawPlay()
 
 void Game::Menu::TickGame()
 {
-  
-  play.Run();
+  if (state != State::PAUSE) {
+    play.Tick();
+  }
+}
+
+void Game::Menu::DrawGame()
+{
+  play.Draw();
 }
 
 void Game::Menu::TickSettings()
@@ -223,21 +230,21 @@ void Game::Menu::DrawQuit()
 
 void Game::Menu::TickNeutral()
 {
-  if (IsKeyPressed(KB_PAUSE)) {
+  if (CheckInputPause() && current_screen == Screen::GAME) {
     state = State::PAUSE;
   }
 }
 
 void Game::Menu::TickPause()
 {
-  if (IsKeyPressed(KB_PAUSE)) {
+  if (CheckInputPause() || CheckInputBack()) {
     state = State::COUNTDOWN;
   }
 }
 
 void Game::Menu::DrawPause()
 {
-  DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,255});
+  DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,200});
   DrawText("PAUSE SCREEN", Window::width/2 - 3*26, Window::height/2 - 100, 20, GREEN);
   DrawText("Press P", Window::width/2 - 3*15, Window::height/2, 20, GREEN);
 }
@@ -253,7 +260,7 @@ void Game::Menu::TickCountdown()
 
 void Game::Menu::DrawCountdown()
 {
-  DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,240});
+  DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,200});
   if (menu.countdown > 2.f) {
     DrawText("3", Window::width/2 - 20, Window::height/2, 40, GREEN);
   } else if (menu.countdown > 1.f) {
@@ -552,6 +559,19 @@ bool Game::Menu::CheckInputCycle(Menu::Movement direction)
     if (IsKeyPressed(KB_RIGHT)) {
       return true;
     }
+  }
+  return false;
+}
+
+bool Game::Menu::CheckInputPause()
+{
+  if (IsGamepadAvailable(0)) {
+    if (IsGamepadButtonPressed(0, GP_PAUSE)) {
+      return true;
+    }
+  }
+  if (IsKeyPressed(KB_PAUSE)) {
+    return true;
   }
   return false;
 }
