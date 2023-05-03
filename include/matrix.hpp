@@ -27,6 +27,7 @@ public:
 
   void Tick();
   void Draw();
+  void CheckScaling();
   void Pause() {pause = !pause;}
   void Reset() {GameOver();}
   [[nodiscard]] bool IsPaused() const {return pause;}

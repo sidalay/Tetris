@@ -16,6 +16,8 @@ void Game::Menu::Draw()
 
 void Game::Menu::TickScreen()
 {
+  // scales even when ticks are all frozen
+  play.CheckScaling();
   if (state != State::PAUSE && state != State::COUNTDOWN && !menu.standby) {
     switch (current_screen)
     {

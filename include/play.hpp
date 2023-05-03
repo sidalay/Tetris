@@ -20,6 +20,7 @@ enum class Mode {
   void Tick();
   void Draw();
   void SetMode(Mode newMode) {mode = newMode;}
+  void CheckScaling();
 private:
   Mode       mode{};
   Level      level{};

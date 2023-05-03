@@ -57,6 +57,11 @@ void Game::Play::Draw()
   }
 }
 
+void Game::Play::CheckScaling()
+{
+  playfield.CheckScaling();
+}
+
 void Game::Play::TickMarathon()
 {
 }

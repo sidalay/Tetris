@@ -28,14 +28,7 @@ Playfield::Playfield()
 
 void Playfield::Tick() 
 {
-  if (IsWindowResized()) {
-    UpdateFrames();
-    UpdateMatrices();
-    UpdateBlocks();
-    tetromino.CheckScaling();
-    bag.CheckScaling();
-    handler.CheckScaling(frames[1].area);
-  }
+  CheckScaling();
   if (!pause) {
     CheckLevelUp();
     UpdateHandler();
@@ -57,6 +50,18 @@ void Playfield::Draw()
   DrawPause();
   tetromino.Draw();
   bag.Draw(frames[2].area);
+}
+
+void Playfield::CheckScaling()
+{
+  if (IsWindowResized()) {
+    UpdateFrames();
+    UpdateMatrices();
+    UpdateBlocks();
+    tetromino.CheckScaling();
+    bag.CheckScaling();
+    handler.CheckScaling(frames[1].area);
+  }
 }
 
 void Playfield::DrawFrames()
