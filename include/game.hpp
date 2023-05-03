@@ -13,6 +13,7 @@ namespace Game
     float     updatetime{1.f/144.f};
     float     lockdown{};
     int       fps{144};
+    bool      exit{};
     Playfield matrix{};
 
     // test

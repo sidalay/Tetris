@@ -9,7 +9,7 @@ void Game::Run()
   Game::Initialize(game);
 
   if (IsWindowReady()) {
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && !game.exit) {
       Game::Tick(game);
     }
   }
@@ -39,6 +39,7 @@ void Game::Tick(Properties& game)
     game.controller.Tick();
     //  ------------------------------------- test
     game.deltatime = 0.f;
+    game.exit = game.menu.ShouldExit();
   }
 
   BeginDrawing();
