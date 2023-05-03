@@ -100,8 +100,7 @@ void Game::Menu::DrawState()
     case State::COUNTDOWN:
       DrawCountdown();
       break;
-    case State::TRANSITION_IN:
-      [[fallthrough]];
+    case State::TRANSITION_IN: [[fallthrough]];
     case State::TRANSITION_OUT:
       DrawTransition();
       break;
@@ -111,8 +110,7 @@ void Game::Menu::DrawState()
 void Game::Menu::TickTitle()
 {
   if (IsKeyPressed(KB_SELECT) || IsKeyPressed(KB_SELECT_ALT)) {
-    state = State::TRANSITION_IN;
-    next_screen = Screen::MAIN;
+    Transition(Screen::MAIN);
   }
 }
 
@@ -125,51 +123,64 @@ void Game::Menu::DrawTitle()
 
 void Game::Menu::TickMain()
 {
-  // if (IsKeyPressed(KEY_ENTER)) {
-  //   state = State::TRANSITION_IN;
-  //   next_screen = Screen::TITLE;
-  // }
+  std::vector<Selection> select_options{Selection::START, Selection::SETTINGS, Selection::HELP};
+
+  CycleMenu(select_options);
+
   Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
   Button(Selection::START, button_rec, 0);
   Button(Selection::SETTINGS, button_rec, 1);
+  Button(Selection::HELP, button_rec, 2);
 }
 
 void Game::Menu::DrawMain()
 {
   DrawText("MAIN SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
-  DrawText("Press Enter", Window::width/2 - 3*22, Window::height/2, 20, GREEN);
+  // DrawText("Press Enter", Window::width/2 - 3*22, Window::height/2, 20, GREEN);
 }
 
 void Game::Menu::TickPlay()
 {
+  std::vector<Selection> select_options{};
+  CycleMenu(select_options);
 }
 
 void Game::Menu::DrawPlay()
 {
+  DrawText("PLAY SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
 }
 
 void Game::Menu::TickSettings()
 {
+  std::vector<Selection> select_options{};
+  CycleMenu(select_options);
 }
 
 void Game::Menu::DrawSettings()
 {
+  DrawText("SETTINGS SCREEN", Window::width/2 - 3*28, Window::height/2 - 100, 20, GREEN);
 }
 
 void Game::Menu::TickGameover()
 {
+  std::vector<Selection> select_options{};
+  CycleMenu(select_options);
 }
 
 void Game::Menu::DrawGameover()
 {
+  DrawText("GAMEOVER SCREEN", Window::width/2 - 3*28, Window::height/2 - 100, 20, GREEN);
 }
 
 void Game::Menu::TickHelp()
 {
+  std::vector<Selection> select_options{};
+  CycleMenu(select_options);
 }
 
 void Game::Menu::DrawHelp()
 {
+  DrawText("HELP SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
 }
 
 void Game::Menu::TickNeutral()
@@ -195,9 +206,9 @@ void Game::Menu::DrawPause()
 
 void Game::Menu::TickCountdown()
 {
-  countdown -= GetFrameTime();
-  if (countdown <= 0.f) {
-    countdown = 3.f;
+  menu.countdown -= GetFrameTime();
+  if (menu.countdown <= 0.f) {
+    menu.countdown = 3.f;
     state = State::NEUTRAL;
     current_screen = Screen::TITLE;
   }
@@ -206,9 +217,9 @@ void Game::Menu::TickCountdown()
 void Game::Menu::DrawCountdown()
 {
   DrawRectangle(0, 0, Window::width, Window::height, Color{0,0,0,240});
-  if (countdown > 2.f) {
+  if (menu.countdown > 2.f) {
     DrawText("3", Window::width/2 - 20, Window::height/2, 40, GREEN);
-  } else if (countdown > 1.f) {
+  } else if (menu.countdown > 1.f) {
     DrawText("2", Window::width/2 - 20, Window::height/2, 40, GREEN);
   } else {
     DrawText("1", Window::width/2 - 20, Window::height/2, 40, GREEN);
@@ -216,6 +227,41 @@ void Game::Menu::DrawCountdown()
 }
 
 void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
+{
+  if (CheckSelectInput()) {
+    switch (select)
+    {
+      case Selection::START:
+        Transition(Screen::PLAY);
+        break;
+      case Selection::PAUSE:
+        break;
+      case Selection::SETTINGS:
+        Transition(Screen::SETTINGS);
+        break;
+      case Selection::BACK:
+        break;
+      case Selection::HELP:
+        Transition(Screen::HELP);
+        break;
+      case Selection::MARATHON:
+        break;
+      case Selection::ULTRA:
+        break;
+      case Selection::FORTY:
+        break;
+      case Selection::VERSUS:
+        break;
+      default:
+        break;
+    }
+  }
+
+  // draw buttons
+  DrawButton(button_type, shape, id);
+}
+
+void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
 {
   // highlight button if selected
   Color highlight{0,70,255,100};
@@ -226,42 +272,6 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
   // set height offset based on button id
   shape.y += (shape.height * 2.f) * id;
 
-  // draw buttons
-  switch (select)
-  {
-    case Selection::START:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::PAUSE:
-      break;
-    case Selection::SETTINGS:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::BACK:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::HELP:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::MARATHON:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::ULTRA:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::FORTY:
-      DrawButton(shape, highlight);
-      break;
-    case Selection::VERSUS:
-      DrawButton(shape, highlight);
-      break;
-    default:
-      break;
-  }
-}
-
-void Game::Menu::DrawButton(Rectangle shape, Color highlight)
-{
   DrawRectangleRounded(shape, 0.5f, 4, GRAY);
   DrawRectangleRounded(shape, 0.5f, 4, highlight);
   DrawRectangleRoundedLines(shape, 0.5f, 4, 2.f, RAYWHITE);
@@ -278,30 +288,89 @@ void Game::Menu::DrawButton(Rectangle shape, Color highlight)
   );
 }
 
+void Game::Menu::Transition(Screen next)
+{
+  state = State::TRANSITION_IN;
+  next_screen = next;
+}
+
 void Game::Menu::TransitionIn(Screen next)
 {
-  transition += GetFrameTime();
-  if (transition >= 1.f) {
+  menu.transition += GetFrameTime();
+  if (menu.transition >= 1.f) {
     state = State::TRANSITION_OUT;
     current_screen = next;
-    transition = 2.f;
+    menu.transition = 2.f;
   }
 }
 
 void Game::Menu::TransitionOut()
 {
-  transition -= GetFrameTime();
-  if (transition <= 0.f) {
+  menu.transition -= GetFrameTime();
+  if (menu.transition <= 0.f) {
     state = State::NEUTRAL;
-    transition = 0.f;
+    menu.transition = 0.f;
   }
 }
 
 void Game::Menu::DrawTransition()
 {
   if (state == State::TRANSITION_IN) {
-    DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, transition))});
+    DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, menu.transition))});
   } else {
-    DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, transition * 0.5f))});
+    DrawRectangle(0,0,Window::width, Window::height, Color{0,0,0, static_cast<unsigned char>(Game::Lerp(0,255, menu.transition * 0.5f))});
   }
+}
+
+void Game::Menu::CycleMenu(std::vector<Selection>& options)
+{
+  // add neutral selection
+  options.push_back(Selection::NEUTRAL);
+
+  // cycle through selection options
+  if (IsKeyPressed(KB_UP)) {
+    if (--menu.select_index < 0) {
+      menu.select_index = options.size() - 2;
+    }
+  } else if (IsKeyPressed(KB_DOWN)) {
+    if (++menu.select_index >= options.size() - 1) {
+      menu.select_index = 0;
+    }
+  }
+
+  // back out
+  if (IsKeyPressed(KB_BACK)) {
+    if (select == Selection::NEUTRAL) {
+      switch (current_screen) 
+      {
+        case Screen::MAIN:
+          Transition(Screen::TITLE);
+          break;
+        case Screen::PLAY: [[fallthrough]];
+        case Screen::SETTINGS: [[fallthrough]];
+        case Screen::HELP:
+          Transition(Screen::MAIN);
+        default:
+          break;
+      }
+    } else {
+      menu.select_index = options.size() - 1;
+    }
+  }
+
+  // set "hovered" selection
+  select = options[menu.select_index];
+}
+
+bool Game::Menu::CheckSelectInput()
+{
+  if (IsGamepadAvailable(0)) {
+    if (IsGamepadButtonPressed(0, GP_SELECT) || IsGamepadButtonPressed(0, GP_SELECT_ALT)) {
+      return true;
+    }
+  }
+  if (IsKeyPressed(KB_SELECT) || IsKeyPressed(KB_SELECT_ALT)) {
+    return true;
+  }
+  return false;
 }

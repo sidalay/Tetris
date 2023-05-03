@@ -19,6 +19,11 @@ enum class State {
 enum class Selection {
   NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, MARATHON, ULTRA, VERSUS, FORTY
 };
+struct Properties {
+  float transition{};
+  float countdown{3.f};
+  int   select_index{};
+};
 
 public:
   explicit Menu() = default;
@@ -32,8 +37,7 @@ private:
   Screen     next_screen{};
   State      state{};
   Selection  select{};
-  float      transition{};
-  float      countdown{3.f};
+  Properties menu{};
   // Controller controller{};
 
   void TickScreen();
@@ -68,11 +72,15 @@ private:
   void DrawCountdown();
 
   void Button(Selection, Rectangle, int);
-  void DrawButton(Rectangle, Color);
+  void DrawButton(Selection, Rectangle, int);
 
+  void Transition(Screen);
   void TransitionIn(Screen);
   void TransitionOut();
   void DrawTransition();
+
+  void CycleMenu(std::vector<Selection>&);
+  bool CheckSelectInput();
 
 };
 
