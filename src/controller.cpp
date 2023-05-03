@@ -143,9 +143,9 @@ void Controller::CheckKeyboardInput()
     }
   }
 
-  if (IsKeyPressed(KB_PAUSE)) {
-    Pause();
-  }
+  // if (IsKeyPressed(KB_PAUSE)) {
+  //   Pause();
+  // }
 
   if (IsKeyUp(KB_STEP_LEFT) && IsKeyUp(KB_STEP_RIGHT)) {
     deltatime.kb_step = deltatime.step_delay;
@@ -182,9 +182,9 @@ void Controller::CheckGamepadInput()
       }
     }
 
-    if (IsGamepadButtonPressed(0, GP_PAUSE)) {
-      Pause();
-    }
+    // if (IsGamepadButtonPressed(0, GP_PAUSE)) {
+    //   Pause();
+    // }
 
     if (IsGamepadButtonUp(0, GP_STEP_LEFT) && IsGamepadButtonUp(0, GP_STEP_RIGHT)) {
       deltatime.gp_step = deltatime.step_delay;
