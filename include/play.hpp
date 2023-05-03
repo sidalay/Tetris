@@ -17,6 +17,8 @@ enum class Mode {
 };
 
   void Run();
+  void Tick();
+  void Draw();
   void SetMode(Mode newMode) {mode = newMode;}
 private:
   Mode       mode{};
@@ -24,9 +26,6 @@ private:
   Score      score{};
   Playfield  playfield{};
   Controller controller{playfield};
-
-  void Tick();
-  void Draw();
 
   void TickMarathon();
   void DrawMarathon();
