@@ -36,7 +36,7 @@ void Game::Tick(Properties& game)
     // game.matrix.Tick();
     //  ------------------------------------- test
     game.menu.Tick();
-    game.controller.Tick();
+    // game.controller.Tick();
     //  ------------------------------------- test
     game.deltatime = 0.f;
     game.exit = game.menu.ShouldExit();
