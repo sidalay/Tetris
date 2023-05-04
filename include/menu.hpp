@@ -16,7 +16,7 @@ enum class State {
   NEUTRAL, PAUSE, COUNTDOWN, QUIT, TRANSITION_IN, TRANSITION_OUT
 };
 enum class Selection {
-  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, QUIT, CONFIRM_QUIT, CANCEL, RESUME, MARATHON, ULTRA, VERSUS, FORTY, ENDLESS
+  NEUTRAL, START, SETTINGS, HELP, PAUSE, BACK, QUIT, CONFIRM_QUIT, CONFIRM, CANCEL, RESUME, MARATHON, ULTRA, VERSUS, FORTY, ENDLESS
 };
 enum class Movement {
   UP, DOWN, LEFT, RIGHT
@@ -86,7 +86,7 @@ private:
   void DrawButton(Selection, Rectangle, int);
 
   void Transition(Screen);
-  void TransitionIn(Screen);
+  void TransitionIn();
   void TransitionOut();
   void DrawTransition();
 

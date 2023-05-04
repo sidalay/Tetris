@@ -91,7 +91,7 @@ void Game::Menu::TickState()
       TickQuit();
       break;
     case State::TRANSITION_IN:
-      TransitionIn(next_screen);
+      TransitionIn();
       break;
     case State::TRANSITION_OUT:
       TransitionOut();
@@ -216,8 +216,21 @@ void Game::Menu::DrawHelp()
 
 void Game::Menu::TickQuit()
 {
-  std::vector<Selection> select_options{Selection::CONFIRM_QUIT, Selection::CANCEL};
+  std::vector<Selection> select_options{};
+  if (current_screen != Screen::GAME) {
+    select_options.push_back(Selection::CONFIRM_QUIT);
+    select_options.push_back(Selection::CANCEL);
+  } else {
+    select_options.push_back(Selection::CONFIRM);
+    select_options.push_back(Selection::CANCEL);
+  }
   CycleMenu(select_options);
+
+  if (current_screen == Screen::GAME) {
+    if (CheckInputBack()) {
+      state = State::PAUSE;
+    }
+  }
 }
 
 void Game::Menu::DrawQuit()
@@ -225,7 +238,11 @@ void Game::Menu::DrawQuit()
   DrawRectangle(Window::width * 0.2f, Window::height * 0.2, Window::width * 0.6f, Window::height * 0.6f, Color{10,20,10,255});
   DrawText("QUIT SCREEN", Window::width/2 - 3*24, Window::height/2 - 100, 20, GREEN);
   Rectangle button_rec{Window::width*0.5f - ((Window::width*0.1f)*0.5f), Window::height*0.5f, Window::width * 0.1f, Window::height * 0.05f};
-  Button(Selection::CONFIRM_QUIT, button_rec, 0);
+  if (current_screen != Screen::GAME) {
+    Button(Selection::CONFIRM_QUIT, button_rec, 0);
+  } else {
+    Button(Selection::CONFIRM, button_rec, 0);
+  }
   Button(Selection::CANCEL, button_rec, 1);
 }
 
@@ -302,8 +319,17 @@ void Game::Menu::Button(Selection button_type, Rectangle shape, int id)
       case Selection::CONFIRM_QUIT:
         menu.exit = true;
         break;
+      case Selection::CONFIRM:
+        menu.standby = false;
+        Transition(Screen::MAIN);
+        play.SetMode(Play::Mode::NEUTRAL);
+        break;
       case Selection::CANCEL:
-        state = State::NEUTRAL;
+        if (current_screen == Screen::GAME) {
+          state = State::PAUSE;
+        } else {
+          state = State::NEUTRAL;
+        }
         menu.standby = false;
         break;
       case Selection::RESUME:
@@ -391,6 +417,9 @@ void Game::Menu::DrawButton(Selection button_type, Rectangle shape, int id)
     case Selection::CONFIRM_QUIT:
       DrawText("CONFIRM", pos.x, pos.y, font_size, text_color);
       break;
+    case Selection::CONFIRM:
+      DrawText("CONFIRM", pos.x, pos.y, font_size, text_color);
+      break;
     case Selection::CANCEL:
       DrawText("CANCEL", pos.x, pos.y, font_size, text_color);
       break;
@@ -423,12 +452,12 @@ void Game::Menu::Transition(Screen next)
   next_screen = next;
 }
 
-void Game::Menu::TransitionIn(Screen next)
+void Game::Menu::TransitionIn()
 {
   menu.transition += GetFrameTime();
   if (menu.transition >= 1.f) {
     state = State::TRANSITION_OUT;
-    current_screen = next;
+    current_screen = next_screen;
     menu.transition = 2.f;
   }
 }
