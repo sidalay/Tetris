@@ -5,7 +5,9 @@
 - SRS (Super Rotation System)
 - Gamepad Support
 - Keyboard Support
-- Multiple Game Modes
+- Multiple Game Modes (WIP)
+- Scoring (WIP)
+- Local 2 Player Versus (WIP)
 - Adheres to Official Tetris Standards / Regulation guide
 
 
