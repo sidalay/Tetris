@@ -10,5 +10,4 @@
 - Local 2 Player Versus (WIP)
 - Adheres to Official Tetris Standards / Regulation guide
 
-
-![preview_line_clear](https://github.com/sidalay/Tetris/assets/72498122/700aecd4-1e2c-4cea-acca-2a902ff481d0)
+![tetris_general_play](https://github.com/sidalay/Tetris/assets/72498122/e7b1b467-5cb3-4f84-a279-10b949cd7107)
